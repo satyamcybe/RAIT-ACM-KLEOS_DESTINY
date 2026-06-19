@@ -24,7 +24,7 @@ export default function SettingsPage() {
 
   const handleLogout = async () => {
     if (confirm("Are you sure you want to log out and reset the presentation state?")) {
-      resetDemo();
+      await resetDemo();
       router.push("/");
       setTimeout(() => {
         window.location.reload();

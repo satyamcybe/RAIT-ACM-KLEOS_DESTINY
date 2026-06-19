@@ -31,7 +31,7 @@ export default function DigiLockerMock() {
       if (Notification.permission === "granted") {
         new Notification("DigiLocker Auth Service", {
           body: msg,
-          icon: "/logo-icon.png"
+          icon: "/logo-text.png"
         });
       }
     }
@@ -86,7 +86,7 @@ export default function DigiLockerMock() {
     setTimeout(() => {
       setIdentityVerified(true);
       if (typeof window !== "undefined") {
-        localStorage.setItem("pranam_identity_verified", "true");
+        localStorage.setItem("PRAMAAN_identity_verified", "true");
       }
       window.location.href = '/api/digilocker/callback?code=mock_oauth_code_xyz789';
     }, 2000);
@@ -225,7 +225,12 @@ export default function DigiLockerMock() {
         )}
       </div>
       
-      <div className="mt-8 text-center relative z-10">
+      <div className="mt-8 text-center relative z-10 flex flex-col items-center gap-2">
+        <img 
+          src="/logo-text.png" 
+          alt="PRAMAAN Logo" 
+          className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
+        />
         <p className="text-xs text-slate-400">
           Powered by <span className="font-semibold text-slate-500">Pramaan Trust Infrastructure</span>
         </p>

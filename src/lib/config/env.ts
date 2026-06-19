@@ -27,7 +27,7 @@ export const env = {
   MODE: getMode(),
 
   // Database
-  DATABASE_URL: process.env.DATABASE_URL || "",
+  DATABASE_URL: process.env.DATABASE_URL || "postgresql://neondb_owner:npg_kvb6F0aTGzwE@ep-fancy-tooth-aohx889w-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
 
   // Clerk
   CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "",

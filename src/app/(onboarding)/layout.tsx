@@ -1,5 +1,7 @@
 import React from "react";
-import Link from "next/link";
+import { Navbar } from "@/components/layout/navbar";
+import { Sidebar } from "@/components/layout/sidebar";
+import { Footer } from "@/components/layout/footer";
 
 export default function OnboardingLayout({
   children,
@@ -7,25 +9,17 @@ export default function OnboardingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Top bar */}
-      <div className="w-full border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <img 
-              src="/logo-text.png" 
-              alt="Pranam Logo" 
-              className="h-10 w-auto object-contain mix-blend-multiply"
-            />
-          </Link>
-          {/* Layer references removed */}
-        </div>
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 overflow-y-auto bg-gray-50/50">
+          <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </main>
       </div>
-
-      {/* Main content container */}
-      <main className="max-w-2xl mx-auto px-4 pt-12 pb-24">
-        {children}
-      </main>
+      <Footer />
     </div>
   );
 }

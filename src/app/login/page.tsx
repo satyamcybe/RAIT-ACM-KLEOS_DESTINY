@@ -31,7 +31,7 @@ export default function LoginPage() {
       if (Notification.permission === "granted") {
         new Notification("Pranam Auth Service", {
           body: msg,
-          icon: "/logo-icon.png"
+          icon: "/logo-text.png"
         });
       }
     }
@@ -100,11 +100,11 @@ export default function LoginPage() {
         
         {/* Logo & Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 shadow-sm">
+          <div className="flex justify-center mb-6">
             <img 
-              src="/logo-icon.png" 
+              src="/logo-text.png" 
               alt="PRAMAAN Logo" 
-              className="w-full h-auto object-contain rounded-2xl"
+              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
             />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
@@ -242,7 +242,12 @@ export default function LoginPage() {
         )}
       </div>
       
-      <div className="mt-8 text-center relative z-10">
+      <div className="mt-8 text-center relative z-10 flex flex-col items-center gap-2">
+        <img 
+          src="/logo-text.png" 
+          alt="PRAMAAN Logo" 
+          className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
+        />
         <p className="text-xs text-gray-400 font-medium">
           Powered by <span className="text-gray-500">Pramaan Trust Infrastructure</span>
         </p>

@@ -18,7 +18,12 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">INVALID ✗</h1>
           <p className="text-gray-600 mb-8">This credential does not exist or has been revoked.</p>
-          <div className="text-sm text-gray-500 mt-8 pt-6 border-t border-gray-100">
+          <div className="text-sm text-gray-500 mt-8 pt-6 border-t border-gray-100 flex flex-col items-center gap-3">
+            <img 
+              src="/logo-text.png" 
+              alt="PRAMAAN Logo" 
+              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
+            />
             Powered by Pramaan | Verified via e-Shram + AA Framework
           </div>
         </div>
@@ -32,6 +37,15 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="w-full max-w-3xl space-y-8">
+        
+        {/* PRAMAAN Logo Header */}
+        <div className="flex justify-center mb-2">
+          <img 
+            src="/logo-text.png" 
+            alt="PRAMAAN Logo" 
+            className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
+          />
+        </div>
         
         {/* Header Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
@@ -114,7 +128,12 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
         </div>
 
         {/* Footer */}
-        <div className="text-center pb-8 pt-4">
+        <div className="text-center pb-8 pt-4 flex flex-col items-center gap-3">
+          <img 
+            src="/logo-text.png" 
+            alt="PRAMAAN Logo" 
+            className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
+          />
           <p className="text-sm font-medium text-gray-500">
             Powered by Pramaan | Verified via e-Shram + AA Framework
           </p>
