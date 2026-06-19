@@ -30,27 +30,7 @@ export function Navbar({ className }: NavbarProps) {
           />
         </Link>
 
-        {/* Nav Links */}
-        <nav className="hidden items-center gap-6 md:flex">
-          <Link
-            href="/dashboard"
-            className="text-sm font-medium text-gray-600 transition-colors hover:text-emerald-600"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/wallet"
-            className="text-sm font-medium text-gray-600 transition-colors hover:text-emerald-600"
-          >
-            Wallet
-          </Link>
-          <Link
-            href="/settings"
-            className="text-sm font-medium text-gray-600 transition-colors hover:text-emerald-600"
-          >
-            Settings
-          </Link>
-        </nav>
+
 
         {/* User Menu */}
         <div className="flex items-center gap-3">

@@ -19,11 +19,6 @@ export function Footer({ className }: FooterProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-3">
-            <img 
-              src="/logo-text.png" 
-              alt="PRAMAAN Logo" 
-              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
-            />
             <p className="text-sm text-gray-500">
               &copy; {new Date().getFullYear()} PRAMAAN. Built for India&apos;s gig workers.
             </p>

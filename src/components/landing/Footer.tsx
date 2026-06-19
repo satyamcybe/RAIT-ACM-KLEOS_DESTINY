@@ -13,14 +13,6 @@ export default function Footer() {
         
         {/* Left Side: Branding */}
         <div className="space-y-4">
-          <Link href="/" className="flex items-center gap-2">
-            <img 
-              src="/logo-text.png" 
-              alt="PRAMAAN Logo" 
-              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
-            />
-          </Link>
-
           <p className="text-[14px] text-[#6B7280] leading-relaxed max-w-xs font-semibold">
             Your Work. Your Proof. Your Future.
           </p>
