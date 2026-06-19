@@ -19,7 +19,7 @@ export default function HeroSection() {
 
   return (
     <section 
-      className="relative py-20 bg-white overflow-hidden select-none min-h-[85vh] flex items-center"
+      className="relative pt-8 pb-12 bg-white overflow-hidden select-none min-h-[75vh] flex items-center"
     >
       <div className="max-w-6xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center">
         
@@ -96,7 +96,7 @@ export default function HeroSection() {
 
         {/* Right Column: Floating Stat Cards around Delivery Worker */}
         <div 
-          className="relative flex justify-center items-center h-[520px] w-full cursor-pointer"
+          className="relative flex justify-center items-center h-[620px] w-full cursor-pointer"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
@@ -117,7 +117,7 @@ export default function HeroSection() {
 
           {/* 3D Delivery Worker Character in the center */}
           <div 
-            className="relative z-10 w-[340px] md:w-[380px] transition-transform duration-300 ease-out"
+            className="relative z-10 w-[460px] md:w-[520px] transition-transform duration-300 ease-out"
             style={{
               transform: `translate(${mouseOffset.x * 0.5}px, ${mouseOffset.y * 0.5}px)`,
             }}

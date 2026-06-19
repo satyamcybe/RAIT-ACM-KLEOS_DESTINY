@@ -19,6 +19,10 @@ export default function InstitutionsSection() {
       title: "Your data, your control",
       desc: "Built on standard consent principles. You decide who sees your score and when.",
     },
+    {
+      title: "Permanent credit profile",
+      desc: "Move beyond single-platform silos to build a lifetime digital credit asset.",
+    },
   ];
 
   const lenderPoints = [
@@ -68,7 +72,7 @@ export default function InstitutionsSection() {
         {/* 2 Columns Cards Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Left Column: For Workers */}
-          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-[20px] p-8 shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-gradient-to-br from-white to-[#F9FAFB] border border-[#E5E7EB] rounded-[20px] p-8 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 hover:border-[#F5A623]/20 transition-all duration-300 group">
             <div className="space-y-7 text-left">
               {/* Header with icon */}
               <div className="flex items-center gap-4">
@@ -128,7 +132,7 @@ export default function InstitutionsSection() {
           </div>
 
           {/* Right Column: For Banks/Lenders */}
-          <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-[20px] p-8 shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-gradient-to-br from-white to-[#F9FAFB] border border-[#E5E7EB] rounded-[20px] p-8 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 hover:border-[#1A6B47]/20 transition-all duration-300 group">
             <div className="space-y-7 text-left">
               {/* Header with icon */}
               <div className="flex items-center gap-4">

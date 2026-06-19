@@ -1,19 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 export default function HowItWorksSection() {
-  const [activeStep, setActiveStep] = useState<number>(0);
-  const [simProgress, setSimProgress] = useState(0);
-
-  // Auto-progress simulation for active step
-  useEffect(() => {
-    setSimProgress(0);
-    const interval = setInterval(() => {
-      setSimProgress((prev) => (prev < 100 ? prev + 10 : 100));
-    }, 150);
-    return () => clearInterval(interval);
-  }, [activeStep]);
 
   const problems = [
     {
@@ -25,10 +12,28 @@ export default function HowItWorksSection() {
       ),
       stat: "4,000+",
       title: "Deliveries Locked in Silos",
-      desc: "Raju completed 4,000+ deliveries over 3 years. But Zomato, Swiggy, and Uber own that data — not him. His entire work history is invisible.",
-      accentColor: "#EF4444",
-      accentBg: "bg-red-50",
-      accentText: "text-red-600",
+      desc: "Work history is owned by corporate platforms, leaving your track record invisible to external systems.",
+      accentColor: "#1A6B47",
+      accentBg: "bg-[#E8F5EF]",
+      accentText: "text-[#1A6B47]",
+      visual: (
+        <div className="mt-2 bg-[#E8F5EF]/50 rounded-xl p-3 border border-[#1A6B47]/10 flex flex-col gap-2 relative overflow-hidden">
+          <div className="flex justify-between items-center text-[10px] font-mono text-[#1A6B47]">
+            <span className="font-semibold">PLATFORM DATA LOGS</span>
+            <span className="bg-[#1A6B47] text-white px-1.5 py-0.5 rounded text-[8px] font-bold">LOCKED</span>
+          </div>
+          <div className="flex gap-2">
+            {["Zomato", "Swiggy", "Uber"].map((plat) => (
+              <span key={plat} className="text-[9px] bg-white border border-[#E5E7EB] px-2 py-1 rounded-md text-[#4B5563] shadow-xs font-semibold">
+                {plat}
+              </span>
+            ))}
+          </div>
+          <div className="w-full bg-[#E5E7EB] h-1.5 rounded-full overflow-hidden mt-1">
+            <div className="bg-[#1A6B47] h-full w-full animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+          </div>
+        </div>
+      )
     },
     {
       icon: (
@@ -40,11 +45,31 @@ export default function HowItWorksSection() {
         </svg>
       ),
       stat: "₹0",
-      title: "Credit Score for Gig Workers",
-      desc: "Banks see only \"weekly transfer from Zomato Technologies.\" No ratings, no delivery count, no tenure. Traditional credit scoring simply doesn't work.",
-      accentColor: "#F59E0B",
-      accentBg: "bg-amber-50",
-      accentText: "text-amber-600",
+      title: "Invisible Credit Profile",
+      desc: "Banks see only generic weekly bank transfers. No rating, tenure, or consistency is shown.",
+      accentColor: "#F5A623",
+      accentBg: "bg-[#FEF3DC]",
+      accentText: "text-[#F5A623]",
+      visual: (
+        <div className="mt-2 bg-[#FEF3DC]/50 rounded-xl p-3 border border-[#F5A623]/10 flex flex-col gap-2">
+          <div className="text-[10px] font-mono text-[#B45309] font-semibold">
+            TRADITIONAL BANK STATEMENT
+          </div>
+          <div className="bg-white border border-[#E5E7EB] rounded-lg p-2 flex flex-col gap-1 font-mono text-[9px] text-[#4B5563] shadow-xs">
+            <div className="flex justify-between text-[#9CA3AF]">
+              <span>Narration</span>
+              <span>Amount</span>
+            </div>
+            <div className="flex justify-between border-t border-[#F3F4F6] pt-1">
+              <span className="truncate max-w-[80px]">NEFT-ZOMATO...</span>
+              <span className="font-bold text-[#D1D5DB] line-through">₹22,450</span>
+            </div>
+            <div className="text-[8px] text-red-500 font-sans font-bold flex items-center gap-1 mt-0.5">
+              <span>⚠️ Invisible ratings & platform tenure</span>
+            </div>
+          </div>
+        </div>
+      )
     },
     {
       icon: (
@@ -55,18 +80,34 @@ export default function HowItWorksSection() {
         </svg>
       ),
       stat: "78%",
-      title: "Loan Applications Rejected",
-      desc: "Without portable proof of income, consistency, and reliability — gig workers are systematically excluded from loans, rentals, and welfare schemes.",
-      accentColor: "#8B5CF6",
-      accentBg: "bg-purple-50",
-      accentText: "text-purple-600",
+      title: "Systemic Loan Rejections",
+      desc: "Without portable proof of income, gig workers are excluded from credit, rentals, and insurance.",
+      accentColor: "#0D3D28",
+      accentBg: "bg-[#E8F5EF]",
+      accentText: "text-[#0D3D28]",
+      visual: (
+        <div className="mt-2 bg-[#E8F5EF]/30 rounded-xl p-3 border border-[#0D3D28]/10 flex flex-col gap-2">
+          <div className="flex justify-between items-center text-[10px] font-mono text-[#0D3D28]">
+            <span className="font-semibold">LOAN APPLICATION FLOW</span>
+            <span className="font-bold text-red-600">78% REJECTED</span>
+          </div>
+          <div className="relative w-full h-3 bg-[#E5E7EB] rounded-full overflow-hidden flex">
+            <div className="bg-red-500 h-full w-[78%]" />
+            <div className="bg-[#1A6B47] h-full w-[22%]" />
+          </div>
+          <div className="flex justify-between text-[8px] text-[#6B7280] font-sans font-medium">
+            <span>Rejected (78%)</span>
+            <span>Approved (22%)</span>
+          </div>
+        </div>
+      )
     },
   ];
 
   const steps = [
     {
       title: "Verify Identity",
-      desc: "Connect DigiLocker + e-Shram UAN in minutes. Aadhaar-seeded, government-verified.",
+      desc: "Instantly link Aadhaar and national e-Shram registry securely.",
       badge: "Layer 1: Identity",
       badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
       accentBg: "bg-blue-50",
@@ -76,14 +117,14 @@ export default function HowItWorksSection() {
           <rect x="3" y="4" width="18" height="16" rx="2" />
           <circle cx="9" cy="11" r="2.5" />
           <path d="M5 17c0-2 2-3 4-3s4 1 4 3" />
-          <circle cx="17" cy="16.5" r="2.5" fill="#2563EB" stroke="none" />
+          <circle cx="17" cy="16.5" r="2.5" fill="#1A6B47" stroke="none" />
           <path d="M16 16.5l.5.5 1-1" stroke="white" strokeWidth="1.5" fill="none" />
         </svg>
       ),
     },
     {
-      title: "Prove Your Income",
-      desc: "Link your bank account via India's Account Aggregator framework. RBI-regulated, tamper-proof.",
+      title: "Link Financials",
+      desc: "Securely share transaction history using RBI AA guidelines.",
       badge: "Layer 2: Financial",
       badgeClass: "bg-purple-50 text-purple-700 border-purple-200",
       accentBg: "bg-purple-50",
@@ -99,8 +140,8 @@ export default function HowItWorksSection() {
       ),
     },
     {
-      title: "Get Your Credential",
-      desc: "Receive a signed, verifiable PRAMAAN credential. Share with banks, landlords, welfare schemes.",
+      title: "Generate Passport",
+      desc: "Download your professional passport to share in seconds.",
       badge: "Layer 3: Credential",
       badgeClass: "bg-[#E8F5EF] text-[#1A6B47] border-[#1A6B47]/20",
       accentBg: "bg-[#E8F5EF]",
@@ -186,9 +227,12 @@ export default function HowItWorksSection() {
                 </h4>
 
                 {/* Description */}
-                <p className="text-[13px] text-[#6B7280] leading-relaxed relative z-10 flex-1">
+                <p className="text-[13px] text-[#6B7280] leading-relaxed relative z-10">
                   {problem.desc}
                 </p>
+
+                {/* Embedded Infographic visual */}
+                {problem.visual && <div className="relative z-10 flex-1 flex flex-col justify-end">{problem.visual}</div>}
 
                 {/* Bottom accent line */}
                 <div
@@ -221,9 +265,7 @@ export default function HowItWorksSection() {
               <polyline points="19,12 12,19 5,12" />
             </svg>
           </div>
-        </div>
-
-        {/* =====================================================
+            {/* =====================================================
             PART 2: THE 3-STEP CREDENTIAL PIPELINE
            ===================================================== */}
         <div id="for-workers" className="space-y-14">
@@ -239,244 +281,85 @@ export default function HowItWorksSection() {
               How It Works
             </h3>
             <p className="text-[#6B7280] text-[14px] mt-1">
-              Verify your reputation in three clear steps. Click a step to simulate.
+              Verify your reputation in three simple steps.
             </p>
           </div>
 
-          {/* 2-Column Split: Timeline Steps left, Interactive simulator right */}
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 max-w-5xl mx-auto items-start">
-            {/* Left: Steps with connected timeline */}
-            <div className="relative">
-              {/* Vertical Timeline Line */}
-              <div className="absolute left-[19px] top-[40px] bottom-[40px] w-[2px] bg-gradient-to-b from-[#1A6B47]/30 via-[#1A6B47]/20 to-[#1A6B47]/10 rounded-full hidden lg:block" />
+          {/* Horizontal Visual Workflow */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch relative">
+            {steps.map((step, idx) => (
+              <div
+                key={idx}
+                className="relative bg-white border border-[#E5E7EB] rounded-[20px] p-8 flex flex-col items-center text-center gap-6 hover:border-[#1A6B47]/40 hover:shadow-lg transition-all duration-300 group overflow-hidden"
+              >
+                {/* Hover gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#E8F5EF]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[20px]" />
 
-              <div className="space-y-4 relative">
-                {steps.map((step, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setActiveStep(idx)}
-                    className={`relative rounded-[16px] p-5 pl-14 transition-all duration-300 cursor-pointer text-left border ${
-                      activeStep === idx
-                        ? "border-[#1A6B47] bg-[#E8F5EF]/20 shadow-md border-l-[4px]"
-                        : "border-[#E5E7EB] bg-white hover:border-[#1A6B47]/40 hover:bg-[#F9FAFB]"
-                    }`}
-                  >
-                    {/* Step Circle with Icon — sits on the timeline */}
-                    <div
-                      className={`absolute left-3 top-5 w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 z-10 ${
-                        activeStep === idx
-                          ? "bg-[#1A6B47] text-white shadow-lg shadow-[#1A6B47]/20"
-                          : "bg-[#F3F4F6] text-[#6B7280] border border-[#E5E7EB]"
-                      }`}
-                    >
-                      {activeStep === idx ? (
-                        step.icon
-                      ) : (
-                        <span className="font-bold text-[14px]">{idx + 1}</span>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span
-                          className={`px-2.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider ${step.badgeClass}`}
-                        >
-                          {step.badge}
-                        </span>
-                      </div>
-                      <h4
-                        className="text-[16px] font-bold text-[#111827]"
-                        style={{ fontFamily: "var(--font-sans)" }}
-                      >
-                        {step.title}
-                      </h4>
-                      <p className="text-[13px] text-[#6B7280] leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </div>
+                {/* Step Circle with Icon */}
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-full bg-[#E8F5EF] text-[#1A6B47] flex items-center justify-center border border-[#1A6B47]/20 group-hover:scale-105 transition-transform duration-300 shadow-sm relative z-10">
+                    {step.icon}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: Live Simulator View */}
-            <div className="bg-[#0D3D28] text-white rounded-[20px] p-6 shadow-2xl border border-white/10 relative overflow-hidden h-[360px] flex flex-col justify-between">
-              {/* Background accent glow */}
-              <div className="absolute w-[200px] h-[200px] rounded-full bg-[#1A6B47]/20 -top-12 -right-12 blur-2xl" />
-              <div className="absolute w-[120px] h-[120px] rounded-full bg-[#2ECC8F]/10 bottom-0 left-0 blur-2xl" />
-
-              {/* Pulsing border on active */}
-              <div className="absolute inset-0 rounded-[20px] border-2 border-[#2ECC8F]/20 animate-pulse pointer-events-none" />
-
-              {/* Header */}
-              <div className="flex justify-between items-center pb-3 border-b border-white/15 relative z-10">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#2ECC8F] animate-pulse" />
-                  <span className="text-[11px] font-mono text-white/70 uppercase tracking-widest font-semibold">
-                    Live verification pipe
+                  {/* Step index badge */}
+                  <span className="absolute -top-1.5 -right-1.5 bg-[#1A6B47] text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-white shadow-xs z-20">
+                    0{idx + 1}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  {[0, 1, 2].map((i) => (
-                    <div
-                      key={i}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        i <= activeStep
-                          ? "bg-[#2ECC8F]"
-                          : "bg-white/20"
-                      }`}
-                    />
-                  ))}
+
+                {/* Content */}
+                <div className="space-y-2 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <span className={`inline-block px-2.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider ${step.badgeClass}`}>
+                      {step.badge}
+                    </span>
+                    <h4 className="text-[16px] font-bold text-[#111827]" style={{ fontFamily: "var(--font-sans)" }}>
+                      {step.title}
+                    </h4>
+                    <p className="text-[13px] text-[#6B7280] leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Simulator Screen body */}
-              <div className="flex-1 py-4 flex flex-col justify-center relative z-10 font-sans text-left">
-                {/* Active Step 0: Identity verification view */}
-                {activeStep === 0 && (
-                  <div className="space-y-4 animate-fadeIn">
-                    <div className="space-y-1">
-                      <div className="text-[11px] text-white/60 uppercase font-bold tracking-wider">
-                        Linking secure sources
-                      </div>
-                      <div className="text-[15px] font-bold">
-                        Aadhaar e-KYC + e-Shram Registry
-                      </div>
+                {/* Pulsing visual mockup under text */}
+                <div className="w-full mt-4">
+                  {idx === 0 && (
+                    <div className="bg-[#E8F5EF]/30 rounded-lg p-2.5 border border-[#1A6B47]/10 flex justify-center gap-2">
+                      <span className="text-[9px] font-semibold text-[#1A6B47] bg-white px-2 py-0.5 rounded shadow-xs border border-[#1A6B47]/10">✓ eShram</span>
+                      <span className="text-[9px] font-semibold text-[#1A6B47] bg-white px-2 py-0.5 rounded shadow-xs border border-[#1A6B47]/10">✓ DigiLocker</span>
                     </div>
+                  )}
+                  {idx === 1 && (
+                    <div className="bg-[#FEF3DC]/30 rounded-lg p-2.5 border border-[#F5A623]/10 flex justify-center gap-2">
+                      <span className="text-[9px] font-semibold text-[#B45309] bg-white px-2 py-0.5 rounded shadow-xs border border-[#F5A623]/10">🔒 RBI AA Tunnel</span>
+                    </div>
+                  )}
+                  {idx === 2 && (
+                    <div className="bg-[#E8F5EF]/30 rounded-lg p-2.5 border border-[#1A6B47]/10 flex justify-center gap-2">
+                      <span className="text-[9px] font-semibold text-[#1A6B47] bg-white px-2 py-0.5 rounded shadow-xs border border-[#1A6B47]/10">📄 Passport Ready</span>
+                    </div>
+                  )}
+                </div>
 
-                    <div className="bg-black/30 rounded-lg p-3.5 space-y-2 border border-white/5 font-mono text-[11px]">
-                      <div className="flex justify-between items-center text-white/70">
-                        <span>Initiating secure tunnel...</span>
-                        <span className="text-[#2ECC8F]">ESTABLISHED</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>Aadhaar data signature:</span>
-                        <span className="font-bold text-[#F5A623]">VERIFIED</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>e-Shram UAN mapping:</span>
-                        <span className="font-bold text-[#2ECC8F]">
-                          OK (7844xxxx)
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[10px] text-white/60">
-                        <span>Syncing profile data</span>
-                        <span>{simProgress}%</span>
-                      </div>
-                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-[#2ECC8F] transition-all duration-150 ease-out"
-                          style={{ width: `${simProgress}%` }}
-                        />
-                      </div>
-                    </div>
+                {/* Arrow connectors */}
+                {idx < 2 && (
+                  <div className="hidden md:flex absolute top-1/2 -right-4 translate-x-1/2 -translate-y-1/2 z-20 items-center justify-center">
+                    <svg className="w-6 h-6 text-[#1A6B47]/40 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                    </svg>
                   </div>
                 )}
-
-                {/* Active Step 1: Prove Your Income view */}
-                {activeStep === 1 && (
-                  <div className="space-y-4 animate-fadeIn">
-                    <div className="space-y-1">
-                      <div className="text-[11px] text-white/60 uppercase font-bold tracking-wider">
-                        RBI Account Aggregator
-                      </div>
-                      <div className="text-[15px] font-bold">
-                        Ledger Income Consistency Analysis
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-6 gap-2 h-16 items-end pt-2 px-2 border-b border-white/10">
-                      {[40, 60, 55, 85, 90, 75].map((val, idx) => (
-                        <div
-                          key={idx}
-                          className="flex flex-col items-center gap-1 h-full justify-end"
-                        >
-                          <div
-                            className="w-full bg-[#2ECC8F]/80 rounded-t-sm transition-all duration-500 ease-out"
-                            style={{
-                              height: `${(val * simProgress) / 100}%`,
-                            }}
-                          />
-                          <span className="text-[9px] font-mono text-white/40">
-                            {["N", "D", "J", "F", "M", "A"][idx]}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="bg-black/30 rounded-lg p-2.5 flex justify-between items-center border border-white/5 font-mono text-[11px]">
-                      <div className="flex flex-col">
-                        <span className="text-white/50 text-[10px]">
-                          INCOME CONSISTENCY
-                        </span>
-                        <span className="font-bold text-[#F5A623] text-[13px] mt-0.5">
-                          97.4% High Stability
-                        </span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-[#2ECC8F] font-bold block text-[10px]">
-                          CONSENT REGISTERED
-                        </span>
-                        <span className="text-white/40 text-[9px]">
-                          Setu AA Pipeline
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Active Step 2: Get Your Credential view */}
-                {activeStep === 2 && (
-                  <div className="space-y-3 animate-fadeIn flex flex-col justify-center">
-                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-3">
-                      {/* Sub-logo stamp */}
-                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-                        <span className="text-[15px] font-black text-[#1A6B47] leading-none">
-                          प्र
-                        </span>
-                      </div>
-                      <div className="text-left flex-1 min-w-0">
-                        <div className="text-[13px] font-bold truncate">
-                          PRAMAAN Credential Generated
-                        </div>
-                        <div className="text-[10px] text-white/50 truncate">
-                          Cryptographically Signed
-                        </div>
-                      </div>
-                      <span className="badge-verified bg-[#2ECC8F]/20 text-[#2ECC8F] border-[#2ECC8F]/30 text-[9px] font-bold px-2 py-0.5">
-                        ACTIVE
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between items-center text-[12px] pt-1">
-                      <span className="text-white/60">Signature Key:</span>
-                      <span className="font-mono text-white/80 bg-white/5 px-2 py-0.5 rounded text-[10px]">
-                        PRNM-SHA256-HEX
-                      </span>
-                    </div>
-
-                    <div className="flex gap-2.5 pt-2">
-                      <button className="flex-1 bg-[#1A6B47] hover:bg-[#1A6B47]/80 border border-white/10 py-2 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-colors cursor-pointer text-center">
-                        View Passport Details
-                      </button>
-                      <button className="flex-1 bg-white text-[#0D3D28] hover:bg-white/90 py-2 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-colors cursor-pointer text-center">
-                        Copy Secure Share Link
-                      </button>
+                {idx < 2 && (
+                  <div className="md:hidden flex justify-center w-full absolute -bottom-6 left-0 right-0 z-20">
+                    <div className="w-5 h-5 bg-white border border-[#E5E7EB] rounded-full flex items-center justify-center shadow-xs">
+                      <svg className="w-3.5 h-3.5 text-[#1A6B47]/40 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 13l-7 7-7-7" />
+                      </svg>
                     </div>
                   </div>
                 )}
               </div>
-
-              {/* Footer */}
-              <div className="border-t border-white/10 pt-2 flex justify-between items-center text-[10px] font-mono text-white/40 relative z-10">
-                <span>Secure API Protocol v1.2</span>
-                <span>SHA-256 Validated</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
