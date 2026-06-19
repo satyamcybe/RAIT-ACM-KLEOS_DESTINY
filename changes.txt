@@ -1,0 +1,195 @@
+# TrustBridge UI – Full Replication Prompt for Antigravity
+
+> Paste this prompt + attach the reference image. Do not paraphrase or summarize it.
+
+---
+
+## PROMPT START
+
+You are building a pixel-faithful recreation of the attached reference UI screenshot. Replicate every design decision exactly as shown — no creative interpretation, no substitutions, no additions. If something is in the reference, include it. If it is not in the reference, do not add it.
+
+---
+
+## BRAND & COLOR SYSTEM
+
+- Primary accent: `#00C896` (mint green) — used for CTAs, badges, progress bars, icons, highlights
+- Dark background (dashboard section): `#0F1117` (near-black)
+- Light section background: `#FFFFFF`
+- Card background (light): `#FFFFFF` with `border: 1px solid #E8EBF0`
+- Feature card background: `#F8FAFB`
+- Text primary: `#0D1117`
+- Text secondary: `#6B7280`
+- Text muted: `#9CA3AF`
+- Verified badge: background `#E6FBF4`, text `#00A67E`
+- Trust score ring: stroke `#00C896` on dark bg
+- Progress bar filled: `#00C896`, unfilled: `#2A2D35` (in dark section), `#E5E7EB` (in light section)
+- Income trend line: `#00C896`
+- Passport card gradient: left `#1B6B4A` → right `#0F3D2A` (dark green)
+
+---
+
+## TYPOGRAPHY
+
+- Font family: `Inter`, fallback `sans-serif`
+- Hero headline: `700` weight, `48–56px`, black on white, line-height `1.1`
+  - "Turn Gig Work Into" — black
+  - "Trust." — `#00C896` (mint green)
+- Body text: `400` weight, `15–16px`, `#6B7280`
+- Section headings: `600–700`, `28–34px`, `#0D1117`, centered
+- Card labels: `500`, `13px`, `#6B7280`
+- Metric numbers: `700`, `20–24px`, `#0D1117`
+- Step labels (How it works): `600`, `14px`, centered
+
+---
+
+## LAYOUT STRUCTURE
+
+Replicate these sections in exact order, top to bottom:
+
+### 1. NAVIGATION BAR
+- White background, `border-bottom: 1px solid #F0F2F5`
+- Left: Logo — shield icon in green + "TrustBridge" wordmark in dark
+- Center nav links: "How It Works", "Features", "About Us", "For Institutions" — `14px`, `#374151`, no underline
+- Right: CTA button "Generate Passport →" — `background: #00C896`, `color: white`, `border-radius: 24px`, `padding: 10px 20px`, `font-weight: 600`
+
+---
+
+### 2. HERO SECTION
+- Two-column layout: text left, visual right
+- **Left column:**
+  - Headline: "Turn Gig Work\nInto Trust." (line break after "Into")
+  - Subheadline: "Verify your identity, connect your earnings and get your institution-ready Labour Reputation Passport." — `16px`, `#6B7280`
+  - Two CTA buttons side by side:
+    - Primary: "Generate Passport →" — dark background `#0D1117`, white text, `border-radius: 8px`
+    - Secondary: "▶ Watch Demo" — white background, `border: 1px solid #E5E7EB`, dark text, `border-radius: 8px`
+  - Trust logos row: label "Built on Trusted Infrastructure" in muted text, then logos: **e-Shram** (orange wordmark), **DigiLocker** (purple wordmark), **Account Aggregator** (text badge with "RBI Licensed / RBI Governed")
+- **Right column** (floating card composite):
+  - Top-left card: "Trust Score" label, large "92" number, "Excellent" label, circular arc gauge in green
+  - Top-right card: "Monthly Income", "₹22,450", "+18% vs last month" in green, small line chart trending up
+  - Center: 3D delivery worker character in green hoodie holding a "LABOUR PASSPORT" booklet and phone
+  - Bottom-left card: "Identity Verified" checklist — rows for "eShram ✓", "DigiLocker ✓", "Aadhaar ✓"
+  - Bottom-right card: "AA Connected" with bank icon, green dot + "Connected"
+  - Bottom-center card: Avatar of "Raju Kumar / Delivery Partner" with green "✓ Verified Worker" badge
+
+---
+
+### 3. FEATURES SECTION
+- White background
+- Centered heading: "Trusted. Verified. Empowered."
+- 4-column card grid:
+  1. **eShram Verification** — green pen icon — "Verify your worker identity using eShram, India's national database."
+  2. **DigiLocker Verification** — purple document icon — "Securely access and verify your government documents instantly."
+  3. **Account Aggregator** — blue bank icon — "Connect your bank accounts through RBI-regulated AA infrastructure."
+  4. **AI Reputation Engine** — orange gear icon — "Our AI analyzes your financial consistency and work activity to generate trust score."
+- Each card: white bg, `border: 1px solid #E8EBF0`, `border-radius: 12px`, icon at top, bold title, muted description
+
+---
+
+### 4. HOW IT WORKS SECTION
+- White background
+- Centered heading: "How TrustBridge Works"
+- 5-step horizontal flow with dashed arrows `-->` between steps:
+  1. Icon: ID card — "1. Verify Identity" — "Using eShram & DigiLocker"
+  2. Icon: bank building — "2. Connect Accounts" — "Secure RBI AA Integration"
+  3. Icon: analytics — "3. Analyze Data" — "Financial + Work Pattern Analysis"
+  4. Icon: shield/badge — "4. AI Evaluation" — "Generate Trust Score"
+  5. Icon: sprout/passport — "5. Get Passport" — "Share your verified Labour Passport"
+- Step icons: circular icon containers, alternating colors (green, blue, teal, red/orange, green)
+- Dashed lines between steps, gray `#D1D5DB`
+- Labels: step number bold, subtitle muted below
+
+---
+
+### 5. TRUST OVERVIEW DASHBOARD (Dark Section)
+- Full-width, `background: #0F1117`, `border-radius: 16px`, white text
+- Two-column layout:
+  - **Left panel:**
+    - Heading: "Your Trust Overview" in white
+    - Subtext: "Your financial behavior and work history builds your trust." in gray
+    - Large circular trust score gauge: "92" in center, "Trust Score" label below, green arc, "Excellent" green badge below
+    - Three score rows with progress bars:
+      - "Identity Score" — `100/100` — full green bar
+      - "Financial Score" — `90/100` — green bar
+      - "Reputation Score" — `86/100` — green bar
+    - Progress bar track color: `#2A2D35`, filled: `#00C896`
+  - **Right panel:**
+    - Heading: "Income Trend (Last 6 Months)" in white
+    - Area line chart, x-axis: Jan–Jun, y-axis: 0–30K
+    - Line color: `#00C896`, filled area below with low-opacity green
+    - Data label at peak: "₹22,450" in white badge
+    - Axis labels in gray
+
+---
+
+### 6. LABOUR PASSPORT + PASSPORT BEING BUILT (Two-column)
+- White background
+- **Left column — "Your Labour Passport":**
+  - Section label: "Your Labour Passport"
+  - Subtext: "Your trust. Your identity. Your future."
+  - Passport card mockup:
+    - Dark green gradient background (`#1B6B4A` → `#0F3D2A`)
+    - Top row: avatar circle + "Raju Kumar / Delivery Partner" + "✓ Verified Worker" green badge
+    - Right side: "Trust Score: 92/100" box
+    - Bottom row three stats: "Income Band ₹20k–₹25k", "Tenure 3.4 Years", "Activity Level: High"
+    - QR code placeholder (bottom right)
+    - Bottom badges row: "eShram Verified", "DigiLocker Verified", "AA Verified" — each with small icon
+- **Right column — "Watch Your Passport Being Built":**
+  - Section label: "Watch Your Passport Being Built"
+  - Subtext: "Real-time journey from data to trust."
+  - Horizontal step flow with icons and arrows:
+    - Scooter rider → eShram icon → AA icon → AI Analysis icon → Passport icon
+  - Below: "Analyzing work history..." label
+  - Progress bar at 75%, `background: #00C896`
+
+---
+
+### 7. TRUSTED BY INSTITUTIONS (Footer logos)
+- White background
+- Centered heading: "Trusted by Institutions"
+- Horizontal logo row (evenly spaced): HDFC Bank, ICICI Bank, Bajaj Finserv, Kotak Mahindra Bank, PolicyBazaar, Zomato, Swiggy
+- Logos in grayscale / original brand colors at reduced opacity, centered
+
+---
+
+## COMPONENT RULES
+
+- `border-radius` on cards: `12px`
+- `border-radius` on badges/pills: `20px`
+- `border-radius` on primary buttons: `8px`, on pill CTA in nav: `24px`
+- All section padding: `80px` top and bottom
+- Inner card padding: `20–24px`
+- Box shadows: subtle — `box-shadow: 0 2px 8px rgba(0,0,0,0.06)`
+- No heavy drop shadows, no gradients except the passport card and trust score ring
+- Checkmarks in verification list: `color: #00C896`, circle outline
+- Verified badge: `border-radius: 12px`, `padding: 4px 10px`, `font-size: 12px`, `font-weight: 600`
+
+---
+
+## UX ENHANCEMENTS (Add these — they are not in the screenshot but fit the domain)
+
+These are contextually appropriate additions for a gig-worker credentialing platform:
+
+1. **Sticky nav CTA**: Keep "Generate Passport →" button visible as user scrolls — high conversion intent action
+2. **Trust Score tooltip**: On hover over "92", show a small tooltip — "Calculated from identity, income, and work consistency data"
+3. **Micro-animation on score bars**: Animate progress bars filling from 0 on scroll-into-view (300ms ease-out)
+4. **Passport card hover**: Subtle lift `transform: translateY(-4px)` with `transition: 0.2s ease` on hover
+5. **Step flow active state**: In "How It Works", highlight one step at a time on scroll as the user progresses down the page
+6. **Income chart tooltip**: On hover over data points, show "₹X — Month, +Y% vs prev month"
+7. **"Get Started Free" inline prompt**: Below the hero subheadline, add a small trust signal — "No credit card required · Takes 3 minutes · 100% free"
+8. **Verified badge pulse**: The "✓ Verified Worker" badge has a subtle green pulse ring animation to signal active verification state
+9. **Institutions logo hover**: On hover over institution logos, scale to 1.05 and show a tooltip — "Accepts TrustBridge Passports"
+10. **Mobile-first CTA**: On mobile viewport, stack the two hero buttons vertically and make them full-width
+
+---
+
+## WHAT NOT TO DO
+
+- Do NOT change any colors, fonts, or layout order
+- Do NOT substitute icons with different ones
+- Do NOT add sections not present in the reference
+- Do NOT add dark mode toggle (not in reference)
+- Do NOT add login/signup modals (not in reference)
+- Do NOT hallucinate institution logos — use text placeholders if SVGs unavailable
+- Do NOT use placeholder lorem ipsum text — use all the exact copy provided above
+
+## PROMPT END

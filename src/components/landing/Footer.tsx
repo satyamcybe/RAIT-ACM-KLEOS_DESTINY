@@ -17,7 +17,7 @@ export default function Footer() {
             <img 
               src="/logo-text.png" 
               alt="PRAMAAN Logo" 
-              className="h-14 w-auto object-contain"
+              className="h-14 w-auto object-contain logo-brand-green"
             />
           </Link>
 

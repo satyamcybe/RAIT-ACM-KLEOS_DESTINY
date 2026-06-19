@@ -12,7 +12,7 @@ export default function Navbar() {
           <img 
             src="/logo-text.png" 
             alt="PRAMAAN Logo" 
-            className="h-12 w-auto object-contain mix-blend-multiply"
+            className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
           />
         </Link>
 
