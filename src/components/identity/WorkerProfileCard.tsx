@@ -18,6 +18,7 @@ export default function WorkerProfileCard({
   role,
   sector,
   registeredYear,
+  verifications
 }: WorkerProfileCardProps) {
   return (
     <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-3xl p-6 text-white w-full shadow-lg opacity-0 animate-fade-in-up">
