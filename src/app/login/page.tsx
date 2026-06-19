@@ -131,6 +131,28 @@ export default function LoginPage() {
                 <ArrowRight className="w-4 h-4" />
               </div>
             </button>
+
+            {/* Divider */}
+            <div className="relative flex items-center justify-center py-2">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200/80"></div>
+              </div>
+              <div className="relative px-3 bg-white text-[11px] text-gray-400 uppercase font-bold tracking-wider">
+                Or
+              </div>
+            </div>
+
+            {/* Continue with DigiLocker */}
+            <button
+              type="button"
+              onClick={() => router.push('/digilocker')}
+              className="w-full flex items-center justify-center py-3.5 px-4 border border-gray-200 rounded-xl shadow-xs text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all active:scale-[0.98] gap-2.5"
+            >
+              <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center text-white font-black text-[10px]">
+                D
+              </div>
+              <span>Continue with DigiLocker</span>
+            </button>
           </form>
         ) : (
           <form onSubmit={handleOtpSubmit} className="space-y-6">

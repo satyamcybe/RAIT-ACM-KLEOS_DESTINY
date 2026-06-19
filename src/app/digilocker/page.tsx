@@ -11,11 +11,6 @@ export default function DigiLockerMock() {
   const [step, setStep] = useState<'aadhaar' | 'otp'>('aadhaar');
   const [aadhaar, setAadhaar] = useState("");
 
-  useEffect(() => {
-    if (identityVerified) {
-      router.replace('/dashboard');
-    }
-  }, [identityVerified, router]);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");

@@ -25,6 +25,7 @@ interface MockDataContextType {
   setBankLinked: (val: boolean) => void;
   credentials: Credential[];
   setCredentials: (creds: Credential[]) => void;
+  resetDemo: () => Promise<void>;
 }
 
 const defaultUser: UserProfile = {
@@ -127,6 +128,24 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
     setCredentials(newCreds);
   }, [identityVerified, bankLinked]);
 
+  const resetDemo = async () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("pranam_identity_verified");
+      localStorage.removeItem("pranam_bank_linked");
+      localStorage.removeItem("pranam_mock_user");
+    }
+    setIdentityVerified(false);
+    setBankLinked(false);
+    setUser(defaultUser);
+    setCredentials([]);
+    
+    try {
+      await fetch("/api/identity/reset", { method: "POST" });
+    } catch (e) {
+      console.error("Failed to reset DB status", e);
+    }
+  };
+
   return (
     <MockDataContext.Provider
       value={{
@@ -137,7 +156,8 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
         bankLinked,
         setBankLinked,
         credentials,
-        setCredentials
+        setCredentials,
+        resetDemo
       }}
     >
       {children}
