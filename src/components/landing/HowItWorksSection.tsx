@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 export default function HowItWorksSection() {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [simProgress, setSimProgress] = useState(0);
+  const [hasConsent, setHasConsent] = useState(true);
+  const [shareSuccess, setShareSuccess] = useState(false);
 
   // Auto-progress simulation for active step
   useEffect(() => {
@@ -15,51 +17,51 @@ export default function HowItWorksSection() {
     return () => clearInterval(interval);
   }, [activeStep]);
 
+  useEffect(() => {
+    setShareSuccess(false);
+  }, [activeStep]);
+
   const problems = [
     {
       icon: (
-        <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="11" width="18" height="11" rx="2" />
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
       ),
-      stat: "4,000+",
       title: "Siloed Work History",
-      desc: "Your delivery and platform history remains locked inside individual corporate servers.",
+      desc: "Platform history is locked inside corporate servers, making it unusable elsewhere.",
       accentColor: "#1A6B47",
       accentBg: "bg-[#E8F5EF]",
       accentText: "text-[#1A6B47]",
     },
     {
       icon: (
-        <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="1" y1="1" x2="23" y2="23" />
           <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
           <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
           <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
         </svg>
       ),
-      stat: "₹0",
-      title: "No Credit History",
-      desc: "Banks only see generic bank transfers, hiding your consistency and rating signals.",
-      accentColor: "#F5A623",
-      accentBg: "bg-[#FEF3DC]",
-      accentText: "text-[#F5A623]",
+      title: "Invisible Income",
+      desc: "Banks only see generic transfers, hiding ratings and earning consistency.",
+      accentColor: "#1A6B47",
+      accentBg: "bg-[#E8F5EF]",
+      accentText: "text-[#1A6B47]",
     },
     {
       icon: (
-        <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 6 6 18" />
-          <path d="m6 6 12 12" />
-          <circle cx="12" cy="12" r="10" />
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 11 2 2 4-4" />
         </svg>
       ),
-      stat: "78%",
       title: "Credit Exclusion",
-      desc: "Reliable gig workers are systematically rejected for loans due to lack of portable proof.",
-      accentColor: "#0D3D28",
+      desc: "Workers are systematically excluded from formal credit due to lack of portable proof.",
+      accentColor: "#1A6B47",
       accentBg: "bg-[#E8F5EF]",
-      accentText: "text-[#0D3D28]",
+      accentText: "text-[#1A6B47]",
     },
   ];
 
@@ -68,16 +70,14 @@ export default function HowItWorksSection() {
       title: "Verify Identity",
       desc: "Instantly link Aadhaar and national e-Shram registry securely.",
       badge: "Layer 1: Identity",
-      badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
-      accentBg: "bg-blue-50",
-      accentText: "text-blue-600",
+      badgeClass: "bg-[#E8F5EF] text-[#1A6B47] border-[#1A6B47]/20",
+      accentBg: "bg-[#E8F5EF]",
+      accentText: "text-[#1A6B47]",
       icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <rect x="3" y="4" width="18" height="16" rx="2" />
           <circle cx="9" cy="11" r="2.5" />
           <path d="M5 17c0-2 2-3 4-3s4 1 4 3" />
-          <circle cx="17" cy="16.5" r="2.5" fill="#1A6B47" stroke="none" />
-          <path d="M16 16.5l.5.5 1-1" stroke="white" strokeWidth="1.5" fill="none" />
         </svg>
       ),
     },
@@ -85,11 +85,11 @@ export default function HowItWorksSection() {
       title: "Link Financials",
       desc: "Securely share transaction history using RBI AA guidelines.",
       badge: "Layer 2: Financial",
-      badgeClass: "bg-purple-50 text-purple-700 border-purple-200",
-      accentBg: "bg-purple-50",
-      accentText: "text-purple-600",
+      badgeClass: "bg-[#E8F5EF] text-[#1A6B47] border-[#1A6B47]/20",
+      accentBg: "bg-[#E8F5EF]",
+      accentText: "text-[#1A6B47]",
       icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <line x1="3" y1="21" x2="21" y2="21" />
           <line x1="5" y1="11" x2="5" y2="21" />
           <line x1="12" y1="11" x2="12" y2="21" />
@@ -106,11 +106,10 @@ export default function HowItWorksSection() {
       accentBg: "bg-[#E8F5EF]",
       accentText: "text-[#1A6B47]",
       icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <rect x="4" y="4" width="16" height="16" rx="2" />
           <line x1="8" y1="8" x2="16" y2="8" />
           <line x1="8" y1="12" x2="16" y2="12" />
-          <polygon points="12,14 13.5,17 17,17.5 14.5,19.5 15,23 12,21.5 9,23 9.5,19.5 7,17.5 10.5,17" fill="#1A6B47" stroke="none" />
         </svg>
       ),
     },
@@ -158,27 +157,14 @@ export default function HowItWorksSection() {
 
                 {/* Icon Circle */}
                 <div
-                  className={`w-12 h-12 rounded-2xl ${problem.accentBg} ${problem.accentText} flex items-center justify-center relative z-10 group-hover:scale-105 transition-transform duration-300`}
+                  className={`w-11 h-11 rounded-xl ${problem.accentBg} ${problem.accentText} flex items-center justify-center relative z-10 group-hover:scale-105 transition-transform duration-300`}
                 >
                   {problem.icon}
                 </div>
 
-                {/* Stat Headline */}
-                <div className="relative z-10">
-                  <span
-                    className="text-[36px] md:text-[40px] font-bold tracking-tight leading-none"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      color: problem.accentColor,
-                    }}
-                  >
-                    {problem.stat}
-                  </span>
-                </div>
-
                 {/* Title */}
                 <h4
-                  className="text-[16px] font-bold text-[#111827] leading-snug relative z-10"
+                  className="text-[16px] font-bold text-[#111827] leading-snug relative z-10 mt-1"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {problem.title}
@@ -188,45 +174,12 @@ export default function HowItWorksSection() {
                 <p className="text-[13px] text-[#6B7280] leading-relaxed relative z-10 flex-1">
                   {problem.desc}
                 </p>
-
-                {/* Bottom accent line */}
-                <div
-                  className="h-[3px] w-12 rounded-full transition-all duration-300 group-hover:w-20"
-                  style={{ backgroundColor: problem.accentColor }}
-                />
               </div>
             ))}
           </div>
         </div>
 
-<<<<<<< HEAD
         {/* =====================================================
-=======
-          {/* Transition text */}
-          <div className="text-center flex flex-col items-center gap-3 pt-2">
-            <div className="w-px h-8 bg-gradient-to-b from-transparent to-[#1A6B47]/40" />
-            <span
-              className="text-[14px] font-bold text-[#1A6B47] tracking-wide"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              PRAMAAN solves this — in 3 simple steps
-            </span>
-            <svg
-              className="w-5 h-5 text-[#1A6B47] animate-bounce"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <polyline points="19,12 12,19 5,12" />
-            </svg>
-          </div>
-        </div>
-            {/* =====================================================
->>>>>>> 13a343ddbc4e5edf112d789c0610752d35855a0a
             PART 2: THE 3-STEP CREDENTIAL PIPELINE
            ===================================================== */}
         <div id="for-workers" className="space-y-14 pt-6">
@@ -296,7 +249,7 @@ export default function HowItWorksSection() {
               {/* Header */}
               <div className="flex justify-between items-center pb-3 border-b border-white/10 relative z-10">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#2ECC8F] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-[#2ECC8F] animate-pulse" />
                   <span className="text-[10px] font-mono text-emerald-300 uppercase tracking-widest font-semibold">
                     {activeStep === 0 && "Secure Identity Verification"}
                     {activeStep === 1 && "Account Aggregator Consent"}
@@ -311,106 +264,174 @@ export default function HowItWorksSection() {
               </div>
 
               {/* Body Content */}
-              <div className="flex-1 py-6 flex flex-col justify-center relative z-10 text-left font-sans">
-                {/* Active Step 0 Content */}
+              <div className="flex-1 py-5 flex flex-col justify-center relative z-10 text-left font-sans">
+                {/* Active Step 0 Content (Identity) */}
                 {activeStep === 0 && (
                   <div className="space-y-4 animate-fadeIn">
-                    <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-xl">
-                      <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-[#2ECC8F] flex items-center justify-center shrink-0 border border-[#2ECC8F]/20">
-                        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[13px] font-bold text-white">e-KYC Authenticated</div>
-                        <div className="text-[10px] text-emerald-300">Aadhaar Seeded via DigiLocker</div>
-                      </div>
-                      <span className="bg-[#2ECC8F]/20 text-[#2ECC8F] border border-[#2ECC8F]/30 text-[9px] font-bold px-2 py-0.5 rounded-full">
-                        SUCCESS
-                      </span>
-                    </div>
-                    
-                    <div className="bg-black/20 border border-white/5 rounded-xl p-4 space-y-2 font-mono text-[11px] text-white/70">
-                      <div className="flex justify-between">
-                        <span>Verification Source:</span>
-                        <span className="text-[#2ECC8F] font-bold">Aadhaar CIDR</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>e-Shram Registry Status:</span>
-                        <span className="text-[#2ECC8F] font-bold">LINKED (Active)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Worker Profile Stamp:</span>
-                        <span className="text-amber-400 font-bold">VERIFIED</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Active Step 1 Content */}
-                {activeStep === 1 && (
-                  <div className="space-y-4 animate-fadeIn">
-                    <div className="space-y-1">
-                      <div className="text-[13px] font-bold text-white">Consented Banking Analysis</div>
-                      <div className="text-[10px] text-emerald-300">Real-time ledger flow from Account Aggregator</div>
-                    </div>
-
-                    {/* Chart visual representation */}
-                    <div className="bg-black/20 border border-white/5 rounded-xl p-4 space-y-4">
-                      <div className="flex justify-between items-end h-20 gap-3 px-2">
-                        {[35, 55, 45, 80, 85, 70].map((height, i) => (
-                          <div key={i} className="flex-1 flex flex-col justify-end h-full items-center gap-1.5">
-                            <div 
-                              className="w-full bg-gradient-to-t from-[#1A6B47] to-[#2ECC8F] rounded-t-sm transition-all duration-700 ease-out" 
-                              style={{ height: `${height}%` }}
-                            />
-                            <span className="text-[8px] text-white/40 font-mono">
-                              {["Jan", "Feb", "Mar", "Apr", "May", "Jun"][i]}
-                            </span>
+                    {/* Mock e-KYC Identity Card */}
+                    <div className="bg-white/5 border border-white/10 p-4 rounded-xl space-y-3 relative overflow-hidden">
+                      {/* Grid scanning effect */}
+                      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(46,204,143,0.1)_1px,transparent_1px)] bg-[size:100%_8px] pointer-events-none animate-pulse" />
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-[#E8F5EF] text-[#1A6B47] flex items-center justify-center font-bold text-xs">🪪</div>
+                          <div>
+                            <div className="text-[12px] font-bold text-white leading-tight">DigiLocker Verified</div>
+                            <div className="text-[9px] text-[#2ECC8F]">Government of India e-KYC</div>
                           </div>
-                        ))}
+                        </div>
+                        <span className="bg-[#2ECC8F]/20 text-[#2ECC8F] border border-[#2ECC8F]/30 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                          Seeded
+                        </span>
                       </div>
-                      <div className="flex justify-between items-center text-[10px] border-t border-white/5 pt-2 text-white/60 font-mono">
-                        <span>Earning Consistency:</span>
-                        <span className="text-[#2ECC8F] font-bold">97.4% Stable</span>
+
+                      {/* Verified details checklist */}
+                      <div className="space-y-1.5 border-t border-white/10 pt-2.5 text-[11px] font-mono text-white/80">
+                        <div className="flex justify-between items-center">
+                          <span>Full Name:</span>
+                          <span className="text-white font-semibold">RAMESH KUMAR</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span>Aadhaar UAN:</span>
+                          <span className="text-white font-semibold">XXXX-XXXX-8840</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span>e-Shram Status:</span>
+                          <span className="text-[#2ECC8F] font-bold">✓ ACTIVE REGISTERED</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-black/25 border border-white/5 rounded-xl p-3 text-[10px] font-mono text-white/60 space-y-1">
+                      <div className="flex justify-between">
+                        <span>L1 Attestation Hash:</span>
+                        <span className="text-white/80">0x7a83...f812</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Secured Encryption:</span>
+                        <span className="text-white/80">AES-256 GCM</span>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* Active Step 2 Content */}
+                {/* Active Step 1 Content (Financials) */}
+                {activeStep === 1 && (
+                  <div className="space-y-3.5 animate-fadeIn">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <div className="text-[13px] font-bold text-white">Consented Banking Analysis</div>
+                        <div className="text-[9px] text-emerald-300">Setu Account Aggregator Live Consent API</div>
+                      </div>
+                      
+                      {/* Interactive Consent Toggle */}
+                      <button 
+                        onClick={() => setHasConsent(!hasConsent)}
+                        className={`px-3 py-1 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer ${
+                          hasConsent 
+                            ? "bg-[#2ECC8F]/20 text-[#2ECC8F] border-[#2ECC8F]/30" 
+                            : "bg-red-500/20 text-red-400 border-red-500/30"
+                        }`}
+                      >
+                        {hasConsent ? "✓ Consent Granted" : "✗ Revoked (Mock)"}
+                      </button>
+                    </div>
+
+                    {hasConsent ? (
+                      <div className="bg-black/25 border border-white/5 rounded-xl p-3.5 space-y-3">
+                        {/* Custom Bar Chart representing income flow */}
+                        <div className="space-y-1">
+                          <span className="text-[10px] text-white/60 block font-mono">Monthly Deposits (Zomato / Swiggy Payouts):</span>
+                          <div className="flex justify-between items-end h-16 gap-3 px-1 pt-2">
+                            {[35, 55, 45, 80, 85, 70].map((height, i) => (
+                              <div key={i} className="flex-1 flex flex-col justify-end h-full items-center gap-1">
+                                <div 
+                                  className="w-full bg-gradient-to-t from-[#1A6B47] to-[#2ECC8F] rounded-t-sm transition-all duration-700 ease-out" 
+                                  style={{ height: `${height}%` }}
+                                />
+                                <span className="text-[7px] text-white/40 font-mono">
+                                  {["Jan", "Feb", "Mar", "Apr", "May", "Jun"][i]}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Earning stats */}
+                        <div className="flex justify-between items-center text-[10.5px] border-t border-white/10 pt-2 text-white/70 font-mono">
+                          <span>Stability Index:</span>
+                          <span className="text-[#2ECC8F] font-bold">98.4% Consistent</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-red-950/20 border border-red-500/15 rounded-xl p-6 text-center text-white/60 font-mono text-[11px] space-y-1 py-8">
+                        <div>⚠️ DATA SOURCE DE-AUTHORIZED</div>
+                        <div className="text-[9px] text-white/40">Provide consent to analyze transactional consistency.</div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Active Step 2 Content (Passport) */}
                 {activeStep === 2 && (
                   <div className="space-y-4 animate-fadeIn">
-                    <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center gap-3">
-                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-                        <span className="text-[16px] font-black text-[#1A6B47] leading-none">प्र</span>
+                    {/* Mini Reputation Passport Representation */}
+                    <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+                          <span className="text-[16px] font-black text-[#1A6B47] leading-none">प्र</span>
+                        </div>
+                        <div className="text-left">
+                          <div className="text-[13px] font-bold text-white">Professional Passport</div>
+                          <div className="text-[9px] text-emerald-300 font-mono">ID: PRMN-9842-1084</div>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0 text-left">
-                        <div className="text-[13px] font-bold text-white truncate">Professional Passport Issued</div>
-                        <div className="text-[10px] text-emerald-300">Cryptographically Signed & Locked</div>
+                      
+                      {/* Circular Progress Gauge */}
+                      <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
+                        <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                          <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
+                          <circle cx="18" cy="18" r="16" fill="none" stroke="#2ECC8F" strokeWidth="3" strokeDasharray="85, 100" strokeLinecap="round" />
+                        </svg>
+                        <span className="text-[11px] font-bold text-white">847</span>
                       </div>
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2ECC8F] animate-pulse" />
                     </div>
 
-                    <div className="bg-black/20 border border-white/5 rounded-xl p-4 space-y-3 font-mono text-[10px] text-white/70">
-                      <div className="flex justify-between">
-                        <span>Hashing Protocol:</span>
-                        <span className="text-white/90">SHA-256 (Pramaan ID)</span>
+                    <div className="bg-black/20 border border-white/5 rounded-xl p-3.5 space-y-2.5">
+                      <div className="flex justify-between items-center text-[10.5px] font-mono text-white/70">
+                        <span>W3C Cryptographic Proof:</span>
+                        <span className="text-[#2ECC8F] font-bold">✓ SIGNED VERIFIED</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Verification State:</span>
-                        <span className="text-[#2ECC8F] font-bold">PUBLICLY VERIFIABLE</span>
-                      </div>
-                      <div className="flex gap-2 pt-1.5 font-sans">
-                        <span className="flex-1 bg-[#1A6B47] text-center py-2 rounded-lg text-white font-bold text-[10px] uppercase tracking-wider cursor-pointer hover:bg-[#1A6B47]/80 transition-colors">
-                          Download PDF
-                        </span>
-                        <span className="flex-1 bg-white text-[#0D3D28] text-center py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider cursor-pointer hover:bg-white/95 transition-colors">
-                          Copy Share Link
-                        </span>
+                      
+                      <div className="flex gap-2 font-sans">
+                        <button 
+                          onClick={() => {
+                            setShareSuccess(true);
+                            setTimeout(() => setShareSuccess(false), 3000);
+                          }}
+                          className="flex-1 bg-[#1A6B47] text-center py-2 rounded-lg text-white font-bold text-[10px] uppercase tracking-wider cursor-pointer hover:bg-[#1A6B47]/85 transition-colors border border-transparent"
+                        >
+                          Verify Signature
+                        </button>
+                        <button 
+                          onClick={() => {
+                            setShareSuccess(true);
+                            setTimeout(() => setShareSuccess(false), 3000);
+                          }}
+                          className="flex-1 bg-white text-[#0D3D28] text-center py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider cursor-pointer hover:bg-white/95 transition-colors border border-transparent"
+                        >
+                          Share Credential
+                        </button>
                       </div>
                     </div>
+
+                    {/* Floating Success Alert */}
+                    {shareSuccess && (
+                      <div className="bg-emerald-500 text-white rounded-lg p-2.5 text-center text-[10.5px] font-bold animate-fadeIn shadow-lg">
+                        🎉 Cryptographic link copied to clipboard successfully!
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
