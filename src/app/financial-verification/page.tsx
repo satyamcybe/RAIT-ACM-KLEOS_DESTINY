@@ -25,7 +25,8 @@ import {
   Wallet,
   ReceiptText,
   TrendingUp,
-  ChevronRight
+  ChevronRight,
+  Search
 } from "lucide-react";
 
 type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'select_banks' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
@@ -143,10 +144,13 @@ export default function FinancialVerificationPage() {
   const [selectedFips, setSelectedFips] = useState<string[]>([]);
   const [discoveredAccounts, setDiscoveredAccounts] = useState<any[]>([]);
   const [selectedAccountIds, setSelectedAccountIds] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [months, setMonths] = useState<number>(12);
   const [ingestData, setIngestData] = useState<any>(null);
   const [error, setError] = useState("");
   const [showOtpToast, setShowOtpToast] = useState(false);
+  const [receivedOtp, setReceivedOtp] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const ALL_FIPS = [
     { id: 'HDFC', name: 'HDFC Bank', iconUri: 'https://cdn.finvu.in/finvulogos/hdfc_bank_icon.png' },
@@ -160,33 +164,76 @@ export default function FinancialVerificationPage() {
     { id: 'IBFIP', name: 'Indian Bank', iconUri: 'https://cdn.finvu.in/finvulogos/indian-bank-logo.png' },
   ];
 
-  const handleMobileSubmit = () => {
+  const handleMobileSubmit = async () => {
     if (mobile.length < 10) {
       setError("Please enter a valid 10-digit mobile number");
       return;
     }
     setError("");
-    setStep('otp_verify');
+    setIsLoading(true);
     
-    // Simulate OTP arriving via SMS
-    setTimeout(() => {
-      setShowOtpToast(true);
+    try {
+      const res = await fetch('/api/otp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile })
+      });
+      const data = await res.json();
       
-      // Simulate Auto-read SMS
-      setTimeout(() => {
-        setOtp("492015");
-        setShowOtpToast(false);
-      }, 2500);
-    }, 1500);
+      if (!res.ok) {
+        setError(data.error || "Failed to send OTP");
+        setIsLoading(false);
+        return;
+      }
+      
+      setStep('otp_verify');
+      setIsLoading(false);
+      
+      if (data.otp) {
+        setReceivedOtp(data.otp);
+        setShowOtpToast(true);
+        
+        // Auto-read SMS simulation
+        setTimeout(() => {
+          setOtp(data.otp);
+          setShowOtpToast(false);
+          // Optional: Auto submit could go here, but let's just auto-fill for visual effect
+        }, 2500);
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+      setIsLoading(false);
+    }
   };
 
-  const handleOtpSubmit = () => {
+  const handleOtpSubmit = async () => {
     if (otp.length < 6) {
       setError("Please enter a 6-digit OTP");
       return;
     }
     setError("");
-    setStep('select_banks');
+    setIsLoading(true);
+    
+    try {
+      const res = await fetch('/api/otp/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile, otp })
+      });
+      const data = await res.json();
+      
+      if (!res.ok) {
+        setError(data.error || "Invalid OTP");
+        setIsLoading(false);
+        return;
+      }
+      
+      setStep('select_banks');
+      setIsLoading(false);
+    } catch (err) {
+      setError("Network error. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   const toggleFipSelection = (id: string) => {
@@ -674,8 +721,9 @@ export default function FinancialVerificationPage() {
                 e.currentTarget.style.transform = "translateY(0)";
                 e.currentTarget.style.boxShadow = "0 2px 6px rgba(16, 185, 129, 0.2)";
               }}
+              disabled={isLoading}
             >
-              Get OTP
+              {isLoading ? "Sending..." : "Get OTP"}
             </button>
           </div>
         </div>
@@ -729,8 +777,9 @@ export default function FinancialVerificationPage() {
                 e.currentTarget.style.transform = "translateY(0)";
                 e.currentTarget.style.boxShadow = "0 2px 6px rgba(16, 185, 129, 0.2)";
               }}
+              disabled={isLoading}
             >
-              Verify
+              {isLoading ? "Verifying..." : "Verify"}
             </button>
           </div>
         </div>
@@ -743,15 +792,26 @@ export default function FinancialVerificationPage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-bold text-gray-900 text-sm">{selectedFips.length} banks selected</h3>
               <button 
-                onClick={() => setSelectedFips([])}
+                onClick={() => { setSelectedFips([]); setSearchQuery(""); }}
                 className="text-xs font-semibold text-gray-500 hover:text-gray-900"
               >
                 Reset
               </button>
             </div>
             
+            <div className="mb-4 relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search bank by name"
+                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-[#1A6B47] focus:border-[#1A6B47] transition-colors"
+              />
+            </div>
+            
             <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
-              {ALL_FIPS.map((fip) => {
+              {ALL_FIPS.filter(f => f.name.toLowerCase().includes(searchQuery.toLowerCase())).map((fip) => {
                 const isSelected = selectedFips.includes(fip.id);
                 return (
                   <div 
@@ -1117,7 +1177,7 @@ export default function FinancialVerificationPage() {
             <div>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Messages • Now</p>
               <p className="text-sm font-semibold text-gray-900 mt-1 leading-relaxed">
-                492015 is your OTP for Pramaan Account Aggregator. Do not share this with anyone.
+                {receivedOtp} is your OTP for Pramaan Account Aggregator. Do not share this with anyone.
               </p>
             </div>
           </div>
