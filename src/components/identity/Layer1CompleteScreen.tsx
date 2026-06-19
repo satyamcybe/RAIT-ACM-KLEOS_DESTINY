@@ -58,14 +58,14 @@ export default function Layer1CompleteScreen() {
             <Landmark className="w-7 h-7 text-amber-600" />
           </div>
           <div className="flex-1">
-            <div className="font-semibold text-slate-900 text-sm">Layer 2 · Financial Verification</div>
+            <div className="font-semibold text-slate-900 text-sm">Financial Verification</div>
             <div className="text-xs text-slate-500 mt-0.5">Connect your bank account to verify earnings</div>
           </div>
           <ChevronRight className="w-5 h-5 text-amber-500 flex-shrink-0" />
         </button>
 
         <p className="text-xs text-slate-400 text-center mt-6">
-          You can always come back to complete Layer 2 later.
+          You can always come back to complete financial verification later.
         </p>
       </div>
     </div>

@@ -17,7 +17,7 @@ export default function OnboardingLayout({
             </div>
             <span className="font-bold text-slate-900 tracking-tight">Praa<span className="text-amber-500">maan</span></span>
           </Link>
-          <div className="text-xs text-slate-400 font-medium tracking-wide">Layer 1 of 3</div>
+          {/* Layer references removed */}
         </div>
       </div>
 

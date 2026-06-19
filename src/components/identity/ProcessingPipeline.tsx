@@ -27,7 +27,7 @@ const getDetail = (index: number): string => {
     case 4: return "UAN: 10-****-1234-5678 extracted";
     case 5: return "Verified · Registration active · Sector: Transport";
     case 6: return "Name match ✓ · DOB match ✓ · Photo match ✓";
-    case 7: return "Profile generated · Layer 1 complete";
+    case 7: return "Profile generated · Identity verification complete";
     default: return "";
   }
 };
