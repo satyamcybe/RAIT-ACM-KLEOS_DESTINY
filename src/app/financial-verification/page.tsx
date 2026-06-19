@@ -412,7 +412,6 @@ export default function FinancialVerificationPage() {
             Proceed To Transaction Intelligence
           </button>
         </div>
-        </div>
       )}
 
       {/* ----------------- OTP TOAST NOTIFICATION ----------------- */}
