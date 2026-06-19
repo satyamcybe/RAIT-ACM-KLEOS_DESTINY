@@ -17,7 +17,7 @@ export default function Footer() {
             <img 
               src="/logo-text.png" 
               alt="Pranam Logo" 
-              className="h-8 w-auto object-contain"
+              className="h-14 w-auto object-contain"
             />
           </Link>
 

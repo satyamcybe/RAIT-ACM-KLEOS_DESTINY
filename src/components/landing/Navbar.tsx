@@ -12,7 +12,7 @@ export default function Navbar() {
           <img 
             src="/logo-text.png" 
             alt="Pranam Logo" 
-            className="h-8 w-auto object-contain"
+            className="h-12 w-auto object-contain mix-blend-multiply"
           />
         </Link>
 

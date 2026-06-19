@@ -152,19 +152,6 @@ export default function LabourPassportSection() {
                 </div>
               ))}
             </div>
-
-            {/* Delivery Partner Image to fill whitespace and create visual symmetry */}
-            <div className="mt-10 relative rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-md max-w-[380px] w-full">
-              <img 
-                src="/delivery-partner.png" 
-                alt="Pranam Delivery Partner" 
-                className="w-full h-auto object-cover hover:scale-[1.03] transition-transform duration-500 pointer-events-none"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-white">
-                <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Verified Gig Partner</p>
-                <p className="text-[14px] font-bold mt-0.5">Ramesh Kumar &middot; 44 Months Tenure</p>
-              </div>
-            </div>
           </div>
 
         </div>
