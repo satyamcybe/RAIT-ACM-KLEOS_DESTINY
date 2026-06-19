@@ -2,7 +2,13 @@ import { NextResponse } from 'next/server';
 
 // In-memory store for OTPs (Mobile Number -> { otp, expiresAt })
 // Note: In production, use Redis or a Database
-const otpStore = new Map<string, { otp: string, expiresAt: number }>();
+const globalForOtp = globalThis as unknown as {
+  otpStore: Map<string, { otp: string, expiresAt: number }>;
+};
+
+export const otpStore = globalForOtp.otpStore || new Map<string, { otp: string, expiresAt: number }>();
+
+if (process.env.NODE_ENV !== 'production') globalForOtp.otpStore = otpStore;
 
 export async function POST(request: Request) {
   try {
@@ -36,4 +42,3 @@ export async function POST(request: Request) {
 }
 
 // Helper export to access the store in verify route
-export { otpStore };
