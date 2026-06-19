@@ -1,44 +1,50 @@
-// ===========================================
-// PRANAM - Financial Consent API Route
-// POST: Create consent request
-// GET: Get consent status
-// ===========================================
+// API Route: POST /api/financial/consent - Create consent
+// API Route: GET /api/financial/consent?handle=xxx - Check consent status
 
-import { NextRequest } from "next/server";
-import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
-import { financialService } from "@/features/financial/services/FinancialService";
-import { getAuthUserId } from "@/lib/auth/clerk";
+import { NextRequest, NextResponse } from "next/server";
+import { createConsent, pollConsentStatus } from "@/features/financial/consent.service";
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = await getAuthUserId();
     const body = await request.json();
-    const { fiTypes } = body;
+    const { workerId, mobileNumber } = body;
 
-    if (!fiTypes || !Array.isArray(fiTypes)) {
-      return errorResponse("fiTypes array is required");
+    if (!workerId) {
+      return NextResponse.json({ success: false, error: "workerId is required" }, { status: 400 });
     }
 
-    // TODO: Implement consent creation flow
-    const vua = `${userId}@pranam-aa-mock`;
-    const result = await financialService.createConsent(vua, fiTypes);
+    const result = await createConsent(workerId, mobileNumber || "9999999999");
 
-    return successResponse(result, "Consent request created");
-  } catch (error) {
-    return serverErrorResponse(error);
+    return NextResponse.json({
+      success: true,
+      message: "Consent request created",
+      data: result,
+    });
+  } catch (error: any) {
+    console.error("Consent API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    await getAuthUserId();
+    const { searchParams } = new URL(request.url);
+    const handle = searchParams.get("handle");
+    const workerId = searchParams.get("workerId");
 
-    // TODO: Fetch current consent status
-    return successResponse({
-      status: "none",
-      fiTypes: [],
+    if (!handle || !workerId) {
+      return NextResponse.json({ success: false, error: "handle and workerId are required" }, { status: 400 });
+    }
+
+    const result = await pollConsentStatus(workerId, handle);
+
+    return NextResponse.json({
+      success: true,
+      message: "Consent status retrieved",
+      data: result,
     });
-  } catch (error) {
-    return serverErrorResponse(error);
+  } catch (error: any) {
+    console.error("Consent Status API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

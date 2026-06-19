@@ -1,22 +1,39 @@
-// ===========================================
-// PRANAM - Financial Fetch API Route
-// GET: Fetch financial data after consent
-// ===========================================
+// API Route: POST /api/financial/fetch - Fetch FI data after consent approval
 
-import { successResponse, serverErrorResponse } from "@/lib/utils/response";
-import { financialService } from "@/features/financial/services/FinancialService";
-import { getAuthUserId } from "@/lib/auth/clerk";
+import { NextRequest, NextResponse } from "next/server";
+import { fetchAndStoreFinancialData } from "@/features/financial/fetch.service";
+import { generateFinancialProfile } from "@/features/financial/financial-profile.service";
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
-    await getAuthUserId();
+    const body = await request.json();
+    const { workerId, consentId } = body;
 
-    // TODO: Get active consent and fetch data
-    const consentId = "mock_consent_id"; // Placeholder
-    const data = await financialService.fetchFinancialData(consentId);
+    if (!workerId || !consentId) {
+      return NextResponse.json(
+        { success: false, error: "workerId and consentId are required" },
+        { status: 400 }
+      );
+    }
 
-    return successResponse(data);
-  } catch (error) {
-    return serverErrorResponse(error);
+    // 1. Fetch and store transactions
+    const fetchResult = await fetchAndStoreFinancialData(workerId, consentId);
+
+    // 2. Analyze and generate financial profile
+    const profileResult = await generateFinancialProfile(workerId, fetchResult.transactions);
+
+    return NextResponse.json({
+      success: true,
+      message: "Financial data fetched and profile generated",
+      data: {
+        transactionsStored: fetchResult.transactionsStored,
+        accounts: fetchResult.accounts,
+        profile: profileResult.profile,
+        analysis: profileResult.analysis,
+      },
+    });
+  } catch (error: any) {
+    console.error("FI Fetch API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
