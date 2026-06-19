@@ -73,11 +73,25 @@ export default function ProcessingPipeline() {
     };
   }, [router]);
 
+  const completedCount = steps.filter(s => s.status === 'complete').length;
+  const progressPercent = (completedCount / steps.length) * 100;
+
   return (
-    <div className="space-y-3">
-      {steps.map((step) => (
-        <ProcessingStep key={step.id} step={step} />
-      ))}
+    <div className="space-y-6">
+      {/* Dynamic Progress Bar */}
+      <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
+        <div 
+          className="bg-emerald-600 h-full rounded-full transition-all duration-500 ease-out shadow-xs" 
+          style={{ width: `${progressPercent}%` }}
+        />
+      </div>
+
+      {/* Steps List Wrapper */}
+      <div className="space-y-3.5 bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+        {steps.map((step) => (
+          <ProcessingStep key={step.id} step={step} />
+        ))}
+      </div>
     </div>
   );
 }
