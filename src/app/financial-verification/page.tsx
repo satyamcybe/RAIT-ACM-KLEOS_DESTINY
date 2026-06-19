@@ -22,7 +22,7 @@ import {
   Network
 } from "lucide-react";
 
-type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
+type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'select_banks' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
 
 const ALL_BANKS = [
   { id: 'hdfc', name: 'HDFC Bank', icon: '🏛️' },
@@ -37,12 +37,25 @@ export default function FinancialVerificationPage() {
   // State for user choices
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
+  const [selectedFips, setSelectedFips] = useState<string[]>([]);
   const [discoveredAccounts, setDiscoveredAccounts] = useState<any[]>([]);
   const [selectedAccountIds, setSelectedAccountIds] = useState<string[]>([]);
   const [months, setMonths] = useState<number>(12);
   const [ingestData, setIngestData] = useState<any>(null);
   const [error, setError] = useState("");
   const [showOtpToast, setShowOtpToast] = useState(false);
+
+  const ALL_FIPS = [
+    { id: 'HDFC', name: 'HDFC Bank', iconUri: 'https://cdn.finvu.in/finvulogos/hdfc_bank_icon.png' },
+    { id: 'CANARA', name: 'Canara Bank', iconUri: 'https://cdn.finvu.in/finvulogos/canarabank_icon.jpg' },
+    { id: 'SBI', name: 'State Bank of India', iconUri: 'https://cdn.finvu.in/finvulogos/sbi_icon.jpg' },
+    { id: 'ICICI-FIP', name: 'ICICI Bank', iconUri: 'https://cdn.finvu.in/finvulogos/icicibank_icon.jpg' },
+    { id: 'RBL', name: 'RBL Bank', iconUri: 'https://cdn.finvu.in/finvulogos/rbl_bank_icon.png' },
+    { id: 'KOTAK', name: 'Kotak Mahindra Bank', iconUri: 'https://cdn.finvu.in/finvulogos/kotak_bank_icon.png' },
+    { id: 'BOB', name: 'Bank of Baroda', iconUri: 'https://cdn.finvu.in/finvulogos/bob_icon.png' },
+    { id: 'AXIS', name: 'Axis Bank', iconUri: 'https://cdn.finvu.in/finvulogos/axisbank_icon.png' },
+    { id: 'IBFIP', name: 'Indian Bank', iconUri: 'https://cdn.finvu.in/finvulogos/indian-bank-logo.png' },
+  ];
 
   const handleMobileSubmit = () => {
     if (mobile.length < 10) {
@@ -70,16 +83,61 @@ export default function FinancialVerificationPage() {
       return;
     }
     setError("");
+    setStep('select_banks');
+  };
+
+  const toggleFipSelection = (id: string) => {
+    setSelectedFips(prev => 
+      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
+    );
+    setError("");
+  };
+
+  const handleBankSelectionSubmit = () => {
+    if (selectedFips.length === 0) {
+      setError("Please select at least one bank to search");
+      return;
+    }
+    setError("");
     setStep('discovering');
     
-    // Simulate AA discovering Financial Institutions
+    // Simulate AA discovering Financial Institutions using Finvu SDK schema
     setTimeout(() => {
-      const mockDiscovered = [
-        { id: 'sbi_1', bankName: 'State Bank of India', accountNumber: `XXXX1234` },
-        { id: 'hdfc_1', bankName: 'HDFC Bank', accountNumber: `XXXX5678` },
+      const allMockAccounts = [
+        { 
+          id: 'IBFIP', 
+          bankName: 'Indian Bank', 
+          accountNumber: 'XXXXX2108', 
+          accType: 'SAVINGS',
+          FIType: 'DEPOSIT',
+          iconUri: 'https://cdn.finvu.in/finvulogos/indian-bank-logo.png' 
+        },
+        { 
+          id: 'ICICI-FIP', 
+          bankName: 'ICICI Bank', 
+          accountNumber: 'XXXXX3054', 
+          accType: 'CURRENT',
+          FIType: 'DEPOSIT',
+          iconUri: 'https://cdn.finvu.in/finvulogos/icicibank_icon.jpg' 
+        },
+        { 
+          id: 'HDFC', 
+          bankName: 'HDFC Bank', 
+          accountNumber: 'XXXXX9912', 
+          accType: 'SAVINGS',
+          FIType: 'DEPOSIT',
+          iconUri: 'https://cdn.finvu.in/finvulogos/hdfc_bank_icon.png' 
+        }
       ];
-      setDiscoveredAccounts(mockDiscovered);
-      setSelectedAccountIds(['sbi_1', 'hdfc_1']); // Default select
+      
+      const discovered = allMockAccounts.filter(acc => selectedFips.includes(acc.id));
+      // If none of the selected banks have accounts, add a fallback or just show empty
+      if (discovered.length === 0) {
+          discovered.push(allMockAccounts[0]); // fallback for demo
+      }
+
+      setDiscoveredAccounts(discovered);
+      setSelectedAccountIds(discovered.map(a => a.id)); // Default select all found
       setStep('accounts_found');
     }, 2500);
   };
@@ -139,6 +197,7 @@ export default function FinancialVerificationPage() {
           {step === 'intro' && "Connect Financial Records"}
           {step === 'mobile_verify' && "Enter Mobile Number"}
           {step === 'otp_verify' && "Verify Mobile"}
+          {step === 'select_banks' && "Select Banks"}
           {step === 'discovering' && "Discovering Institutions..."}
           {step === 'accounts_found' && "Accounts Found"}
           {step === 'linked' && "Accounts Linked"}
@@ -150,6 +209,7 @@ export default function FinancialVerificationPage() {
           {step === 'intro' && "We use consent-based financial sharing to generate your Pramaan Gig Passport."}
           {step === 'mobile_verify' && "We will check for linked bank accounts securely across the AA network."}
           {step === 'otp_verify' && `Enter the OTP sent to +91 ${mobile}`}
+          {step === 'select_banks' && "Bank accounts linked to your mobile number will be fetched."}
           {step === 'discovering' && "Finding Available Financial Institutions (FIPs)..."}
           {step === 'accounts_found' && "Select the accounts you want to connect to Pramaan."}
           {step === 'linked' && "Your selected accounts have been successfully linked to your AA profile."}
@@ -238,6 +298,64 @@ export default function FinancialVerificationPage() {
         </div>
       )}
 
+      {/* ----------------- SCREEN 3.5: SELECT BANKS (Profile Discovery) ----------------- */}
+      {step === 'select_banks' && (
+        <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-bold text-gray-900 text-sm">{selectedFips.length} banks selected</h3>
+              <button 
+                onClick={() => setSelectedFips([])}
+                className="text-xs font-semibold text-gray-500 hover:text-gray-900"
+              >
+                Reset
+              </button>
+            </div>
+            
+            <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
+              {ALL_FIPS.map((fip) => {
+                const isSelected = selectedFips.includes(fip.id);
+                return (
+                  <div 
+                    key={fip.id} 
+                    onClick={() => toggleFipSelection(fip.id)}
+                    className={`flex items-center p-3 border rounded-xl cursor-pointer transition-all ${isSelected ? 'border-[#1A6B47] bg-[#F4FAF7]' : 'border-gray-200 hover:border-gray-300'}`}
+                  >
+                    <div className="w-8 h-8 rounded bg-white border border-gray-100 flex items-center justify-center mr-3 p-1 shrink-0">
+                      <img src={fip.iconUri} alt={fip.name} className="max-w-full max-h-full object-contain" />
+                    </div>
+                    
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-900 text-sm">{fip.name}</p>
+                    </div>
+
+                    <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${isSelected ? 'bg-[#1A6B47] border-[#1A6B47]' : 'border border-gray-300 bg-white'}`}>
+                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-6 flex items-start gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100">
+              <input type="checkbox" className="mt-0.5 rounded text-[#1A6B47] focus:ring-[#1A6B47]" defaultChecked />
+              <p className="text-xs text-gray-500 leading-relaxed">
+                I consent to checking any existing Account Aggregator profiles linked to my mobile number, to enhance user experience. <span className="text-[#1A6B47] font-semibold">Learn more</span>
+              </p>
+            </div>
+
+            {error && <p className="text-sm font-semibold text-red-500 text-center mt-4">{error}</p>}
+          </div>
+
+          <button
+            onClick={handleBankSelectionSubmit}
+            className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] shadow-sm"
+          >
+            Proceed
+          </button>
+        </div>
+      )}
+
       {/* ----------------- SCREEN 4: DISCOVERING FIPs ----------------- */}
       {step === 'discovering' && (
         <div className="rounded-2xl border border-gray-100 bg-white p-12 text-center space-y-6 shadow-xs animate-in zoom-in-95 duration-300">
@@ -272,8 +390,15 @@ export default function FinancialVerificationPage() {
                       {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
                     </div>
                     
+                    <div className="w-10 h-10 rounded bg-white border border-gray-100 flex items-center justify-center mr-3 p-1 shrink-0">
+                      <img src={acc.iconUri} alt={acc.bankName} className="max-w-full max-h-full object-contain" />
+                    </div>
+
                     <div className="flex-1">
-                      <p className="font-bold text-gray-900 text-sm">{acc.bankName}</p>
+                      <div className="flex justify-between items-center">
+                        <p className="font-bold text-gray-900 text-sm">{acc.bankName}</p>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-gray-100 text-gray-600">{acc.accType}</span>
+                      </div>
                       <p className="text-xs text-gray-500 font-mono font-medium mt-0.5">{acc.accountNumber}</p>
                     </div>
                   </div>
@@ -337,13 +462,18 @@ export default function FinancialVerificationPage() {
 
               <div className="flex gap-4 items-start">
                 <div className="mt-1"><Landmark className="w-5 h-5 text-gray-400" /></div>
-                <div>
+                <div className="flex-1">
                   <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Selected Accounts</p>
-                  {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(acc => (
-                    <p key={acc.id} className="text-sm font-semibold text-gray-900 mt-1">
-                      {acc.bankName} {acc.accountNumber}
-                    </p>
-                  ))}
+                  <div className="space-y-2 mt-2">
+                    {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(acc => (
+                      <div key={acc.id} className="flex items-center gap-2">
+                        <img src={acc.iconUri} alt={acc.bankName} className="w-5 h-5 object-contain" />
+                        <p className="text-sm font-semibold text-gray-900">
+                          {acc.bankName} <span className="font-mono text-gray-500 text-xs ml-1">{acc.accountNumber}</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               
