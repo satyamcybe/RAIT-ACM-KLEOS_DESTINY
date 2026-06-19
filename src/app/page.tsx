@@ -1,14 +1,27 @@
-// ===========================================
-// PRANAM - Home Page (redirects to onboarding or dashboard)
-// ===========================================
+import Navbar from "@/components/landing/Navbar";
+import HeroSection from "@/components/landing/HeroSection";
+import TrustedByBar from "@/components/landing/TrustedByBar";
+import FeaturesBar from "@/components/landing/FeaturesBar";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import TrustOverviewSection from "@/components/landing/TrustOverviewSection";
+import LabourPassportSection from "@/components/landing/LabourPassportSection";
+import InstitutionsSection from "@/components/landing/InstitutionsSection";
+import FinalCTASection from "@/components/landing/FinalCTASection";
+import Footer from "@/components/landing/Footer";
 
-import { redirect } from "next/navigation";
-
-export default function HomePage() {
-  // TODO: Check auth status and redirect accordingly
-  // If authenticated + profile complete -> /dashboard
-  // If authenticated + profile incomplete -> /onboarding
-  // If not authenticated -> /sign-in
-
-  redirect("/onboarding");
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-white">
+      <Navbar />
+      <HeroSection />
+      <TrustedByBar />
+      <FeaturesBar />
+      <HowItWorksSection />
+      <TrustOverviewSection />
+      <LabourPassportSection />
+      <InstitutionsSection />
+      <FinalCTASection />
+      <Footer />
+    </main>
+  );
 }

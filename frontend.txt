@@ -1,0 +1,1044 @@
+# PRAMAAN — LAYER 1 COMPLETE FRONTEND FLOW
+
+## Context
+
+You are building the complete Layer 1 identity verification user journey for Pramaan.
+
+Pramaan is an AI-powered trust and reputation infrastructure for India's gig workers.
+Layer 1 is the identity verification layer — it connects the user's DigiLocker account,
+retrieves their eShram card, parses their UAN, cross-validates identity data, and
+generates a verified worker profile.
+
+This is a FRONTEND-ONLY build. All API calls are to placeholder route handlers.
+Do NOT implement backend logic. Do NOT call real DigiLocker or eShram APIs.
+Use mock/sandbox responses where needed.
+
+---
+
+## Architecture Flow (implement exactly in this order)
+
+Landing Page
+  → Generate Passport CTA
+  → /onboarding (Layer 1 entry)
+  → DigiLocker Login screen
+  → OAuth redirect (sandbox)
+  → /api/digilocker/callback (receives token)
+  → /identity/processing (live progress screen)
+      Step 1: Fetch user details
+      Step 2: Fetch document listing
+      Step 3: Find eShram card
+      Step 4: Download eShram PDF
+      Step 5: Parse UAN
+      Step 6: eShram sandbox verify
+      Step 7: Cross validation
+      Step 8: Generate worker profile
+  → /identity/complete (Layer 1 success screen)
+  → Proceed to Layer 2 CTA
+
+---
+
+## Tech Stack (already installed in monorepo)
+
+- Next.js 15 App Router
+- TypeScript
+- TailwindCSS
+- ShadCN UI
+- Framer Motion
+- Lucide React
+
+DO NOT install new packages.
+DO NOT modify files outside the paths listed below.
+
+---
+
+## File Structure to Create
+
+frontend/src/app/(onboarding)/
+  layout.tsx                       ← shared onboarding shell layout
+  onboarding/
+    page.tsx                       ← Layer 1 entry / DigiLocker login screen
+  identity/
+    processing/
+      page.tsx                     ← live step-by-step processing screen
+    complete/
+      page.tsx                     ← Layer 1 success + worker profile card
+
+frontend/src/app/api/
+  digilocker/
+    callback/
+      route.ts                     ← OAuth callback mock handler
+  identity/
+    verify/
+      route.ts                     ← mock eShram verify endpoint
+    profile/
+      route.ts                     ← mock worker profile generator
+
+frontend/src/components/identity/
+  DigiLockerConnectCard.tsx        ← the connect button card
+  OAuthRedirectScreen.tsx          ← "redirecting to DigiLocker..." overlay
+  ProcessingStep.tsx               ← single animated step row component
+  ProcessingPipeline.tsx           ← all 8 steps composed together
+  WorkerProfileCard.tsx            ← the generated profile card
+  VerificationBadge.tsx            ← reusable verified/failed badge
+  Layer1CompleteScreen.tsx         ← success state with profile + CTA
+
+frontend/src/types/
+  identity.ts                      ← all Layer 1 TypeScript interfaces
+
+frontend/src/lib/
+  digilocker/
+    mock-client.ts                 ← mock DigiLocker API responses
+    oauth.ts                       ← OAuth URL builder
+  eshram/
+    mock-client.ts                 ← mock eShram API responses
+    parser.ts                      ← UAN extraction utility
+
+---
+
+## Design System
+
+Use the same design tokens as the landing page:
+  Background:       #FFFFFF
+  Primary accent:   #F59E0B (amber)   ← Layer 1 / identity color
+  Identity purple:  #7C3AED
+  Text primary:     #0F172A
+  Text muted:       #64748B
+  Card:             bg-white border border-slate-100 rounded-2xl shadow-sm
+  Success:          #10B981 (teal-500)
+  Error:            #EF4444
+
+Progress/step states:
+  pending:   gray icon, gray text, bg-slate-50
+  active:    amber icon pulsing, bold text, bg-amber-50 border border-amber-200
+  complete:  teal check icon, text-slate-600, bg-teal-50
+  failed:    red X icon, red text, bg-red-50
+
+---
+
+## Page 1 — Onboarding Entry Screen
+
+Route: /onboarding
+File: frontend/src/app/(onboarding)/onboarding/page.tsx
+
+This is the first screen after "Generate Passport" is clicked on the landing page.
+
+Layout: Centered single column, max-width 480px, vertically centered in viewport.
+
+Top section:
+  - Small breadcrumb: "Step 1 of 3 · Identity Verification"
+    Style: text-xs text-slate-400 uppercase tracking-wider
+  - Progress bar: 3 segments, first segment active (amber)
+    Each segment: h-1.5 rounded-full, active = bg-amber-500, inactive = bg-slate-100
+    Gap: gap-1 between segments
+
+Heading block:
+  - Icon: ShieldCheck from Lucide, 32px, text-purple-600
+  - H1: "Verify your identity"  font-bold text-2xl text-slate-900
+  - Subtext: "We use DigiLocker — India's official government document wallet —
+              to verify your identity. This takes less than 60 seconds."
+    Style: text-sm text-slate-500 max-w-sm
+
+DigiLockerConnectCard component:
+  Card: bg-white border border-slate-200 rounded-2xl p-6 shadow-sm
+  
+  Inside the card:
+    - DigiLocker logo placeholder:
+        bg-blue-50 rounded-xl px-4 py-2 inline-flex items-center gap-2
+        Blue square 24x24 + "DigiLocker" text-blue-700 font-semibold text-sm
+    - Verification list (what will be accessed):
+        Three rows with Lucide Check icons in teal-500:
+        "Your name and Aadhaar number"
+        "Your eShram card (if registered)"
+        "Your government document list"
+        Each row: flex items-center gap-2, text-sm text-slate-600
+    - Consent note:
+        bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-800
+        "We only read your documents. We never modify, delete,
+         or share them without your explicit consent."
+    - CTA button (full width):
+        "Connect DigiLocker →"
+        bg-slate-900 text-white rounded-xl py-3 font-semibold text-sm w-full
+        onClick: triggers OAuthRedirectScreen then navigates to OAuth URL
+
+Bottom note:
+  "Protected by DigiLocker · Government of India"
+  text-xs text-slate-400 text-center mt-4
+
+OAuthRedirectScreen component (shown as overlay on button click, 1.5s):
+  - Full screen overlay bg-white
+  - Center: spinning Loader2 icon from Lucide, 32px, text-amber-500
+  - Text: "Redirecting to DigiLocker..." text-slate-600
+  - Subtext: "You will be returned here automatically"
+  - After 1.5s (mock): navigate to /identity/processing
+
+---
+
+## Page 2 — Processing Screen
+
+Route: /identity/processing
+File: frontend/src/app/(onboarding)/identity/processing/page.tsx
+
+This is the CORE screen. It shows the 8-step verification pipeline executing in real time
+(simulated with timed delays in the mock client).
+
+Layout: Centered column, max-width 560px
+
+Header:
+  - H1: "Verifying your identity..."
+  - Subtext: "This usually takes 20–30 seconds. Please stay on this page."
+  - Animated dots after "identity..." — three dots cycling opacity
+
+ProcessingPipeline component:
+  8 steps rendered as ProcessingStep rows, executing sequentially with delays.
+
+  Step delays (simulate real API latency):
+    Step 1: starts immediately,  completes after 1.2s
+    Step 2: starts after step 1, completes after 0.8s
+    Step 3: starts after step 2, completes after 1.0s
+    Step 4: starts after step 3, completes after 1.5s
+    Step 5: starts after step 4, completes after 0.9s
+    Step 6: starts after step 5, completes after 1.3s
+    Step 7: starts after step 6, completes after 1.1s
+    Step 8: starts after step 7, completes after 0.7s
+
+Step definitions (in order):
+
+  Step 1 — Fetch user details
+    Icon: User
+    Label: "Fetching your DigiLocker profile"
+    Detail on complete: "Raju Kumar · Aadhaar ****1234 · DOB 15 Aug 1992"
+
+  Step 2 — Document listing
+    Icon: FileText
+    Label: "Retrieving your document list"
+    Detail on complete: "6 documents found in your DigiLocker"
+
+  Step 3 — Find eShram card
+    Icon: Search (Lucide)
+    Label: "Looking for eShram registration"
+    Detail on complete: "eShram card found · UAN pending extraction"
+
+  Step 4 — Download eShram PDF
+    Icon: Download
+    Label: "Downloading eShram certificate"
+    Detail on complete: "PDF downloaded · 2.3 KB"
+
+  Step 5 — Parse UAN
+    Icon: ScanLine (Lucide) or Hash
+    Label: "Extracting UAN from certificate"
+    Detail on complete: "UAN: 10-****-1234-5678 extracted"
+
+  Step 6 — eShram verify
+    Icon: ShieldCheck
+    Label: "Verifying with eShram database"
+    Detail on complete: "Verified · Registration active · Sector: Transport"
+
+  Step 7 — Cross validation
+    Icon: GitMerge (Lucide) or CheckCheck
+    Label: "Cross-validating DigiLocker + eShram"
+    Detail on complete: "Name match ✓ · DOB match ✓ · Photo match ✓"
+
+  Step 8 — Generate worker profile
+    Icon: Sparkles (Lucide) or Award
+    Label: "Building your worker profile"
+    Detail on complete: "Profile generated · Layer 1 complete"
+
+ProcessingStep component spec:
+  Props: { step: number, label: string, detail: string, status: 'pending' | 'active' | 'complete' | 'failed' }
+
+  Layout: flex items-start gap-4 p-4 rounded-xl transition-all duration-300
+
+  Left: Icon circle (40px)
+    pending:  bg-slate-100, icon text-slate-400
+    active:   bg-amber-100, icon text-amber-600, add Framer Motion pulse on circle
+    complete: bg-teal-100, replace icon with Check icon text-teal-600
+    failed:   bg-red-100, X icon text-red-600
+
+  Center:
+    Step number: "Step N" text-xs text-slate-400
+    Label: text-sm font-semibold text-slate-900 (active) or text-slate-500 (pending)
+    Detail (only show when complete): text-xs text-teal-700 font-mono mt-1
+      Animate in: opacity 0 → 1, y: 4 → 0
+
+  Right:
+    pending:  empty
+    active:   "Processing..." text-xs text-amber-600 + spinning Loader2 icon 14px
+    complete: "Done" text-xs text-teal-600
+    failed:   "Failed" text-xs text-red-600
+
+  Active step: bg-amber-50 border border-amber-100
+  Complete step: bg-slate-50
+  Pending step: transparent
+
+After all 8 steps complete:
+  - Wait 0.8s
+  - Navigate to /identity/complete
+
+Bottom of processing screen (always visible):
+  Security note: "All data is processed securely. Nothing leaves our servers without your consent."
+  Text: text-xs text-slate-400 text-center mt-6
+
+---
+
+## Page 3 — Layer 1 Complete Screen
+
+Route: /identity/complete
+File: frontend/src/app/(onboarding)/identity/complete/page.tsx
+
+Layout: Centered column, max-width 480px
+
+Top: Success animation
+  - Large check circle: 72px circle, bg-teal-500, Check icon white 36px
+  - Animate: scale 0 → 1.1 → 1.0, duration 0.5s, ease spring
+  - "Identity Verified" h2 text-2xl font-bold text-slate-900 mt-4
+  - Subtext: "Your identity has been verified successfully. Here is your worker profile."
+    text-sm text-slate-500
+
+WorkerProfileCard component:
+  Card: bg-gradient-to-br from-purple-600 to-purple-800 rounded-3xl p-6 text-white
+  Width: 100%
+
+  Top row:
+    Left: Avatar circle bg-white/20 w-12 h-12 rounded-full flex items-center
+          Initials "RK" font-bold text-lg
+    Right of avatar: Name "Raju Kumar" font-bold text-lg
+                     "Delivery Partner" text-sm opacity-75
+    Far right: "L1 Verified" badge
+               bg-white/20 rounded-full px-3 py-1 text-xs font-semibold
+
+  Divider: border-t border-white/20 my-4
+
+  Verification grid (2 columns):
+    Row 1: "Aadhaar"    ✓ Verified  |  "eShram"    ✓ Verified
+    Row 2: "UAN"        ✓ Extracted |  "DigiLocker" ✓ Connected
+    Each item: label text-xs opacity-60, value text-xs font-semibold flex items-center gap-1
+
+  Bottom row:
+    "Sector: Transport & Delivery" | "Registered since: 2021"
+    Text: text-xs opacity-70
+
+  Below card (outside gradient):
+    Three VerificationBadge components in a flex row:
+      Badge 1: "DigiLocker Verified"  bg-blue-50 border border-blue-200 text-blue-700
+      Badge 2: "eShram Verified"      bg-purple-50 border border-purple-200 text-purple-700
+      Badge 3: "UAN Extracted"        bg-teal-50 border border-teal-200 text-teal-700
+    Each: flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium
+
+Layer 2 CTA block:
+  Separator: border-t border-slate-100 mt-8 pt-6
+
+  "What's Next" label: text-xs uppercase tracking-wider text-slate-400
+
+  Next step card:
+    bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-center gap-4
+
+    Left: Landmark icon 28px text-amber-600
+    Center:
+      "Layer 2 · Financial Verification" font-semibold text-slate-900 text-sm
+      "Connect your bank account to verify earnings"
+        text-xs text-slate-500 mt-0.5
+    Right: arrow ChevronRight icon text-amber-500
+
+    The entire card is a button onClick → navigate to /financial-verification
+
+  OR show as full-width button:
+    "Continue to Financial Verification →"
+    bg-amber-500 text-white rounded-xl py-3 font-semibold text-sm w-full mt-4
+
+Below CTA:
+  "You can always come back to complete Layer 2 later."
+  text-xs text-slate-400 text-center
+
+---
+
+## API Route Handlers (mock only)
+
+### /api/digilocker/callback/route.ts
+
+Method: GET
+Query params: code (OAuth code)
+
+Mock response (200):
+{
+  "success": true,
+  "accessToken": "mock_token_abc123",
+  "user": {
+    "name": "Raju Kumar",
+    "aadhaarMasked": "XXXX-XXXX-1234",
+    "dob": "1992-08-15",
+    "gender": "M"
+  }
+}
+
+After returning response, redirect to /identity/processing
+
+### /api/identity/verify/route.ts
+
+Method: POST
+Body: { uan: string }
+
+Mock response (200):
+{
+  "success": true,
+  "uan": "10-2021-1234-5678",
+  "name": "Raju Kumar",
+  "sector": "Transport",
+  "registrationDate": "2021-03-15",
+  "status": "Active"
+}
+
+### /api/identity/profile/route.ts
+
+Method: POST
+Body: { digilockerData: object, eshramData: object }
+
+Mock response (200):
+{
+  "success": true,
+  "workerId": "WRK_20241234",
+  "layer1Complete": true,
+  "verifiedAt": "2024-01-15T10:30:00Z",
+  "profile": {
+    "name": "Raju Kumar",
+    "sector": "Transport & Delivery",
+    "verifications": {
+      "aadhaar": true,
+      "eshram": true,
+      "uan": true,
+      "digilocker": true
+    }
+  }
+}
+
+---
+
+## TypeScript Interfaces
+
+### frontend/src/types/identity.ts
+
+export interface DigiLockerUser {
+  name: string
+  aadhaarMasked: string
+  dob: string
+  gender: string
+}
+
+export interface DigiLockerDocument {
+  id: string
+  name: string
+  type: string
+  issuer: string
+  issuedDate: string
+}
+
+export type ProcessingStepStatus = 'pending' | 'active' | 'complete' | 'failed'
+
+export interface ProcessingStep {
+  id: number
+  label: string
+  detail: string
+  status: ProcessingStepStatus
+  completedAt?: Date
+}
+
+export interface EShramVerification {
+  uan: string
+  name: string
+  sector: string
+  registrationDate: string
+  status: 'Active' | 'Inactive'
+}
+
+export interface WorkerProfile {
+  workerId: string
+  name: string
+  sector: string
+  layer1Complete: boolean
+  verifiedAt: string
+  verifications: {
+    aadhaar: boolean
+    eshram: boolean
+    uan: boolean
+    digilocker: boolean
+  }
+}
+
+---
+
+## Mock Client Files
+
+### frontend/src/lib/digilocker/mock-client.ts
+
+Export these async functions (all return mocked data after a Promise delay):
+
+  getAccessToken(code: string): Promise
+    → delay 500ms → returns "mock_token_abc123"
+
+  getUserDetails(token: string): Promise
+    → delay 1200ms → returns { name: "Raju Kumar", aadhaarMasked: "XXXX-XXXX-1234", ... }
+
+  getDocumentList(token: string): Promise
+    → delay 800ms → returns array of 6 mock documents including one with name: "eShram Card"
+
+  downloadDocument(token: string, docId: string): Promise
+    → delay 1500ms → returns mock Blob (empty, for UI purposes only)
+
+### frontend/src/lib/eshram/parser.ts
+
+Export:
+
+  findEShramDocument(docs: DigiLockerDocument[]): DigiLockerDocument | null
+    → finds doc where name.toLowerCase().includes('eshram')
+
+  parseUAN(pdfBlob: Blob): Promise
+    → delay 900ms → returns "10-2021-1234-5678"
+
+### frontend/src/lib/eshram/mock-client.ts
+
+Export:
+
+  verifyEShram(uan: string): Promise
+    → delay 1300ms → returns { uan, name: "Raju Kumar", sector: "Transport", ... }
+
+  crossValidate(digilocker: DigiLockerUser, eshram: EShramVerification): Promise
+    → delay 1100ms → returns true
+
+---
+
+## Onboarding Layout
+
+### frontend/src/app/(onboarding)/layout.tsx
+
+Wrapper that provides:
+  - White background full screen
+  - Top bar: Pramaan logo left + "Layer 1 of 3" right (text-xs text-slate-400)
+  - Max-width container: mx-auto max-w-2xl px-4
+  - Bottom safe area padding: pb-12
+
+Do NOT include Navbar or Footer from the landing page in this layout.
+
+---
+
+## State Management
+
+Use React useState and useEffect only. No external state library.
+
+The processing page manages an array of ProcessingStep objects.
+Each step's status updates via a sequential async chain:
+
+  const runPipeline = async () => {
+    for (let i = 0; i < steps.length; i++) {
+      setSteps(prev => prev.map((s, idx) =>
+        idx === i ? { ...s, status: 'active' } : s
+      ))
+      await mockStep(i)   // calls the corresponding mock function
+      setSteps(prev => prev.map((s, idx) =>
+        idx === i ? { ...s, status: 'complete', detail: getDetail(i) } : s
+      ))
+    }
+    await delay(800)
+    router.push('/identity/complete')
+  }
+
+Run runPipeline() in useEffect on mount.
+
+---
+
+## Animations
+
+DigiLocker card entry:   y:20 opacity:0 → y:0 opacity:1, delay 0.1s
+OAuth overlay:           opacity 0 → 1, full screen fade
+Processing active step:  pulse ring on icon circle using Framer Motion animate
+  (scale: [1, 1.15, 1], opacity: [1, 0.7, 1], repeat: Infinity, duration: 1.2s)
+Step completion:         check icon scale: 0 → 1, spring easing
+Detail text reveal:      y: 4 opacity:0 → y:0 opacity:1, duration 0.3s
+Success check circle:    scale: 0 → 1.1 → 1.0, spring, on mount
+Worker profile card:     y:30 opacity:0 → y:0 opacity:1, delay 0.3s after check
+CTA button:              y:20 opacity:0 → y:0 opacity:1, delay 0.6s
+
+---
+
+## Constraints
+
+- TypeScript strict mode. Zero type errors. Zero compile errors.
+- All components have explicit prop interfaces.
+- All mock functions are clearly labeled with // MOCK comment.
+- All pages have "use client" only if they use hooks or events.
+- No real API keys. No real OAuth. All sandbox/mock.
+- Do NOT modify any file outside the paths listed above.
+- The entire flow must work end-to-end in the browser with mock data only.
+
+
+
+# PRAMAAN — LANDING PAGE BUILD PROMPT (v3)
+
+## Context
+
+You are building the public-facing landing page for Pramaan inside a Next.js 15 monorepo.
+
+File location:  frontend/src/app/(marketing)/page.tsx
+Components:     frontend/src/components/landing/
+
+Pramaan (प्रमाण) means "proof" in Hindi/Sanskrit.
+It is an AI-powered trust and reputation infrastructure for India's gig and informal workers.
+It gives them verifiable identity, financial trust scores, and a portable Labour Passport —
+built on DigiLocker, Setu Account Aggregator, eShram, and RBI-regulated infrastructure.
+
+DO NOT touch any other part of the repository.
+DO NOT implement business logic or API routes.
+ONLY build the landing page and its components.
+
+---
+
+## Design Direction — Inspired by Reference Image
+
+The reference design uses a LIGHT theme — white backgrounds, dark text, teal/green primary accents.
+Pramaan follows the same visual language with these brand-specific changes:
+
+Background:        #FFFFFF (white)
+Primary accent:    #F59E0B (amber) — replaces the green in reference
+Secondary accent:  #14B8A6 (teal) — used for financial/data elements
+Identity accent:   #7C3AED (purple)
+Reputation accent: #EAB308 (gold)
+Body text:         #0F172A (near black)
+Muted text:        #64748B
+Card backgrounds:  #F8FAFC with border #E2E8F0
+Border radius:     16px on cards, 12px on inputs, 999px on pills
+Font:              Inter (already in Next.js)
+Shadow:            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)
+
+Style keywords: Clean. Minimal. Trust-forward. Government-grade credibility.
+The hero should feel like Stripe meets an Indian fintech product.
+
+---
+
+## Tech Stack (already installed)
+
+- Next.js 15 App Router
+- TypeScript
+- TailwindCSS
+- ShadCN UI
+- Framer Motion
+- Lucide React
+
+Do not install any new packages.
+
+---
+
+## File Structure to Create
+
+frontend/src/app/(marketing)/
+  page.tsx
+
+frontend/src/components/landing/
+  ScootyAnimation.tsx
+  Navbar.tsx
+  HeroSection.tsx
+  TrustedByBar.tsx
+  FeaturesBar.tsx
+  HowItWorksSection.tsx
+  TrustOverviewSection.tsx
+  LabourPassportSection.tsx
+  InstitutionsSection.tsx
+  FinalCTASection.tsx
+  Footer.tsx
+
+---
+
+## OPENING ANIMATION — ScootyAnimation.tsx
+
+This plays ONCE on page load. It is a full-screen white overlay that sits above the page.
+
+Sequence:
+1. White full-screen overlay (fixed, z-50, bg-white)
+2. A flat SVG scooty with helmeted rider enters from x: -300 traveling to x: viewport width + 300
+   - Travel duration: 2.4s, ease: easeInOut
+   - Vertical position: 60% of viewport height
+   - The scooty body bounces slightly: y: [0, -5, 0] loop while traveling
+3. Behind the scooty, 3 pill badges appear with stagger as it passes:
+     "✓ Identity Verified"  — purple pill, appears at 30% of travel
+     "₹ Earnings Verified"  — teal pill, appears at 55% of travel
+     "★ Reputation Score"   — amber pill, appears at 78% of travel
+   Each pill: fade in + float up slightly (y: 10 → 0, opacity 0 → 1)
+4. When scooty exits right edge:
+   - A dotted path trail remains briefly (0.4s), then fades
+   - The Pramaan wordmark fades in at center: "प्र" amber + "maan" #0F172A, 32px bold
+   - Below it, tagline types in: "Proof of work. Proof of worth."
+   - After 1.2s pause, overlay fades out (opacity 1 → 0, duration 0.5s)
+   - Component unmounts, landing page is visible underneath
+
+Scooty SVG — draw inline, flat, no gradients:
+  - Body: rounded rect, amber (#F59E0B) fill
+  - Seat: darker amber rect behind rider
+  - Wheels: two circles, #1E293B fill, small white center dot
+  - Rider torso: white rounded rect
+  - Helmet: rounded oval, #0F172A fill
+  - Handlebar: thin white rect
+  - Delivery box on back: teal (#14B8A6) small rect with "P" label in white
+  - Keep under 35 SVG elements total
+  - Scale down to 60% on mobile
+
+---
+
+## NAVBAR — Navbar.tsx
+
+Fixed top. White background. border-b border-slate-100. height: 64px.
+
+Left:
+  Logo — "प्र" in amber-500 font-bold + "maan" in slate-900, 20px
+  Tagline below logo: "Trust Infrastructure" in text-xs text-slate-400
+
+Center navigation links (desktop only):
+  How It Works · Features · About Us · For Institutions
+  text-sm text-slate-600 hover:text-slate-900
+
+Right:
+  "Sign In" — ghost button, text-slate-700
+  "Generate Passport →" — bg-amber-500 text-white rounded-full px-5 py-2 text-sm font-semibold
+    (matches the reference CTA style exactly)
+
+Mobile: hamburger → slide-down drawer with all links
+
+Animates in after ScootyAnimation unmounts: y: -10 opacity:0 → y:0 opacity:1, duration 0.4s
+
+---
+
+## HERO SECTION — HeroSection.tsx
+
+id="hero"
+Full viewport height. Two-column layout (60% left / 40% right). Vertical center aligned.
+White background.
+
+LEFT COLUMN:
+
+Small label above headline:
+  "Turn Gig Work Into Trust."  — but this IS the headline, not a label.
+  H1 style: font-size 56px, font-weight 800, line-height 1.1, color #0F172A
+  Second line: "Into" #0F172A + " Trust." in amber-500
+  (Mirror the reference headline exactly: large, bold, two-line, color pop on last word)
+
+Subheadline (18px, slate-600, max-width 420px):
+  "Verify your identity, connect your earnings and get your institution-ready
+   Labour Reputation Passport."
+
+Two CTAs (horizontal, gap-3):
+  Primary: "Generate Passport →"
+    bg-slate-900 text-white rounded-2xl px-6 py-3 font-semibold text-base
+    hover: bg-slate-800
+  Secondary: "Watch Demo ▶"
+    bg-white text-slate-700 border border-slate-200 rounded-2xl px-6 py-3 font-medium
+    hover: bg-slate-50
+
+Trust infrastructure bar below CTAs:
+  Small label: "Built on Trusted Infrastructure" text-xs text-slate-400 uppercase tracking-wide
+  Logo row: eShram · DigiLocker · Setu (Account Aggregator, RBI Licensed)
+  Each: small pill with logo icon placeholder + name, border border-slate-200 rounded-lg px-3 py-1.5
+
+Animate left column: stagger children, each y:24 opacity:0 → y:0 opacity:1, delay 0.1s between
+
+RIGHT COLUMN:
+
+This is a floating dashboard card cluster — the hero visual. Replicate the reference layout:
+
+Center: Large card (bg-white, shadow-lg, rounded-3xl, p-6, w-320px)
+  Inside: 3D-style delivery worker illustration placeholder
+    Use a div with bg-gradient-to-b from-amber-50 to-teal-50, rounded-2xl, h-280px
+    Center text: "🛵" emoji at 64px (placeholder for 3D illustration)
+  Floating on top of this card: "LABOUR PASSPORT" badge
+    bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-full
+
+Top-left floating mini card (absolute positioned):
+  "Trust Score" label text-xs text-slate-400
+  Large number "742" text-4xl font-black text-slate-900
+  "Excellent" badge: bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded-full
+  Circular arc graphic: SVG semi-ring in amber, showing 74% fill
+  Card: bg-white shadow-md rounded-2xl p-4 w-140px
+
+Top-right floating mini card:
+  "Monthly Income" text-xs text-slate-400
+  "₹38,450" text-2xl font-bold text-slate-900
+  "+22% vs last month" text-xs text-teal-600
+  Mini sparkline chart: 6-point SVG polyline in teal
+  Card: bg-white shadow-md rounded-2xl p-4 w-160px
+
+Bottom-left floating card:
+  "Identity Verified" label text-xs font-semibold text-slate-700
+  3 rows with check icons (teal):
+    eShram     ✓
+    DigiLocker ✓
+    Aadhaar    ✓
+  Card: bg-white shadow-md rounded-2xl p-4 w-160px
+
+Bottom-right floating card:
+  "AA Connected" label text-xs text-slate-400
+  Bank icon: Lucide Landmark in teal, 32px
+  "● Connected" text-xs text-teal-600
+  Card: bg-white shadow-md rounded-2xl p-4 w-120px
+
+Bottom center floating pill:
+  Avatar circle (bg-amber-100, initials "RK") + "Raju Kumar · Delivery Partner"
+  "✓ Verified Worker" teal badge
+  Pill: bg-white shadow-md rounded-full px-4 py-2 flex items-center gap-2
+
+Apply slow float loop to the entire right column cluster: y: [0, -8, 0], duration 5s, ease easeInOut
+
+---
+
+## TRUSTED BY / FEATURES BAR — TrustedByBar.tsx + FeaturesBar.tsx
+
+### TrustedByBar
+
+Full-width white section, border-y border-slate-100, py-8
+Center heading: "Trusted. Verified. Empowered." text-xl font-bold text-slate-900
+
+### FeaturesBar
+
+4-column grid (2 col mobile). Each cell: bg-white border border-slate-100 rounded-2xl p-6
+Slight hover: shadow-md transition
+
+Feature 1 — Identity (purple icon bg-purple-50 rounded-xl p-2):
+  Icon: Lucide ShieldCheck, purple
+  Title: "eShram Verification"
+  Body: "Verify your worker identity using eShram, India's national database."
+
+Feature 2 — Documents (amber icon):
+  Icon: Lucide FileText, amber
+  Title: "DigiLocker Verification"
+  Body: "Securely access and verify your government documents instantly."
+
+Feature 3 — Financial (teal icon):
+  Icon: Lucide Landmark, teal
+  Title: "Account Aggregator"
+  Body: "Connect your bank accounts through RBI-regulated AA infrastructure."
+
+Feature 4 — AI (orange icon):
+  Icon: Lucide Brain, orange-500
+  Title: "AI Reputation Engine"
+  Body: "Our AI analyzes your financial consistency and work activity to generate a trust score."
+
+Animate: whileInView stagger, each card y:16 opacity:0 → y:0 opacity:1
+
+---
+
+## HOW IT WORKS — HowItWorksSection.tsx
+
+id="how-it-works"
+White background. Center aligned.
+
+H2: "How Pramaan Works" — text-3xl font-bold text-slate-900 text-center
+
+5-step horizontal flow (matches reference):
+  Step 1: "Verify Identity"      — icon ShieldCheck, purple
+  Step 2: "Connect Accounts"     — icon Landmark, teal
+  Step 3: "Analyze Data"         — icon BarChart2, amber
+  Step 4: "AI Evaluation"        — icon Brain, orange (with subtle red tint — this is the L3 engine)
+  Step 5: "Get Passport"         — icon BookCheck, teal
+
+Between each step: dashed horizontal line (border-dashed border-slate-300)
+Below each icon circle:
+  Step number label: "1." etc text-xs text-slate-400
+  Step name: text-sm font-semibold text-slate-700
+  Sub-label: text-xs text-slate-400 text-center (2 lines max)
+
+Icon circles: 56px, bg-slate-50 border border-slate-200 rounded-full, icon 24px
+
+Step details:
+  1 — "Using eShram & DigiLocker"
+  2 — "Secure RBI AA Integration"
+  3 — "Financial + Work Pattern Analysis"
+  4 — "Generate Trust Score"
+  5 — "Share your verified Labour Passport"
+
+On mobile: vertical stacked list with left-side connecting line
+
+Animate: whileInView, steps reveal left to right with stagger 0.15s
+
+---
+
+## TRUST OVERVIEW — TrustOverviewSection.tsx
+
+id="trust-score"
+Full-width section. bg-slate-900 (dark card, like reference). rounded-3xl mx-4 or full bleed.
+White text inside.
+
+Two-column layout:
+
+LEFT — Trust Score breakdown:
+  Label: "Your Trust Overview" text-xl font-bold text-white
+  Subtext: "Your financial behavior and work history builds your trust." text-sm text-slate-400
+
+  Large semicircle gauge SVG:
+    Radius 100px, strokeWidth 16
+    Background arc: slate-700
+    Filled arc: animated from 0 to 74% (742/1000), color: amber-400
+    Center: "742" text-5xl font-black text-white
+    Below center: "Trust Score" text-sm text-slate-400
+    Badge below: "Excellent" bg-teal-500 text-white text-xs px-3 py-1 rounded-full
+
+  Three score bars below the gauge:
+    Row 1: "Identity Score"    — progress bar 100/100, teal fill
+    Row 2: "Financial Score"   —  87/100, amber fill
+    Row 3: "Reputation Score"  —  74/100, purple fill
+    Each: label left, "X/100" right, full-width progress bar below
+    Bar: bg-slate-700 rounded-full h-2, fill animates width on whileInView
+
+RIGHT — Income Trend chart:
+  Label: "Income Trend (Last 6 Months)" text-sm font-semibold text-white
+  SVG area chart or polyline spanning 6 months: Jan–Jun
+  Data points (approximate, for visual): 8K, 12K, 10K, 15K, 19K, 22K
+  Line: teal-400, stroke 2px
+  Fill area below: teal-400 at 15% opacity
+  Last point: floating label "₹38,450" bg-slate-700 text-white text-xs px-2 py-1 rounded-lg
+  Y-axis labels: 0, 10K, 20K, 30K — text-xs text-slate-400
+  X-axis labels: Jan Feb Mar Apr May Jun — text-xs text-slate-400
+
+Animate gauge and bars on whileInView.
+
+---
+
+## LABOUR PASSPORT SECTION — LabourPassportSection.tsx
+
+id="passport"
+White background. Two-column layout.
+
+LEFT — "Your Labour Passport" card:
+  Section label: "Your Labour Passport" text-xl font-bold
+  Subtext: "Your trust. Your identity. Your future." text-sm text-slate-500
+
+  The passport card itself (design matches reference card):
+    bg-gradient-to-br from-teal-500 to-teal-700 rounded-3xl p-6 text-white
+    
+    Top row:
+      Left: Avatar circle (bg-white/20, initials "RK") + name "Raju Kumar" font-semibold + "Delivery Partner" text-sm opacity-80
+      Right: "Trust Score" label text-xs opacity-70 + "742" text-3xl font-black + "/100" text-sm
+             "Excellent" badge: bg-white/20 rounded-full px-2 py-0.5 text-xs
+
+    Middle: QR code placeholder (bg-white/10 rounded-xl 80x80 with grid lines)
+    
+    Three stat pills in a row:
+      "Income Band: ₹20K–₹38K" · "Tenure: 3.4 Years" · "Activity: High"
+      Each: bg-white/10 rounded-xl px-3 py-2 text-xs
+
+    Bottom row: 3 verification badges
+      "eShram Verified" · "DigiLocker Verified" · "AA Verified"
+      Each: small icon + text, text-xs opacity-80
+
+RIGHT — "Watch Your Passport Being Built" (animated journey):
+  Section label: "Watch Your Passport Being Built"
+  Subtext: "Real-time journey from data to trust."
+
+  Animated horizontal pipeline:
+    Scooty SVG (small, 60px wide) on left → arrow → eShram circle → AA circle → AI Analysis circle → Passport circle
+    
+    The scooty animates: x oscillates slightly left-right or plays a mini travel animation in a loop
+    
+    Each step circle: 56px, icon centered
+      eShram: bg-purple-100, ShieldCheck icon purple
+      AA: bg-teal-100, Landmark icon teal
+      AI Analysis: bg-amber-100, Brain icon amber, grayscale until "active"
+      Passport: bg-teal-500, BookCheck icon white
+    
+    Below scooty: "Analyzing work history..." text-xs text-slate-500
+    Progress bar below: bg-slate-100 rounded-full h-2, teal fill at 75%, animates on load
+    "75%" label right-aligned
+
+  Connecting dashed lines between circles.
+
+---
+
+## INSTITUTIONS — InstitutionsSection.tsx
+
+White background, border-t border-slate-100, py-12
+
+Center heading: "Trusted by Institutions" text-lg font-semibold text-slate-500 text-center mb-8
+
+Logo row — 7 institution logos in a flex row, justify-center, gap-8:
+  HDFC Bank · ICICI Bank · Bajaj Finserv · Kotak · PolicyBazaar · Zomato · Swiggy
+
+Since real logos are not available, render each as:
+  A pill: border border-slate-200 rounded-xl px-5 py-3 text-sm font-semibold text-slate-500
+  With a small colored square icon placeholder (4x4, rounded, brand color approximation) before the name
+
+On mobile: wrap to 2 rows
+
+---
+
+## FINAL CTA — FinalCTASection.tsx
+
+bg-slate-900 rounded-3xl mx-6 my-12 p-12 text-center
+
+H2: "Start Building Your" text-white
+    "Labour Passport Today" text-amber-400
+    Both on separate lines, text-3xl font-bold
+
+Subtext: "Free for workers · Consent-first · RBI-regulated infrastructure" text-slate-400 text-sm
+
+CTA Button: "Generate Your Passport →"
+  bg-amber-500 text-white rounded-2xl px-8 py-4 text-base font-semibold
+  hover: bg-amber-400
+
+Below: "No documents needed to start. Your Aadhaar and phone number are enough."
+  text-xs text-slate-500
+
+---
+
+## FOOTER — Footer.tsx
+
+White background. border-t border-slate-100. py-10.
+
+Left: Logo + tagline "Proof of work. Proof of worth." + "Built in India 🇮🇳"
+Center: Links — How It Works · Features · For Institutions · Privacy · Contact
+Right: "© 2025 Pramaan · प्रमाण"
+
+All text: text-sm text-slate-500
+
+---
+
+## PAGE COMPOSITION — page.tsx
+
+Render order:
+  1.  ScootyAnimation      ← full screen overlay, plays once, unmounts
+  2.  Navbar               ← fixed, animates in after scooty
+  3.  HeroSection
+  4.  TrustedByBar
+  5.  FeaturesBar
+  6.  HowItWorksSection
+  7.  TrustOverviewSection
+  8.  LabourPassportSection
+  9.  InstitutionsSection
+  10. FinalCTASection
+  11. Footer
+
+Global body: bg-white font-sans text-slate-900 antialiased
+Keep page.tsx as server component. Add "use client" only to animation-heavy components.
+
+---
+
+## ANIMATIONS SUMMARY
+
+ScootyAnimation:    x-travel, badge stagger, overlay fade out — Framer Motion
+Navbar:             y:-10 → y:0 after scooty unmounts
+Hero left column:   stagger y:24 → y:0 on mount
+Hero right cluster: float loop y:[0,-8,0], duration 5s
+Features cards:     whileInView stagger y:16 → y:0
+How It Works steps: whileInView stagger left-to-right
+Trust gauge:        animate stroke-dashoffset on whileInView
+Score bars:         animate width on whileInView
+Income chart:       draw polyline on whileInView using pathLength
+Passport pipeline:  scooty loop + progress bar animate on mount
+All transitions:    duration 0.5–0.7s, ease: easeOut
+
+---
+
+## CONSTRAINTS
+
+- DO NOT call any API. All data shown is static/hardcoded for display.
+- DO NOT modify files outside frontend/src/app/(marketing)/ and frontend/src/components/landing/
+- DO NOT install new packages.
+- All TypeScript. All components have proper interfaces. Zero compile errors.
+- Use Tailwind classes throughout. Framer Motion for all animations.
+- Every component has a default export.
+- Clerk auth buttons use placeholder href only — no Clerk logic implemented here.
+
+
+
