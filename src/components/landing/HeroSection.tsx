@@ -117,7 +117,7 @@ export default function HeroSection() {
 
           {/* 3D Delivery Worker Character in the center */}
           <div 
-            className="relative z-10 w-[320px] md:w-[360px] transition-transform duration-300 ease-out"
+            className="relative z-10 w-[340px] md:w-[380px] transition-transform duration-300 ease-out"
             style={{
               transform: `translate(${mouseOffset.x * 0.5}px, ${mouseOffset.y * 0.5}px)`,
             }}
@@ -229,24 +229,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* CARD 5: Raju Kumar Avatar Card (Bottom Center) */}
-          <div 
-            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-20 bg-white border border-[#E5E7EB] rounded-xl shadow-lg p-2.5 flex items-center gap-3 w-[220px] transition-transform duration-300 ease-out text-left"
-            style={{
-              transform: `translate(calc(-50% + ${mouseOffset.x * 0.7}px), ${mouseOffset.y * 0.7}px)`,
-            }}
-          >
-            <div className="w-8 h-8 rounded-full bg-[#1A6B47] text-white font-bold text-[11px] flex items-center justify-center shrink-0 border border-[#E5E7EB]">
-              RK
-            </div>
-            <div className="flex-1 min-w-0">
-              <span className="text-[12px] font-bold text-[#111827] block truncate">Raju Kumar</span>
-              <span className="text-[9px] text-[#6B7280] block truncate">Delivery Partner</span>
-            </div>
-            <span className="badge-verified bg-[#E8F5EF] text-[#1A6B47] border-[#1A6B47]/20 text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0">
-              Verified
-            </span>
-          </div>
+          {/* Raju Kumar Avatar Card (Removed) */}
 
         </div>
 
