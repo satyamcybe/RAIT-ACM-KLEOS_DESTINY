@@ -225,7 +225,12 @@ export default function DigiLockerMock() {
         )}
       </div>
       
-      <div className="mt-8 text-center relative z-10">
+      <div className="mt-8 text-center relative z-10 flex flex-col items-center gap-2">
+        <img 
+          src="/logo-text.png" 
+          alt="PRAMAAN Logo" 
+          className="h-7 w-auto object-contain mix-blend-multiply logo-brand-green opacity-50"
+        />
         <p className="text-xs text-slate-400">
           Powered by <span className="font-semibold text-slate-500">Pramaan Trust Infrastructure</span>
         </p>
