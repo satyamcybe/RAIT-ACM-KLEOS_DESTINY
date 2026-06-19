@@ -8,39 +8,66 @@ export default function InstitutionsSection() {
 
   const workerPoints = [
     {
-      title: "Simple, fast, free",
-      desc: "Generates in less than 2 minutes. No platform fees or worker charges, ever.",
+      title: "Instant & Free",
+      desc: "Generate your credential in under 2 minutes with zero platform fees, ever.",
+      icon: (
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      ),
     },
     {
-      title: "Works on any phone",
-      desc: "No complicated apps to install. Access your passport via WhatsApp or web link.",
+      title: "Accessible Anywhere",
+      desc: "No apps required. Access and share your credentials instantly via WhatsApp or web link.",
+      icon: (
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+          <line x1="12" y1="18" x2="12.01" y2="18" />
+        </svg>
+      ),
     },
     {
-      title: "Your data, your control",
+      title: "Complete Data Control",
       desc: "Built on standard consent principles. You decide who sees your score and when.",
-    },
-    {
-      title: "Permanent credit profile",
-      desc: "Move beyond single-platform silos to build a lifetime digital credit asset.",
+      icon: (
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      ),
     },
   ];
 
   const lenderPoints = [
     {
-      title: "Machine-verifiable credentials",
-      desc: "Cryptographically signed by PRAMAAN, preventing spoofing and profile tamper.",
+      title: "Tamper-Proof Verification",
+      desc: "Cryptographically signed credentials that prevent spoofing and profile tampering.",
+      icon: (
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 11 2 2 4-4" />
+        </svg>
+      ),
     },
     {
-      title: "RBI Account Aggregator pipe",
-      desc: "Direct banking ledger data flows with zero manual upload or document reviews.",
+      title: "Automated Ledger Flows",
+      desc: "Direct bank data streams via RBI's Account Aggregator with zero manual uploads.",
+      icon: (
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3" />
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+          <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+        </svg>
+      ),
     },
     {
-      title: "Instant credit decisioning",
-      desc: "Read structured JSON-LD schemas directly into automated underwriting systems.",
-    },
-    {
-      title: "Turnkey developer REST API",
-      desc: "Deploy verification widgets in 1 day using our simple developer API and webhooks.",
+      title: "Turnkey API Integration",
+      desc: "Deploy structured verification widgets in 1 day using our REST API and webhooks.",
+      icon: (
+        <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      ),
     },
   ];
 
@@ -107,15 +134,15 @@ export default function InstitutionsSection() {
                     onMouseEnter={() => setHoveredWorkerIdx(idx)}
                     onMouseLeave={() => setHoveredWorkerIdx(null)}
                   >
-                    {/* Numbered indicator */}
+                    {/* Icon indicator */}
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-[12px] shrink-0 transition-colors duration-300 ${
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 ${
                         hoveredWorkerIdx === idx
-                          ? "bg-[#F5A623] text-white"
+                          ? "bg-[#F5A623] text-white scale-105"
                           : "bg-[#FEF3DC] text-[#F5A623]"
                       }`}
                     >
-                      {idx + 1}
+                      {point.icon}
                     </div>
                     <div className="space-y-1 min-w-0">
                       <span className="text-[15px] font-bold text-[#374151] block leading-tight">
@@ -170,15 +197,15 @@ export default function InstitutionsSection() {
                     onMouseEnter={() => setHoveredLenderIdx(idx)}
                     onMouseLeave={() => setHoveredLenderIdx(null)}
                   >
-                    {/* Numbered indicator */}
+                    {/* Icon indicator */}
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-[12px] shrink-0 transition-colors duration-300 ${
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 ${
                         hoveredLenderIdx === idx
-                          ? "bg-[#1A6B47] text-white"
+                          ? "bg-[#1A6B47] text-white scale-105"
                           : "bg-[#E8F5EF] text-[#1A6B47]"
                       }`}
                     >
-                      {idx + 1}
+                      {point.icon}
                     </div>
                     <div className="space-y-1 min-w-0">
                       <span className="text-[15px] font-bold text-[#374151] block leading-tight">

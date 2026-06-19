@@ -116,4 +116,4 @@ export class MockAAGeneratorService {
     // Ensure they are ordered oldest first (as naturally created by sorted dates)
     return transactions;
   }
-}
+}         
