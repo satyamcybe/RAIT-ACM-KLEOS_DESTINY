@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Verify API Route
+// PRAMAAN - Credential Verify API Route
 // POST: Verify a credential
 // ===========================================
 
@@ -7,18 +7,16 @@ import { NextRequest } from "next/server";
 import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
 import { credentialService } from "@/features/credentials/services/CredentialService";
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { credentialId } = body;
+    const url = new URL(request.url);
+    const credentialId = url.searchParams.get("id");
 
     if (!credentialId) {
       return errorResponse("credentialId is required");
     }
 
-    // TODO: Implement credential verification
     const result = await credentialService.verifyCredential(credentialId);
-
     return successResponse(result);
   } catch (error) {
     return serverErrorResponse(error);

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Database Seed Script
+// PRAMAAN - Database Seed Script
 // Run: npx prisma db seed
 // ===========================================
 
@@ -19,7 +19,7 @@ async function main() {
       clerkUserId: "seed_user_001",
       name: "Demo Worker",
       phone: "+919876543210",
-      email: "demo@pranam.dev",
+      email: "demo@PRAMAAN.dev",
       aadhaarVerified: true,
       eshramId: "ESHRAM001",
       eshramVerified: true,

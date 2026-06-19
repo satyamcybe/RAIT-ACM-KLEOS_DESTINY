@@ -1,13 +1,15 @@
 // ===========================================
-// PRANAM - Empty State Component
+// PRAMAAN - Empty State Component
 // Shown when no data is available
 // ===========================================
 
+import React from "react";
 import { cn } from "@/lib/utils";
+import { FolderOpen } from "lucide-react";
 
 interface EmptyStateProps {
   className?: string;
-  icon?: string;
+  icon?: React.ReactNode;
   title: string;
   description: string;
   action?: {
@@ -19,7 +21,7 @@ interface EmptyStateProps {
 
 export function EmptyState({
   className,
-  icon = "📭",
+  icon,
   title,
   description,
   action,
@@ -31,7 +33,9 @@ export function EmptyState({
         className
       )}
     >
-      <span className="text-4xl">{icon}</span>
+      <div className="text-slate-400">
+        {icon || <FolderOpen className="w-12 h-12" />}
+      </div>
       <div>
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         <p className="mt-1 text-sm text-gray-500">{description}</p>

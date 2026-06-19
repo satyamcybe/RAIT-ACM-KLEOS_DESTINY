@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Types
+// PRAMAAN - Financial Types
 // ===========================================
 
 export interface FinancialConsent {

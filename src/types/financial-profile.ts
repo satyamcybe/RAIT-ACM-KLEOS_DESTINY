@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Profile Types
+// PRAMAAN - Financial Profile Types
 // Computed financial summary
 // ===========================================
 

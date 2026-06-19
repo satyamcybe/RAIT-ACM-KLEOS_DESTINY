@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram Sandbox Adapter
+// PRAMAAN - eShram Sandbox Adapter
 // Connects to eShram sandbox API
 // ===========================================
 

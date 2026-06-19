@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram API Route
+// PRAMAAN - eShram API Route
 // POST: Verify eShram card
 // GET: Get eShram status
 // ===========================================
@@ -11,7 +11,7 @@ import { getAuthUserId } from "@/lib/auth/clerk";
 
 export async function POST(request: NextRequest) {
   try {
-    await getAuthUserId();
+    const userId = await getAuthUserId();
     const body = await request.json();
     const { uan } = body;
 
@@ -19,9 +19,7 @@ export async function POST(request: NextRequest) {
       return errorResponse("UAN is required");
     }
 
-    // TODO: Implement eShram verification flow
-    const result = await identityService.verifyEshram(uan);
-
+    const result = await identityService.verifyEshram(uan, userId);
     return successResponse(result, "eShram verification complete");
   } catch (error) {
     return serverErrorResponse(error);

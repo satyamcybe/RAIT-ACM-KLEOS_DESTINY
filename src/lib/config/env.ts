@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Environment Configuration
+// PRAMAAN - Environment Configuration
 // Centralized env access with type safety
 // ===========================================
 
@@ -50,5 +50,5 @@ export const env = {
 
   // App
   APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || "Pranam",
+  APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || "PRAMAAN",
 } as const;

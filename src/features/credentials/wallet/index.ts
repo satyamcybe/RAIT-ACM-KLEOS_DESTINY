@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Wallet Sub-feature
+// PRAMAAN - Credential Wallet Sub-feature
 // Credential storage and management
 // ===========================================
 

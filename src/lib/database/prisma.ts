@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Prisma Client Singleton
+// PRAMAAN - Prisma Client Singleton
 // Prevents multiple instances in development
 // ===========================================
 

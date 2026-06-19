@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Setu AA Types
+// PRAMAAN - Setu AA Types
 // Account Aggregator types
 // ===========================================
 

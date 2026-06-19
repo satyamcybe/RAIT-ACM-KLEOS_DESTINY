@@ -1,20 +1,19 @@
-// ===========================================
-// PRANAM - Root Layout
-// ===========================================
-
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { MockDataProvider } from "@/lib/context/MockDataContext";
+import ResetDemoButton from "@/components/ResetDemoButton";
 
-const inter = Inter({
-  variable: "--font-inter",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "Pranam — Financial Identity for India's Gig Workers",
+  title: "PRAMAAN — Portable Reputation Credential for India's Gig Workers",
   description:
-    "Pranam helps gig and informal workers build verifiable financial identities through DigiLocker, eShram, and Account Aggregator integrations.",
+    "PRAMAAN helps gig workers, delivery partners, and drivers build a verified digital reputation and portable trust passport through eShram and DigiLocker integrations.",
   keywords: ["fintech", "identity", "gig workers", "India", "DigiLocker", "eShram", "SSI"],
 };
 
@@ -24,10 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full bg-white font-sans text-gray-900">
-        {/* TODO: Wrap with ClerkProvider when keys are configured */}
-        {children}
+    <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased scroll-smooth`}>
+      <body className="min-h-full bg-white font-sans text-[#111827]">
+        <MockDataProvider>
+          {children}
+          <ResetDemoButton />
+        </MockDataProvider>
       </body>
     </html>
   );

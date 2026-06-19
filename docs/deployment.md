@@ -36,7 +36,7 @@ Mock mode works without a database. For full functionality:
 
 ```bash
 # Start PostgreSQL (Docker)
-docker run -d --name pranam-db -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_DB=pranam postgres:16
+docker run -d --name PRAMAAN-db -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_DB=PRAMAAN postgres:16
 
 # Push schema
 npx prisma db push

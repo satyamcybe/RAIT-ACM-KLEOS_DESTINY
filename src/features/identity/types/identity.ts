@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Identity Types
+// PRAMAAN - Identity Types
 // ===========================================
 
 export interface IdentityVerification {

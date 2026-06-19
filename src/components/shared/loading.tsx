@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Loading Component
+// PRAMAAN - Loading Component
 // Shared loading spinner
 // ===========================================
 

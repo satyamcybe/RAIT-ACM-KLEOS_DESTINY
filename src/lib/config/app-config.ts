@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - App Configuration
+// PRAMAAN - App Configuration
 // Feature flags and app-wide settings
 // ===========================================
 
@@ -33,9 +33,9 @@ export function getAppConfig(): AppConfig {
       ssi: true,
     },
     ui: {
-      appName: "Pranam",
+      appName: "PRAMAAN",
       appDescription: "Financial identity platform for India's gig workers",
-      supportEmail: "support@pranam.dev",
+      supportEmail: "support@PRAMAAN.dev",
     },
   };
 }

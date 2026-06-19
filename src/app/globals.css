@@ -1,147 +1,180 @@
 @import "tailwindcss";
 
-/* ===========================================
-   PRANAM - Global Styles
-   FlyRank-inspired, white bg, green accents
-   =========================================== */
+@theme {
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+}
+
+/* ==========================================================================
+   PRAMAAN - Strict Government-Grade Design System & Tokens
+   ========================================================================== */
 
 :root {
-  --color-primary: #059669;
-  --color-primary-light: #d1fae5;
-  --color-primary-dark: #047857;
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --primary: #1A6B47;
+  --primary-light: #E8F5EF;
+  --primary-dark: #0D3D28;
+  
+  --accent: #F5A623;
+  --accent-light: #FEF3DC;
+  
+  --text-dark: #111827;
+  --text-muted: #6B7280;
+  
+  --border: #E5E7EB;
+  --white: #FFFFFF;
 }
 
 body {
-  font-family: var(--font-sans);
+  background-color: #FFFFFF;
+  color: var(--text-dark);
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
+/* Custom premium scrollbar (Deep Green theme) */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--white);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: var(--primary);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: var(--primary-dark);
 }
 
 /* Smooth transitions */
 * {
-  transition-property: color, background-color, border-color, outline-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
+  transition-property: transform, box-shadow, border-color, background-color, color, opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition-duration: 200ms;
 }
 
-/* Focus styles */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-  border-radius: 4px;
+/* Card design utility class */
+.PRAMAAN-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.PRAMAAN-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Custom Animations */
+/* Floating stat cards styling */
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
 
+/* Buttons System */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background-color: var(--primary-light);
+}
+
+/* Badges System */
+.badge-verified {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+}
+
+.badge-gold {
+  background-color: var(--accent-light);
+  color: #92400E;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+}
+
+.badge-pending {
+  background-color: #F3F4F6;
+  color: var(--text-muted);
+  border: 1px solid #D1D5DB;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+}
+
+/* Animation triggers */
 @keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.15); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 0.4; }
+  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
-@keyframes fade-in-detail {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+.animate-pulse-green {
+  animation: pulse-ring 2s infinite;
 }
 
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes float-slow-1 {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-6px) rotate(-3deg); }
 }
 
-@keyframes dot-pulse {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
+@keyframes float-slow-2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
-@keyframes fill-width-100 {
-  from { width: 0; }
-  to { width: 100%; }
+@keyframes float-slow-3 {
+  0%, 100% { transform: translateY(0) rotate(2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
 }
 
-@keyframes fill-width-87 {
-  from { width: 0; }
-  to { width: 87%; }
+.animate-float-slow-1 {
+  animation: float-slow-1 6s ease-in-out infinite;
 }
 
-@keyframes fill-width-74 {
-  from { width: 0; }
-  to { width: 74%; }
+.animate-float-slow-2 {
+  animation: float-slow-2 8s ease-in-out infinite;
 }
 
-@keyframes fill-circle {
-  from { stroke-dasharray: 0 314; }
-  to { stroke-dasharray: 232 314; }
-}
-
-.pulse-ring {
-  animation: pulse-ring 1.2s infinite;
-}
-
-.fade-in-detail {
-  animation: fade-in-detail 0.3s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out 0.3s forwards;
-}
-
-.animate-step {
-  opacity: 0;
-  animation: fade-in-up 0.5s ease-out forwards;
-}
-
-.dot-1 {
-  animation: dot-pulse 1.5s infinite;
-}
-
-.dot-2 {
-  animation: dot-pulse 1.5s infinite;
-  animation-delay: 0.2s;
-}
-
-.dot-3 {
-  animation: dot-pulse 1.5s infinite;
-  animation-delay: 0.4s;
-}
-
-.animate-fill-100 {
-  width: 0;
-  animation: fill-width-100 1s ease-out 0.2s forwards;
-}
-
-.animate-fill-87 {
-  width: 0;
-  animation: fill-width-87 1s ease-out 0.4s forwards;
-}
-
-.animate-fill-74 {
-  width: 0;
-  animation: fill-width-74 1s ease-out 0.6s forwards;
-}
-
-.animate-fill-circle {
-  stroke-dasharray: 0 314;
-  animation: fill-circle 1.5s ease-out forwards;
+.animate-float-slow-3 {
+  animation: float-slow-3 5s ease-in-out infinite;
 }

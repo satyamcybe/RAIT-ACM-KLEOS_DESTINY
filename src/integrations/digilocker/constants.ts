@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - DigiLocker Constants
+// PRAMAAN - DigiLocker Constants
 // ===========================================
 
 export const DIGILOCKER_CONSTANTS = {

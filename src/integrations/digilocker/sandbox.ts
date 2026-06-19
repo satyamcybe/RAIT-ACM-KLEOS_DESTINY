@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - DigiLocker Sandbox Adapter
+// PRAMAAN - DigiLocker Sandbox Adapter
 // Connects to DigiLocker sandbox API
 // ===========================================
 

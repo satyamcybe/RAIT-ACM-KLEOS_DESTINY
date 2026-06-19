@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram Types
+// PRAMAAN - eShram Types
 // ===========================================
 
 /** eShram adapter interface - implemented by mock & sandbox */
@@ -30,4 +30,5 @@ export interface EshramWorkerDetails {
   district: string;
   registrationDate: string;
   cardStatus: "active" | "inactive" | "expired";
+  platform?: string;
 }

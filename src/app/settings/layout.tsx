@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Settings Layout
+// PRAMAAN - Settings Layout
 // ===========================================
 
 import { Navbar } from "@/components/layout/navbar";

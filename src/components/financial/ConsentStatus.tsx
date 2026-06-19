@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Consent Status Component
+// PRAMAAN - Consent Status Component
 // Displays AA consent status
 // ===========================================
 

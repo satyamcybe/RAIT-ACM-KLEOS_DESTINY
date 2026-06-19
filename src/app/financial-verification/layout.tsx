@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Verification Layout
+// PRAMAAN - Financial Verification Layout
 // ===========================================
 
 import { Navbar } from "@/components/layout/navbar";

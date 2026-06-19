@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - useFinancial Hook
+// PRAMAAN - useFinancial Hook
 // Client-side financial data state
 // ===========================================
 

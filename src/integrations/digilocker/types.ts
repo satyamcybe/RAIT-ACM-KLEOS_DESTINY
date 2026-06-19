@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - DigiLocker Types
+// PRAMAAN - DigiLocker Types
 // ===========================================
 
 /** DigiLocker adapter interface - implemented by mock & sandbox */
@@ -30,6 +30,8 @@ export interface DigiLockerVerifyResult {
   dateOfBirth: string | null;
   gender: string | null;
   maskedAadhaar: string | null;
+  digilockerId?: string | null;
+  referenceKey?: string | null;
   error?: string;
 }
 

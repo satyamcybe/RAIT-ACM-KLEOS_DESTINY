@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram Mock Adapter
+// PRAMAAN - eShram Mock Adapter
 // Returns simulated eShram data
 // ===========================================
 
@@ -7,31 +7,30 @@ import type { EshramAdapter, EshramVerifyResult, EshramWorkerDetails } from "./t
 
 export class EshramMockAdapter implements EshramAdapter {
   async verifyByUAN(uan: string): Promise<EshramVerifyResult> {
-    // TODO: Implement mock eShram verification
     console.log(`[MOCK] eShram: Verifying UAN ${uan}`);
     return {
       success: true,
       verified: true,
       uan,
-      workerName: "Rajesh Kumar",
+      workerName: "Raju Kamble",
     };
   }
 
   async fetchWorkerDetails(uan: string): Promise<EshramWorkerDetails> {
-    // TODO: Implement mock eShram worker details
     console.log(`[MOCK] eShram: Fetching details for UAN ${uan}`);
     return {
       uan,
-      name: "Rajesh Kumar",
-      fatherName: "Suresh Kumar",
-      dateOfBirth: "1990-05-15",
+      name: "Raju Kamble",
+      fatherName: "Suresh Kamble",
+      dateOfBirth: "1998-03-22",
       gender: "Male",
-      occupation: "Construction Worker",
+      occupation: "Delivery Partner",
       occupationCode: "01",
-      state: "Delhi",
-      district: "New Delhi",
-      registrationDate: "2022-01-15",
+      state: "Maharashtra",
+      district: "Mumbai",
+      registrationDate: "2022-03-14",
       cardStatus: "active",
+      platform: "Zomato Technologies Pvt Ltd",
     };
   }
 }

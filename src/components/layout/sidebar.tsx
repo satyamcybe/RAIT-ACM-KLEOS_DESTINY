@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Sidebar Component
+// PRAMAAN - Sidebar Component
 // Side navigation for dashboard
 // ===========================================
 
@@ -8,17 +8,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useMockData } from "@/lib/context/MockDataContext";
 
 interface SidebarItem {
   label: string;
   href: string;
   icon: string; // emoji for now, TODO: replace with Lucide icons
+  hideIf?: (ctx: { identityVerified: boolean; bankLinked: boolean }) => boolean;
 }
 
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: "📊" },
-  { label: "Identity", href: "/onboarding", icon: "🪪" },
-  { label: "Financial", href: "/financial-verification", icon: "💰" },
+  { label: "Identity", href: "/onboarding", icon: "🪪", hideIf: (ctx) => ctx.identityVerified },
+  { label: "Financial", href: "/financial-verification", icon: "💰", hideIf: (ctx) => ctx.bankLinked },
   { label: "Wallet", href: "/wallet", icon: "👛" },
   { label: "Settings", href: "/settings", icon: "⚙️" },
 ];
@@ -29,6 +31,9 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
+  const mockDataCtx = useMockData();
+
+  const visibleItems = sidebarItems.filter(item => !item.hideIf || !item.hideIf(mockDataCtx));
 
   return (
     <aside
@@ -38,7 +43,7 @@ export function Sidebar({ className }: SidebarProps) {
       )}
     >
       <nav className="flex flex-col gap-1 p-4">
-        {sidebarItems.map((item) => {
+        {visibleItems.map((item) => {
           const isActive = pathname?.startsWith(item.href);
           return (
             <Link

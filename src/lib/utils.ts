@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - ShadCN Utility
+// PRAMAAN - ShadCN Utility
 // Class merging utility for TailwindCSS
 // ===========================================
 

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - SSI Mock Adapter
+// PRAMAAN - SSI Mock Adapter
 // Simulated SSI operations
 // ===========================================
 
@@ -15,7 +15,7 @@ export class SSIMockAdapter implements SSIAdapter {
   async issueCredential(params: SSIIssueParams): Promise<SSICredential> {
     // TODO: Implement mock credential issuance
     console.log(`[MOCK] SSI: Issuing credential for ${params.subjectDid}`);
-    const id = `vc:pranam:${Date.now()}`;
+    const id = `vc:PRAMAAN:${Date.now()}`;
     return {
       id,
       type: ["VerifiableCredential", params.credentialType],

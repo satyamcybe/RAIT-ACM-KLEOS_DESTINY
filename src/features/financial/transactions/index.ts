@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Transaction Analysis Sub-feature
+// PRAMAAN - Transaction Analysis Sub-feature
 // Transaction categorization and analysis
 // ===========================================
 

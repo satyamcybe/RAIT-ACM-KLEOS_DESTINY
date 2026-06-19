@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Worker Types
+// PRAMAAN - Worker Types
 // ===========================================
 
 export interface Worker {

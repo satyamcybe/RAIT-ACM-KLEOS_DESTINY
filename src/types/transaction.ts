@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Transaction Types
+// PRAMAAN - Transaction Types
 // Financial transaction data
 // ===========================================
 

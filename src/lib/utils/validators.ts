@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Validators
+// PRAMAAN - Validators
 // Input validation helpers
 // ===========================================
 

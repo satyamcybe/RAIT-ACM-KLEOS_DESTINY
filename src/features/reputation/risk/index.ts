@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Risk Analytics Sub-feature
+// PRAMAAN - Risk Analytics Sub-feature
 // Risk scoring from financial data
 // ===========================================
 

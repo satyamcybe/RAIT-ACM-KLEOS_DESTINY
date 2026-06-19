@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Consent Types
+// PRAMAAN - Consent Types
 // AA Consent flow types
 // ===========================================
 

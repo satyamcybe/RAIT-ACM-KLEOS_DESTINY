@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Verification Status Component
+// PRAMAAN - Verification Status Component
 // Overall verification progress display
 // ===========================================
 

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Prisma Schema
+// PRAMAAN - Prisma Schema
 // Hackathon-friendly, UUID-based models
 // ===========================================
 
@@ -134,7 +134,7 @@ model Credential {
   id             String   @id @default(uuid())
   workerId       String   @map("worker_id")
   type           String   // identity | financial | reputation
-  issuer         String   @default("pranam")
+  issuer         String   @default("pramaan")
   subject        Json
   claims         Json
   proof          Json?

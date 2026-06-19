@@ -1,20 +1,51 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export default function FinalCTASection() {
   return (
-    <section className="py-24 bg-teal-600 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-          Ready to claim your digital identity?
+    <section className="py-20 bg-[#0D3D28] text-white text-center select-none relative overflow-hidden">
+      
+      {/* Subtle background glow rings */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full border border-white/5 pointer-events-none -z-10" />
+
+      <div className="max-w-4xl mx-auto px-6 space-y-6 relative z-10">
+        
+        {/* Headline */}
+        <h2 
+          className="text-4xl md:text-[48px] font-bold tracking-tight leading-snug"
+          style={{ fontFamily: "var(--font-sans)" }}
+        >
+          Your work deserves proof.
         </h2>
-        <p className="text-teal-100 text-lg mb-10 max-w-2xl mx-auto">
-          Join thousands of gig workers in India who are turning their hard work into verifiable financial trust. It takes less than 2 minutes to start.
+        
+        {/* Subhead */}
+        <p 
+          className="text-[#E8F5EF] text-[18px] max-w-md mx-auto"
+          style={{ fontFamily: "var(--font-sans)" }}
+        >
+          Get your PRAMAAN credential in 2 minutes.
         </p>
-        <Link href="/onboarding" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-teal-700 hover:bg-teal-50 rounded-xl font-bold text-lg transition-colors shadow-lg">
-          Start Verification Now <ArrowRight className="w-5 h-5" />
-        </Link>
+
+        {/* White button green text */}
+        <div className="pt-4 flex flex-col items-center gap-4">
+          <Link 
+            href="/onboarding" 
+            className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#1A6B47] hover:bg-[#E8F5EF] rounded-[8px] font-bold text-[16px] transition-all duration-300 shadow-md transform hover:-translate-y-0.5"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Get Started Free &rarr;
+          </Link>
+          
+          {/* Small text */}
+          <span 
+            className="text-[12px] text-[#E8F5EF]/75 font-medium"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            No platform cooperation needed. No app to install.
+          </span>
+        </div>
+
       </div>
     </section>
   );

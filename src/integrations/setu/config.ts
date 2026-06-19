@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Setu AA Config
+// PRAMAAN - Setu AA Config
 // ===========================================
 
 import { env } from "@/lib/config/env";

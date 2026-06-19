@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Setu AA Sandbox Adapter
+// PRAMAAN - Setu AA Sandbox Adapter
 // Connects to Setu sandbox API
 // ===========================================
 

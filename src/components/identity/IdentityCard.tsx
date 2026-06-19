@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Identity Card Component
+// PRAMAAN - Identity Card Component
 // Displays identity verification status
 // ===========================================
 
