@@ -21,9 +21,17 @@ model Worker {
   name                String?
   phone               String?
   email               String?
+  gender              String?
+  dob                 String?
   aadhaarVerified     Boolean  @default(false) @map("aadhaar_verified")
+  digilockerId        String?  @unique @map("digilocker_id")
+  referenceKey        String?  @map("reference_key")
   eshramId            String?  @map("eshram_id")
+  eshramUan           String?  @map("eshram_uan")
+  occupation          String?
   eshramVerified      Boolean  @default(false) @map("eshram_verified")
+  verificationStatus  String   @default("pending") @map("verification_status")
+  verificationSource  String[] @map("verification_source")
   profileComplete     Boolean  @default(false) @map("profile_complete")
   createdAt           DateTime @default(now()) @map("created_at")
   updatedAt           DateTime @updatedAt @map("updated_at")
