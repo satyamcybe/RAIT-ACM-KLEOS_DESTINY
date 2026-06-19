@@ -3,7 +3,7 @@
 // ===========================================
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,10 +11,20 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Pranam — Financial Identity for India's Gig Workers",
+  title: "Pramaan — Verified Digital Reputation and Trust Passport",
   description:
-    "Pranam helps gig and informal workers build verifiable financial identities through DigiLocker, eShram, and Account Aggregator integrations.",
+    "Pramaan helps gig workers, delivery partners, and drivers build a verified digital reputation and portable trust passport through eShram and DigiLocker integrations.",
   keywords: ["fintech", "identity", "gig workers", "India", "DigiLocker", "eShram", "SSI"],
 };
 
@@ -24,11 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full bg-white font-sans text-gray-900">
-        {/* TODO: Wrap with ClerkProvider when keys are configured */}
+    <html lang="en" className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable} h-full antialiased`}>
+      <body className="min-h-full bg-[#F7F6F2] font-sans text-[#111827]">
         {children}
       </body>
     </html>
   );
 }
+

@@ -1,188 +1,212 @@
 @import "tailwindcss";
 
-/* ===========================================
-   PRANAM - Global Styles
-   FlyRank-inspired, white bg, green accents
-   =========================================== */
+/* ==========================================================================
+   PRAMAAN - Strict Premium Design System & Design Tokens
+   ========================================================================== */
 
 :root {
-  --color-primary: #18C79C;
-  --color-primary-light: #d1fae5;
-  --color-primary-dark: #129E7B;
-  --color-secondary: #0F172A;
-  --color-accent: #22D3EE;
-  --color-bg-base: #F8FAFC;
-  --radius-custom: 24px;
-  --shadow-custom: 0 20px 50px rgba(0, 0, 0, 0.08);
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* Strict Color System */
+  --green-deep: #1A4D3A;
+  --green-mint: #2ECC8F;
+  --green-light: #E8F5EF;
+  --cream: #F7F6F2;
+  --cream-dark: #EDF0EB;
+  --ink: #111827;
+  --slate: #6B7280;
+  --border: #E5E1DA;
+  --white: #FFFFFF;
+  --gold-accent: #D4A853;
+
+  /* Fonts */
+  --font-serif: var(--font-fraunces), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+
+  /* Shadows (Strict Limit) */
+  --shadow-premium: 0 1px 6px rgba(0, 0, 0, 0.06);
 }
 
 body {
+  background-color: var(--cream);
+  color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
+/* Custom premium scrollbar (Strict Green Mint Theme) */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--cream-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
-
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, outline-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* Focus styles */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  background: var(--green-mint);
   border-radius: 4px;
 }
 
-/* Custom Animations */
-
-@keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.15); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-deep);
 }
 
-@keyframes fade-in-detail {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Global Transition Settings */
+* {
+  transition-property: transform, box-shadow, border-color, background-color, color, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Card Hover micro-interaction */
+.card-hover-effect {
+  box-shadow: var(--shadow-premium);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+}
+.card-hover-effect:hover {
+  transform: translateY(-3px);
+  border-color: var(--green-mint);
 }
 
-@keyframes dot-pulse {
-  0%, 100% { opacity: 0; }
+/* Form Inputs styling (Strict Tokens) */
+input, select, textarea {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background-color: var(--white);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--green-mint);
+  box-shadow: 0 0 0 3px rgba(46, 204, 227, 0.15); /* mint green shadow outline tint */
+}
+
+/* Focus Visible default outlines */
+:focus-visible {
+  outline: 2px solid var(--green-mint);
+  outline-offset: 2px;
+}
+
+/* Animation Keyframes (Pure CSS Only) */
+
+/* Pipeline dashed line flow */
+@keyframes dashflow {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Trust score gauge arc draw-in */
+@keyframes arcfill {
+  from {
+    stroke-dashoffset: 264; /* Total circumference approximation */
+  }
+  to {
+    stroke-dashoffset: 21;  /* Remaining path to display 92% */
+  }
+}
+
+/* Income chart trendline draw-in */
+@keyframes linedraw {
+  from {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Progress shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+/* Marquee infinite horizontal loop */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Floating animation for info cards around character */
+@keyframes floatY1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes floatY2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes floatY3 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
 }
 
-@keyframes fill-width-100 {
-  from { width: 0; }
-  to { width: 100%; }
+/* Class Bindings */
+.animate-dashflow {
+  animation: dashflow 1.5s linear infinite;
 }
 
-@keyframes fill-width-87 {
-  from { width: 0; }
-  to { width: 87%; }
+.animate-arcfill {
+  animation: arcfill 1.2s ease-out forwards;
 }
 
-@keyframes fill-width-74 {
-  from { width: 0; }
-  to { width: 74%; }
+.animate-linedraw {
+  animation: linedraw 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes fill-circle {
-  from { stroke-dasharray: 0 314; }
-  to { stroke-dasharray: 232 314; }
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--green-mint) 25%,
+    var(--green-light) 50%,
+    var(--green-mint) 75%
+  );
+  background-size: 200px 100%;
+  animation: shimmer 2s linear infinite;
 }
 
-.pulse-ring {
-  animation: pulse-ring 1.2s infinite;
+.animate-marquee {
+  animation: marquee 24s linear infinite;
 }
 
-.fade-in-detail {
-  animation: fade-in-detail 0.3s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out 0.3s forwards;
-}
-
-.animate-step {
-  opacity: 0;
-  animation: fade-in-up 0.5s ease-out forwards;
-}
-
-.dot-1 {
-  animation: dot-pulse 1.5s infinite;
-}
-
-.dot-2 {
-  animation: dot-pulse 1.5s infinite;
-  animation-delay: 0.2s;
-}
-
-.dot-3 {
-  animation: dot-pulse 1.5s infinite;
-  animation-delay: 0.4s;
-}
-
-.animate-fill-100 {
-  width: 0;
-  animation: fill-width-100 1s ease-out 0.2s forwards;
-}
-
-.animate-fill-87 {
-  width: 0;
-  animation: fill-width-87 1s ease-out 0.4s forwards;
-}
-
-.animate-fill-74 {
-  width: 0;
-  animation: fill-width-74 1s ease-out 0.6s forwards;
-}
-
-.animate-fill-circle {
-  stroke-dasharray: 0 314;
-  animation: fill-circle 1.5s ease-out forwards;
-}
-
-@keyframes float-y-1 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes float-y-2 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-}
-
-@keyframes float-y-3 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 .animate-float-1 {
-  animation: float-y-1 6s ease-in-out infinite;
+  animation: floatY1 6s ease-in-out infinite;
 }
 
 .animate-float-2 {
-  animation: float-y-2 8s ease-in-out infinite;
+  animation: floatY2 8s ease-in-out infinite;
 }
 
 .animate-float-3 {
-  animation: float-y-3 5s ease-in-out infinite;
+  animation: floatY3 5s ease-in-out infinite;
 }
 
-.animate-spin-slow {
-  animation: spin-slow 25s linear infinite;
+.animate-live-pulse {
+  animation: livePulse 1.8s ease-in-out infinite;
 }

@@ -1,129 +1,189 @@
 "use client";
 
 export default function TrustOverviewSection() {
-  const metrics = [
-    { name: "Identity Score", val: "100/100", w: "w-full", bg: "bg-[#18C79C]" },
-    { name: "Financial Score", val: "90/100", w: "w-[90%]", bg: "bg-[#22D3EE]" },
-    { name: "Reputation Score", val: "86/100", w: "w-[86%]", bg: "bg-purple-500" }
-  ];
-
   return (
-    <section id="trust-score" className="py-24 bg-[#0F172A] text-white overflow-hidden relative">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(34,211,238,0.06),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(24,199,156,0.04),transparent_50%)]" />
-      
-      <div className="max-w-[1440px] mx-auto px-8 relative z-10">
+    <section 
+      id="trust-score" 
+      className="py-20 bg-[#F7F6F2] border-b border-[#E5E1DA] select-none"
+    >
+      <div className="max-w-[1440px] mx-auto px-6">
         
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-xs font-bold text-[#18C79C] uppercase tracking-widest mb-3">SaaS Analytics</p>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Your Trust Overview
+        {/* Section Headings */}
+        <div className="text-center max-w-xl mx-auto mb-16 space-y-3">
+          <h2 
+            className="text-3xl md:text-[36px] font-bold text-[#111827] tracking-tight"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Your Trust, At a Glance.
           </h2>
-          <p className="text-slate-400 text-sm mt-3">
-            Your financial behavior and work history builds your trust.
-          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+        {/* Centered White Infographic Card */}
+        <div className="bg-[#FFFFFF] border-[1.5px] border-[#E5E1DA] rounded-[20px] p-6 md:p-12 shadow-[0_1px_6px_rgba(0,0,0,0.06)] max-w-[840px] mx-auto grid md:grid-cols-[40%_60%] gap-12 items-center">
           
-          {/* Left Panel: Trust Score circular gauge + metrics */}
-          <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-8 rounded-[24px] shadow-2xl flex flex-col md:flex-row items-center gap-12">
+          {/* Left Column: Dial & Progress Bars */}
+          <div className="flex flex-col items-center space-y-8 w-full">
             
-            {/* Score circle */}
-            <div className="relative w-48 h-48 rounded-full border-[12px] border-slate-800 flex flex-col items-center justify-center shrink-0">
-              <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle
-                  cx="50" cy="50" r="42"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="8"
-                  className="text-[#18C79C] animate-fill-circle"
-                />
-              </svg>
-              <span className="text-5xl font-black relative z-10 text-white">92</span>
-              <span className="text-xs text-slate-400 mt-1 relative z-10 font-bold uppercase tracking-wider">Trust Score</span>
-              <div className="mt-2.5 bg-[#18C79C]/20 border border-[#18C79C]/30 text-[#18C79C] text-[10px] font-black px-2.5 py-0.5 rounded-full relative z-10">
-                Excellent
+            {/* Trust Score Gauge Dial */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-40 h-40 flex flex-col items-center justify-center">
+                <svg className="absolute w-full h-full transform" viewBox="0 0 100 100">
+                  {/* Outer Background Ring */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="42"
+                    stroke="#E8F5EF"
+                    strokeWidth="6"
+                    fill="none"
+                  />
+                  {/* Outer Filled Progress Arc (Calculated 92% of 264 circumference) */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="42"
+                    stroke="#2ECC8F"
+                    strokeWidth="6"
+                    fill="none"
+                    strokeDasharray="264"
+                    strokeDashoffset="264"
+                    strokeLinecap="round"
+                    className="animate-arcfill origin-center transform -rotate-90"
+                  />
+                </svg>
+                
+                {/* Dial Text Content */}
+                <div className="text-center z-10 space-y-1">
+                  <div 
+                    className="text-[48px] font-bold text-[#111827] leading-none mt-2"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    92
+                  </div>
+                  <div 
+                    className="text-[13px] font-medium text-[#6B7280]"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    Trust Score
+                  </div>
+                  <div className="pt-1">
+                    <span 
+                      className="px-3 py-0.5 bg-[#E8F5EF] text-[#1A4D3A] text-[11px] font-semibold rounded-full"
+                      style={{ fontFamily: "var(--font-sans)" }}
+                    >
+                      Excellent
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Metrics progress bars */}
-            <div className="flex-1 w-full space-y-6">
-              {metrics.map((m, idx) => (
-                <div key={idx}>
-                  <div className="flex justify-between text-xs font-bold mb-2">
-                    <span className="text-slate-300">{m.name}</span>
-                    <span className="text-[#18C79C]">{m.val}</span>
-                  </div>
-                  <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                    <div className={`h-full ${m.bg} rounded-full ${m.w} transition-all duration-1000 ease-out`} />
-                  </div>
-                </div>
-              ))}
+            {/* SVG Progress Bars */}
+            <div className="w-full">
+              <svg className="w-full h-[130px]" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Identity Score Bar */}
+                <text x="0" y="20" fill="#6B7280" fontSize="11" fontWeight="500" style={{ fontFamily: "var(--font-sans)" }}>Identity Score</text>
+                <rect x="0" y="28" width="200" height="8" rx="4" fill="#E8F5EF" />
+                <rect x="0" y="28" width="200" height="8" rx="4" fill="#2ECC8F" />
+                <text x="210" y="36" fill="#111827" fontSize="12" fontWeight="bold" style={{ fontFamily: "var(--font-mono)" }}>100/100</text>
+
+                {/* Financial Score Bar */}
+                <text x="0" y="60" fill="#6B7280" fontSize="11" fontWeight="500" style={{ fontFamily: "var(--font-sans)" }}>Financial Score</text>
+                <rect x="0" y="68" width="200" height="8" rx="4" fill="#E8F5EF" />
+                <rect x="0" y="68" width="180" height="8" rx="4" fill="#2ECC8F" />
+                <text x="210" y="76" fill="#111827" fontSize="12" fontWeight="bold" style={{ fontFamily: "var(--font-mono)" }}>90/100</text>
+
+                {/* Reputation Score Bar */}
+                <text x="0" y="100" fill="#6B7280" fontSize="11" fontWeight="500" style={{ fontFamily: "var(--font-sans)" }}>Reputation Score</text>
+                <rect x="0" y="108" width="200" height="8" rx="4" fill="#E8F5EF" />
+                <rect x="0" y="108" width="172" height="8" rx="4" fill="#2ECC8F" />
+                <text x="210" y="116" fill="#111827" fontSize="12" fontWeight="bold" style={{ fontFamily: "var(--font-mono)" }}>86/100</text>
+              </svg>
             </div>
 
           </div>
 
-          {/* Right Panel: Income Growth Chart */}
-          <div className="bg-slate-900/60 backdrop-blur-md border border-white/5 p-8 rounded-[24px] shadow-2xl flex flex-col justify-between relative">
+          {/* Right Column: Chart & Tooltip */}
+          <div className="relative w-full h-[320px] flex flex-col justify-between border-t md:border-t-0 md:border-l border-[#E5E1DA] pt-8 md:pt-0 md:pl-8">
             
-            {/* Title & Floating Tooltip */}
-            <div className="flex items-center justify-between mb-6">
+            {/* Chart Title */}
+            <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-bold text-slate-200 text-lg">Income Trend</h4>
-                <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Last 6 Months</p>
+                <h4 className="text-[16px] font-semibold text-[#111827]" style={{ fontFamily: "var(--font-sans)" }}>Income Trend</h4>
+                <p className="text-[10px] text-[#6B7280] font-semibold uppercase tracking-wider">Last 6 Months</p>
               </div>
-              <div className="bg-[#18C79C]/10 border border-[#18C79C]/20 px-3.5 py-1.5 rounded-full text-[#18C79C] font-black text-xs">
-                ₹22,450
-              </div>
+              <span 
+                className="px-3 py-1 bg-[#E8F5EF] border border-[#2ECC8F] text-[#1A4D3A] text-xs font-semibold rounded-full"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                ₹22,450/mo
+              </span>
             </div>
 
-            {/* SVG Chart area */}
-            <div className="relative h-44 w-full mt-4 flex items-end">
-              <svg className="w-full h-full" viewBox="0 0 360 180" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="chart-glow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#18C79C" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#18C79C" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Horizontal gridlines */}
-                <line x1="0" y1="30" x2="360" y2="30" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-                <line x1="0" y1="90" x2="360" y2="90" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-                <line x1="0" y1="150" x2="360" y2="150" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-                
-                {/* Gradient area */}
-                <path 
-                  d="M 10 170 C 40 140, 80 120, 110 100 C 150 110, 190 90, 220 70 C 260 80, 300 40, 340 30 L 340 170 Z" 
-                  fill="url(#chart-glow)"
+            {/* Income Trend Chart in SVG */}
+            <div className="relative w-full h-[180px] mt-4">
+              <svg className="w-full h-full" viewBox="0 0 340 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Horizontal Dashed Gridlines */}
+                <line x1="40" y1="30" x2="330" y2="30" stroke="#E5E1DA" strokeWidth="0.5" strokeDasharray="3 3" />
+                <line x1="40" y1="90" x2="330" y2="90" stroke="#E5E1DA" strokeWidth="0.5" strokeDasharray="3 3" />
+                <line x1="40" y1="150" x2="330" y2="150" stroke="#E5E1DA" strokeWidth="0.5" strokeDasharray="3 3" />
+
+                {/* Y-Axis Labels */}
+                <text x="32" y="34" fill="#6B7280" fontSize="10" textAnchor="end" style={{ fontFamily: "var(--font-sans)" }}>₹30K</text>
+                <text x="32" y="94" fill="#6B7280" fontSize="10" textAnchor="end" style={{ fontFamily: "var(--font-sans)" }}>₹15K</text>
+                <text x="32" y="154" fill="#6B7280" fontSize="10" textAnchor="end" style={{ fontFamily: "var(--font-sans)" }}>₹0</text>
+
+                {/* Shaded Area Below Trend Line */}
+                <path
+                  d="M 50 150 L 100 135 L 150 110 L 200 118 L 250 85 L 300 60 L 300 150 Z"
+                  fill="#E8F5EF"
+                  opacity="0.6"
                 />
-                
-                {/* Neon green trend line */}
-                <path 
-                  d="M 10 170 C 40 140, 80 120, 110 100 C 150 110, 190 90, 220 70 C 260 80, 300 40, 340 30" 
-                  fill="none" 
-                  stroke="#18C79C" 
-                  strokeWidth="3.5"
+
+                {/* Neon Green Trend Line */}
+                <path
+                  d="M 50 150 L 100 135 L 150 110 L 200 118 L 250 85 L 300 60"
+                  stroke="#2ECC8F"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="animate-linedraw"
                 />
 
-                {/* Vertex dots */}
-                <circle cx="10" cy="170" r="4.5" fill="#18C79C" stroke="#0F172A" strokeWidth="2" />
-                <circle cx="110" cy="100" r="4.5" fill="#18C79C" stroke="#0F172A" strokeWidth="2" />
-                <circle cx="220" cy="70" r="4.5" fill="#18C79C" stroke="#0F172A" strokeWidth="2" />
-                <circle cx="340" cy="30" r="4.5" fill="#18C79C" stroke="#0F172A" strokeWidth="2" />
-              </svg>
-            </div>
+                {/* Vertex Dots */}
+                <circle cx="50" cy="150" r="3.5" fill="#2ECC8F" stroke="#FFFFFF" strokeWidth="1.5" />
+                <circle cx="100" cy="135" r="3.5" fill="#2ECC8F" stroke="#FFFFFF" strokeWidth="1.5" />
+                <circle cx="150" cy="110" r="3.5" fill="#2ECC8F" stroke="#FFFFFF" strokeWidth="1.5" />
+                <circle cx="200" cy="118" r="3.5" fill="#2ECC8F" stroke="#FFFFFF" strokeWidth="1.5" />
+                <circle cx="250" cy="85" r="3.5" fill="#2ECC8F" stroke="#FFFFFF" strokeWidth="1.5" />
+                
+                {/* June Endpoint circle marker */}
+                <circle cx="300" cy="60" r="5" fill="#2ECC8F" stroke="#FFFFFF" strokeWidth="2" />
+                
+                {/* Small indicator line leader to tooltip */}
+                <line x1="300" y1="60" x2="300" y2="40" stroke="#2ECC8F" strokeWidth="1" strokeDasharray="2 2" />
 
-            {/* Bottom Labels */}
-            <div className="flex justify-between text-slate-500 font-bold text-[10px] uppercase tracking-wider mt-4 px-1">
-              <span>Jan</span>
-              <span>Feb</span>
-              <span>Mar</span>
-              <span>Apr</span>
-              <span>May</span>
-              <span>Jun</span>
+                {/* X-Axis Month Labels */}
+                <text x="50" y="174" fill="#6B7280" fontSize="10" textAnchor="middle" style={{ fontFamily: "var(--font-sans)" }}>Jan</text>
+                <text x="100" y="174" fill="#6B7280" fontSize="10" textAnchor="middle" style={{ fontFamily: "var(--font-sans)" }}>Feb</text>
+                <text x="150" y="174" fill="#6B7280" fontSize="10" textAnchor="middle" style={{ fontFamily: "var(--font-sans)" }}>Mar</text>
+                <text x="200" y="174" fill="#6B7280" fontSize="10" textAnchor="middle" style={{ fontFamily: "var(--font-sans)" }}>Apr</text>
+                <text x="250" y="174" fill="#6B7280" fontSize="10" textAnchor="middle" style={{ fontFamily: "var(--font-sans)" }}>May</text>
+                <text x="300" y="174" fill="#6B7280" fontSize="10" textAnchor="middle" style={{ fontFamily: "var(--font-sans)" }}>Jun</text>
+              </svg>
+
+              {/* Floating Tooltip Card overlay on June node */}
+              <div 
+                className="absolute top-[8px] right-[5px] bg-[#FFFFFF] border border-[#E5E1DA] p-2 rounded-[8px] shadow-sm z-20 flex flex-col items-center pointer-events-none"
+                style={{ width: "80px" }}
+              >
+                <span className="text-[12px] font-bold text-[#111827]" style={{ fontFamily: "var(--font-mono)" }}>
+                  ₹22,450
+                </span>
+                <span className="text-[9px] text-[#6B7280]" style={{ fontFamily: "var(--font-sans)" }}>
+                  June 2025
+                </span>
+              </div>
             </div>
 
           </div>

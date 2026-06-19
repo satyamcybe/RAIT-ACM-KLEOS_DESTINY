@@ -1,31 +1,26 @@
 import Navbar from "@/components/landing/Navbar";
 import HeroSection from "@/components/landing/HeroSection";
-import TrustedByBar from "@/components/landing/TrustedByBar";
-import FeaturesBar from "@/components/landing/FeaturesBar";
-import BenefitsSection from "@/components/landing/BenefitsSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import FeaturesBar from "@/components/landing/FeaturesBar";
 import TrustOverviewSection from "@/components/landing/TrustOverviewSection";
 import LabourPassportSection from "@/components/landing/LabourPassportSection";
-import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import InstitutionsSection from "@/components/landing/InstitutionsSection";
 import FinalCTASection from "@/components/landing/FinalCTASection";
 import Footer from "@/components/landing/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#F8FAFC]">
+    <main className="min-h-screen bg-[#F7F6F2]">
       <Navbar />
       <HeroSection />
-      <TrustedByBar />
-      <FeaturesBar />
-      <BenefitsSection />
       <HowItWorksSection />
+      <FeaturesBar />
       <TrustOverviewSection />
       <LabourPassportSection />
-      <TestimonialsSection />
       <InstitutionsSection />
       <FinalCTASection />
       <Footer />
     </main>
   );
 }
+

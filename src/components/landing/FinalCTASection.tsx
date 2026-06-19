@@ -1,32 +1,44 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export default function FinalCTASection() {
   return (
-    <section className="py-28 bg-[#0F172A] relative overflow-hidden text-center border-t border-slate-800">
-      {/* Background glow behind content */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#18C79C]/10 rounded-full blur-[120px] -z-10" />
-
-      <div className="max-w-4xl mx-auto px-8 relative z-10 space-y-8">
-        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-none">
-          Ready to Build Your <br className="hidden md:block" />
-          <span className="bg-gradient-to-r from-[#18C79C] to-[#22D3EE] bg-clip-text text-transparent">Trust Passport?</span>
+    <section className="py-20 bg-[#EDF0EB] border-b border-[#E5E1DA] text-center select-none">
+      <div className="max-w-4xl mx-auto px-6 space-y-6">
+        
+        {/* Headline */}
+        <h2 
+          className="text-3xl md:text-[36px] font-bold text-[#111827] tracking-tight leading-snug"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          Ready to Build Your Trust Passport?
         </h2>
         
-        <p className="text-slate-400 text-lg md:text-xl max-w-xl mx-auto font-medium">
+        {/* Subheadline */}
+        <p 
+          className="text-[#6B7280] text-[16px] max-w-lg mx-auto"
+          style={{ fontFamily: "var(--font-sans)" }}
+        >
           Start building a verified reputation today.
         </p>
 
-        <div className="pt-6 relative inline-block group">
-          {/* Button glow backdrop */}
-          <div className="absolute inset-0 bg-[#18C79C] rounded-2xl blur-lg opacity-40 group-hover:opacity-60 transition-all duration-300 transform scale-95" />
+        {/* CTA Button */}
+        <div className="pt-4 flex justify-center">
           <Link 
             href="/onboarding" 
-            className="relative inline-flex items-center gap-2.5 px-10 py-5 bg-gradient-to-r from-[#18C79C] to-[#129E7B] text-white rounded-2xl font-black text-xl shadow-lg transition-transform duration-300 transform hover:-translate-y-1"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-[#1A4D3A] hover:bg-[#153D2E] text-[#FFFFFF] rounded-full font-medium text-[15px] shadow-[0_1px_6px_rgba(0,0,0,0.06)] hover:shadow-md transition-all duration-300"
+            style={{ fontFamily: "var(--font-sans)" }}
           >
-            Generate Passport <ArrowRight className="w-6 h-6" />
+            <span>Get Your Pramaan</span>
+            {/* Custom Inline SVG arrow */}
+            <svg className="w-4 h-4 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="8" x2="13" y2="8" />
+              <polyline points="9,4 13,8 9,12" />
+            </svg>
           </Link>
         </div>
+
       </div>
     </section>
   );

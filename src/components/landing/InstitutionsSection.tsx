@@ -1,50 +1,58 @@
+"use client";
+
 export default function InstitutionsSection() {
-  const categories = [
-    {
-      title: "Gig Platforms & Networks",
-      partners: ["Zomato", "Swiggy", "Uber", "Ola"]
-    },
-    {
-      title: "Banks & NBFCs",
-      partners: ["HDFC Bank", "ICICI Bank", "Kotak Bank", "Bajaj Finserv"]
-    },
-    {
-      title: "Insurance & Providers",
-      partners: ["Policybazaar", "Digit Insurance", "Acko"]
-    }
+  const partners = [
+    "HDFC Bank",
+    "ICICI Bank",
+    "Bajaj Finserv",
+    "Kotak",
+    "PolicyBazaar",
+    "Zomato",
+    "Swiggy"
   ];
 
+  // Duplicate the array to create a seamless infinite loop scrolling effect
+  const marqueeItems = [...partners, ...partners, ...partners, ...partners];
+
   return (
-    <section id="institutions" className="py-24 bg-white border-t border-[rgba(15,23,42,0.06)] select-none">
-      <div className="max-w-[1440px] mx-auto px-8">
+    <section 
+      id="institutions" 
+      className="py-16 bg-[#F7F6F2] border-b border-[#E5E1DA] overflow-hidden select-none"
+    >
+      <div className="max-w-[1440px] mx-auto px-6">
         
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="text-xs font-bold text-[#18C79C] uppercase tracking-widest mb-3">
-            Integration
+        {/* Label */}
+        <div className="text-center mb-8">
+          <p 
+            className="text-[16px] font-semibold text-[#6B7280]"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Institutions Ready to Trust Pramaan.
           </p>
-          <h2 className="text-3xl md:text-5xl font-black text-[#0F172A] tracking-tight">
-            Trusted by Institutions
-          </h2>
         </div>
 
-        <div className="space-y-12">
-          {categories.map((cat, idx) => (
-            <div key={idx} className="border-b border-slate-100 pb-10 last:border-none last:pb-0">
-              <h4 className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-8">
-                {cat.title}
-              </h4>
-              <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16">
-                {cat.partners.map((partner, pIdx) => (
-                  <div 
-                    key={pIdx}
-                    className="font-black text-slate-700 hover:text-slate-900 text-xl tracking-tight transition-all duration-300 transform hover:scale-110 cursor-default opacity-60 hover:opacity-100"
-                  >
-                    {partner}
-                  </div>
-                ))}
+        {/* Outer Marquee wrapper */}
+        <div className="relative w-full overflow-hidden py-4">
+          
+          {/* Inner animated row */}
+          <div className="flex items-center gap-12 whitespace-nowrap w-max animate-marquee">
+            {marqueeItems.map((partner, idx) => (
+              <div key={idx} className="inline-flex items-center gap-12">
+                <span 
+                  className="text-[15px] md:text-[18px] font-medium text-[#9CA3AF] hover:text-[#1A4D3A] transition-colors duration-200 cursor-default"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  {partner}
+                </span>
+                
+                {/* Custom inline SVG dot separator */}
+                <svg className="w-2.5 h-2.5 text-[#E5E1DA] shrink-0" viewBox="0 0 10 10" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="5" cy="5" r="3" />
+                </svg>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
         </div>
 
       </div>
