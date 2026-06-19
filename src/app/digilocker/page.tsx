@@ -31,7 +31,7 @@ export default function DigiLockerMock() {
       if (Notification.permission === "granted") {
         new Notification("DigiLocker Auth Service", {
           body: msg,
-          icon: "/logo-icon.png"
+          icon: "/logo-text.png"
         });
       }
     }
