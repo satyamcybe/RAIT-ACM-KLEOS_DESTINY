@@ -229,7 +229,7 @@ export default function DigiLockerMock() {
         <img 
           src="/logo-text.png" 
           alt="PRAMAAN Logo" 
-          className="h-7 w-auto object-contain mix-blend-multiply logo-brand-green opacity-50"
+          className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
         />
         <p className="text-xs text-slate-400">
           Powered by <span className="font-semibold text-slate-500">Pramaan Trust Infrastructure</span>

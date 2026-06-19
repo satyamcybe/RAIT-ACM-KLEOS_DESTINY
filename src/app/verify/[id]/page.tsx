@@ -22,7 +22,7 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
             <img 
               src="/logo-text.png" 
               alt="PRAMAAN Logo" 
-              className="h-8 w-auto object-contain mix-blend-multiply logo-brand-green opacity-60"
+              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
             />
             Powered by Pramaan | Verified via e-Shram + AA Framework
           </div>
@@ -132,7 +132,7 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
           <img 
             src="/logo-text.png" 
             alt="PRAMAAN Logo" 
-            className="h-8 w-auto object-contain mix-blend-multiply logo-brand-green opacity-60"
+            className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
           />
           <p className="text-sm font-medium text-gray-500">
             Powered by Pramaan | Verified via e-Shram + AA Framework

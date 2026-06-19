@@ -104,11 +104,7 @@ export default function LoginPage() {
             <img 
               src="/logo-text.png" 
               alt="PRAMAAN Logo" 
-<<<<<<< HEAD
-              className="h-12 w-auto object-contain mix-blend-multiply"
-=======
-              className="w-full h-auto object-contain rounded-2xl logo-brand-green mix-blend-multiply"
->>>>>>> 87658294ea8f282dbf8bb41bcab5c9a185992cc6
+              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
             />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
@@ -250,7 +246,7 @@ export default function LoginPage() {
         <img 
           src="/logo-text.png" 
           alt="PRAMAAN Logo" 
-          className="h-7 w-auto object-contain mix-blend-multiply logo-brand-green opacity-50"
+          className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
         />
         <p className="text-xs text-gray-400 font-medium">
           Powered by <span className="text-gray-500">Pramaan Trust Infrastructure</span>

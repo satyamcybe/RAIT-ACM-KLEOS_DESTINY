@@ -22,7 +22,7 @@ export function Footer({ className }: FooterProps) {
             <img 
               src="/logo-text.png" 
               alt="PRAMAAN Logo" 
-              className="h-8 w-auto object-contain mix-blend-multiply logo-brand-green opacity-70"
+              className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
             />
             <p className="text-sm text-gray-500">
               &copy; {new Date().getFullYear()} PRAMAAN. Built for India&apos;s gig workers.
