@@ -7,6 +7,7 @@
 
 import { cn } from "@/lib/utils";
 import { Fingerprint, Briefcase, Check, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 interface IdentityCardProps {
   className?: string;
@@ -15,6 +16,7 @@ interface IdentityCardProps {
   verified: boolean;
   details?: Record<string, string>;
   onVerify?: () => void;
+  href?: string;
 }
 
 export function IdentityCard({
@@ -24,6 +26,7 @@ export function IdentityCard({
   verified,
   details,
   onVerify,
+  href,
 }: IdentityCardProps) {
   const config = {
     aadhaar: {
@@ -84,10 +87,19 @@ export function IdentityCard({
         </div>
       </div>
 
-      {!verified && onVerify && (
+      {!verified && href && (
+        <Link
+          href={href}
+          className="mt-4 block w-full text-center rounded-xl bg-[#1A6B47] hover:bg-[#0D3D28] py-2 px-4 text-xs font-bold text-white transition-all cursor-pointer active:scale-[0.99] select-none"
+        >
+          Verify Now
+        </Link>
+      )}
+
+      {!verified && !href && onVerify && (
         <button
           onClick={onVerify}
-          className="mt-4 w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+          className="mt-4 w-full rounded-xl bg-[#1A6B47] hover:bg-[#0D3D28] py-2 px-4 text-xs font-bold text-white transition-all cursor-pointer active:scale-[0.99]"
         >
           Verify Now
         </button>
