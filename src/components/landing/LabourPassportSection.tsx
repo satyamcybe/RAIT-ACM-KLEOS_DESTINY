@@ -49,69 +49,13 @@ export default function LabourPassportSection() {
           {/* Left Column: Passport Card & Facts Grid */}
           <div className="flex flex-col items-center w-full">
             
-            {/* Dynamic Card Mockup styled on /card-bg.png */}
-            <div 
-              className="relative w-full max-w-[360px] h-[225px] rounded-[16px] p-5 text-white shadow-xl overflow-hidden border border-white/10 flex flex-col justify-between hover:scale-[1.02] transition-all duration-300"
-              style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-            >
-              {/* Top Row: Logo & stamp */}
-              <div className="flex justify-between items-start">
-                <img src="/logo-text.png" alt="Logo" className="h-6 w-auto brightness-0 invert" />
-                <span className="text-[8.5px] tracking-wider font-mono text-white/50">ID: RMN-2026-MH-4A8B</span>
-              </div>
-
-              {/* Middle content: Photo, Details, QR */}
-              <div className="grid grid-cols-[60px_1fr_64px] gap-3 items-center mt-3">
-                {/* Photo initials placeholder */}
-                <div className="w-14 h-14 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center font-bold text-lg text-white">
-                  RK
-                </div>
-
-                {/* Details */}
-                <div className="space-y-0.5 text-left pl-1">
-                  <div className="flex flex-col leading-tight">
-                    <span className="text-[8px] uppercase text-white/50 tracking-wider">Name</span>
-                    <span className="text-[13px] font-bold text-white">Raju Kamble</span>
-                  </div>
-                  <div className="flex flex-col leading-tight mt-1">
-                    <span className="text-[8px] uppercase text-white/50 tracking-wider">Pramaan Score</span>
-                    <span className="text-[13px] font-mono font-bold text-[#F5A623]">847 / 1000</span>
-                  </div>
-                </div>
-
-                {/* QR code with middle logo */}
-                <div className="relative bg-white p-1 rounded-[6px] w-[60px] h-[60px] flex items-center justify-center shadow-sm shrink-0">
-                  <svg className="w-full h-full text-[#0D3D28]" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {qrGrid.map((row, rIdx) =>
-                      row.map((cell, cIdx) => (
-                        <rect
-                          key={`${rIdx}-${cIdx}`}
-                          x={cIdx * 5}
-                          y={rIdx * 5}
-                          width="4"
-                          height="4"
-                          fill={cell ? "#0D3D28" : "transparent"}
-                        />
-                      ))
-                    )}
-                  </svg>
-                  {/* Center Devanagari logo icon */}
-                  <div className="absolute inset-0 m-auto w-5 h-5 bg-white rounded-sm flex items-center justify-center border border-[#E5E7EB] shadow-xs overflow-hidden">
-                    <img src="/logo-icon.png" alt="Logo" className="w-full h-full object-contain" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Footer row */}
-              <div className="flex justify-between items-end border-t border-white/10 pt-2 mt-2 text-[10px] text-white/70">
-                <div className="flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5 text-[#2ECC8F]" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="2.5,6 5,8.5 9.5,4" />
-                  </svg>
-                  <span>Verified by e-Shram + DigiLocker</span>
-                </div>
-                <span className="font-mono text-[8px] text-white/40">pranam.in/verify</span>
-              </div>
+            {/* Actual Ramesh Kumar verified card as a PNG tag */}
+            <div className="w-full max-w-[360px] drop-shadow-xl hover:scale-[1.02] transition-all duration-300">
+              <img 
+                src="/card-mockup.png" 
+                alt="Pranam Credential Passport" 
+                className="rounded-[16px] border border-[#E5E7EB] pointer-events-none w-full h-auto"
+              />
             </div>
 
             {/* Facts Grid */}
