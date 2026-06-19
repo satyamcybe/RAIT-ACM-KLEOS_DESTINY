@@ -153,15 +153,15 @@ export default function FinancialVerificationPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const ALL_FIPS = [
-    { id: 'HDFC', name: 'HDFC Bank', iconUri: 'https://cdn.finvu.in/finvulogos/hdfc_bank_icon.png' },
-    { id: 'CANARA', name: 'Canara Bank', iconUri: 'https://cdn.finvu.in/finvulogos/canarabank_icon.jpg' },
-    { id: 'SBI', name: 'State Bank of India', iconUri: 'https://cdn.finvu.in/finvulogos/sbi_icon.jpg' },
-    { id: 'ICICI-FIP', name: 'ICICI Bank', iconUri: 'https://cdn.finvu.in/finvulogos/icicibank_icon.jpg' },
-    { id: 'RBL', name: 'RBL Bank', iconUri: 'https://cdn.finvu.in/finvulogos/rbl_bank_icon.png' },
-    { id: 'KOTAK', name: 'Kotak Mahindra Bank', iconUri: 'https://cdn.finvu.in/finvulogos/kotak_bank_icon.png' },
-    { id: 'BOB', name: 'Bank of Baroda', iconUri: 'https://cdn.finvu.in/finvulogos/bob_icon.png' },
-    { id: 'AXIS', name: 'Axis Bank', iconUri: 'https://cdn.finvu.in/finvulogos/axisbank_icon.png' },
-    { id: 'IBFIP', name: 'Indian Bank', iconUri: 'https://cdn.finvu.in/finvulogos/indian-bank-logo.png' },
+    { id: 'HDFC', name: 'HDFC Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/hdfc/logo.svg' },
+    { id: 'CANARA', name: 'Canara Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/cnrb/logo.svg' },
+    { id: 'SBI', name: 'State Bank of India', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/sbin/logo.svg' },
+    { id: 'ICICI-FIP', name: 'ICICI Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/icic/logo.svg' },
+    { id: 'RBL', name: 'RBL Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/ratn/logo.svg' },
+    { id: 'KOTAK', name: 'Kotak Mahindra Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/kkbk/logo.svg' },
+    { id: 'BOB', name: 'Bank of Baroda', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/barb/logo.svg' },
+    { id: 'AXIS', name: 'Axis Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/utib/logo.svg' },
+    { id: 'IBFIP', name: 'Indian Bank', iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/idib/logo.svg' },
   ];
 
   const handleMobileSubmit = async () => {
@@ -260,7 +260,7 @@ export default function FinancialVerificationPage() {
           accountNumber: 'XXXXX2108', 
           accType: 'SAVINGS',
           FIType: 'DEPOSIT',
-          iconUri: 'https://cdn.finvu.in/finvulogos/indian-bank-logo.png' 
+          iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/idib/logo.svg' 
         },
         { 
           id: 'ICICI-FIP', 
@@ -268,7 +268,7 @@ export default function FinancialVerificationPage() {
           accountNumber: 'XXXXX3054', 
           accType: 'CURRENT',
           FIType: 'DEPOSIT',
-          iconUri: 'https://cdn.finvu.in/finvulogos/icicibank_icon.jpg' 
+          iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/icic/logo.svg' 
         },
         { 
           id: 'HDFC', 
@@ -276,7 +276,7 @@ export default function FinancialVerificationPage() {
           accountNumber: 'XXXXX9912', 
           accType: 'SAVINGS',
           FIType: 'DEPOSIT',
-          iconUri: 'https://cdn.finvu.in/finvulogos/hdfc_bank_icon.png' 
+          iconUri: 'https://raw.githubusercontent.com/praveenpuglia/indian-banks/master/assets/logos/hdfc/logo.svg' 
         }
       ];
       
