@@ -9,14 +9,22 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useMockData } from "@/lib/context/MockDataContext";
+import { 
+  Building2, 
+  CreditCard, 
+  BarChart3, 
+  TrendingUp, 
+  CheckCircle2, 
+  Loader2, 
+  ArrowRight,
+  ShieldCheck
+} from "lucide-react";
 
 export default function FinancialVerificationPage() {
   const { bankLinked, setBankLinked } = useMockData();
   const router = useRouter();
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [error, setError] = useState("");
-
-  // bankLinked auto-redirect removed to allow step 4 to display fully
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -46,7 +54,7 @@ export default function FinancialVerificationPage() {
           setTimeout(() => {
             setBankLinked(true);
             router.replace('/dashboard');
-          }, 2000);
+          }, 2200);
         } catch (err) {
           setError("Failed to fetch financial data");
           setStep(1);
@@ -72,72 +80,104 @@ export default function FinancialVerificationPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-lg mx-auto py-4 select-none" style={{ fontFamily: "var(--font-plus-jakarta)" }}>
+      
+      {/* Page Header */}
       <div className="text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100">
-          <span className="text-2xl">🏦</span>
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E8F5EF] text-[#1A6B47] shadow-xs">
+          <Building2 className="w-8 h-8" />
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
           Financial Verification
         </h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Link your bank account via Account Aggregator to build your financial profile
+        <p className="mt-2.5 text-[14px] leading-relaxed text-gray-500 max-w-sm mx-auto">
+          Link your bank account via Account Aggregator to build your portable reputation credential.
         </p>
       </div>
 
       {step === 1 && (
-        <>
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <h3 className="font-semibold text-gray-900">What we&apos;ll access</h3>
-            <div className="mt-4 space-y-3">
+        <div className="space-y-6">
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs space-y-5">
+            <h3 className="font-bold text-sm uppercase tracking-wider text-gray-400">Consent Details</h3>
+            <div className="space-y-4 pt-1">
               {[
-                { icon: "💳", label: "Savings Account Summary", desc: "Balance and account details" },
-                { icon: "📊", label: "Transaction History", desc: "Last 6 months of transactions" },
-                { icon: "📈", label: "Income Patterns", desc: "Salary and credit patterns" },
-              ].map((item) => (
-                <div key={item.label} className="flex items-start gap-3">
-                  <span className="text-lg">{item.icon}</span>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">{item.label}</p>
-                    <p className="text-xs text-gray-500">{item.desc}</p>
+                { icon: CreditCard, label: "Savings Account Summary", desc: "Balance, account holder name and basic details" },
+                { icon: BarChart3, label: "Transaction History", desc: "Last 6 months of historical credits and debits" },
+                { icon: TrendingUp, label: "Income & Consistency Patterns", desc: "Verifies regular deposit patterns and salary credits" },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-start gap-4">
+                  <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100/50 flex items-center justify-center text-slate-500 shrink-0">
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <div className="pt-0.5">
+                    <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+          <div className="bg-emerald-50/50 rounded-xl p-4 flex gap-3 items-start border border-emerald-100/50">
+            <ShieldCheck className="w-5 h-5 text-[#1A6B47] shrink-0 mt-0.5" />
+            <p className="text-xs text-gray-600 leading-relaxed">
+              This request is consent-based. We only read data to generate your credential. Your credentials can be revoked anytime from your dashboard.
+            </p>
+          </div>
+
+          {error && <p className="text-sm font-semibold text-red-500 text-center">{error}</p>}
 
           <button
             onClick={handleConnect}
-            className="w-full rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-emerald-700"
+            className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-xs text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] cursor-pointer"
           >
-            Connect Bank
+            <div className="flex items-center gap-2">
+              <span>Connect via Account Aggregator</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
           </button>
-        </>
+        </div>
       )}
 
       {step === 2 && (
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center space-y-4">
-          <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <h3 className="font-semibold text-gray-900">Awaiting Consent...</h3>
-          <p className="text-sm text-gray-500">Please approve the request sent to your bank.</p>
+        <div className="rounded-2xl border border-gray-100 bg-white p-8 text-center space-y-5 shadow-xs">
+          <div className="relative w-12 h-12 mx-auto flex items-center justify-center">
+            <Loader2 className="w-8 h-8 text-[#1A6B47] animate-spin" />
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-900 text-lg">Awaiting Consent Approval...</h3>
+            <p className="text-sm text-gray-500 mt-1 max-w-xs mx-auto">
+              Please approve the consent request sent to your registered Account Aggregator app or mobile.
+            </p>
+          </div>
         </div>
       )}
 
       {step === 3 && (
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center space-y-4">
-          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <h3 className="font-semibold text-gray-900">Fetching Financial Data...</h3>
-          <p className="text-sm text-gray-500">Analyzing your transactions securely.</p>
+        <div className="rounded-2xl border border-gray-100 bg-white p-8 text-center space-y-5 shadow-xs">
+          <div className="relative w-12 h-12 mx-auto flex items-center justify-center">
+            <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-900 text-lg">Analyzing Financial Profile...</h3>
+            <p className="text-sm text-gray-500 mt-1 max-w-xs mx-auto">
+              Fetching transactional details securely to calculate consistency metrics.
+            </p>
+          </div>
         </div>
       )}
 
       {step === 4 && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-8 text-center space-y-4">
-          <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl">✓</div>
-          <h3 className="font-semibold text-green-900">Successfully Connected</h3>
-          <p className="text-sm text-green-700">Redirecting to dashboard...</p>
+        <div className="rounded-2xl border border-emerald-100 bg-[#F4FAF7] p-8 text-center space-y-5 shadow-xs">
+          <div className="w-14 h-14 bg-emerald-100 text-[#1A6B47] rounded-full flex items-center justify-center mx-auto border border-emerald-200">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <div>
+            <h3 className="font-bold text-[#0D3D28] text-lg">Account Successfully Linked</h3>
+            <p className="text-sm text-emerald-700 mt-1">
+              Your financial passport is updated. Redirecting to dashboard...
+            </p>
+          </div>
         </div>
       )}
     </div>
