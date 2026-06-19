@@ -59,7 +59,7 @@ export default function TrustOverviewSection() {
           {stats.map((stat, idx) => (
             <div 
               key={idx}
-              className="pranam-card p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group hover:border-[#1A6B47] hover:-translate-y-1 transition-all duration-300"
+              className="PRAMAAN-card p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group hover:border-[#1A6B47] hover:-translate-y-1 transition-all duration-300"
             >
               {/* Soft glow background on hover */}
               <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#E8F5EF]/10 to-[#1A6B47]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

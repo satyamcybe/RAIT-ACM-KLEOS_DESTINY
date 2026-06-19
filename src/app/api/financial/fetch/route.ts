@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Fetch API Route
+// PRAMAAN - Financial Fetch API Route
 // GET: Fetch financial data after consent
 // ===========================================
 

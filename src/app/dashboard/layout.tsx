@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Dashboard Layout
+// PRAMAAN - Dashboard Layout
 // Main app layout with sidebar
 // ===========================================
 

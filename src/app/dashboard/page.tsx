@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Dashboard Page
+// PRAMAAN - Dashboard Page
 // Main dashboard with overview cards
 // ===========================================
 

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Settings Page
+// PRAMAAN - Settings Page
 // User settings and preferences
 // ===========================================
 
@@ -38,7 +38,7 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium text-gray-900">Email</p>
-              <p className="text-sm text-gray-500">demo@pranam.dev</p>
+              <p className="text-sm text-gray-500">demo@PRAMAAN.dev</p>
             </div>
             <button className="text-sm text-emerald-600 hover:text-emerald-700">
               Edit
@@ -75,7 +75,7 @@ export default function SettingsPage() {
       {/* App info */}
       <div className="rounded-lg bg-gray-50 p-4 text-center">
         <p className="text-xs text-gray-500">
-          Pranam v0.1.0 • Hackathon MVP • Mode: <span className="font-mono text-emerald-600">mock</span>
+          PRAMAAN v0.1.0 • Hackathon MVP • Mode: <span className="font-mono text-emerald-600">mock</span>
         </p>
       </div>
     </div>

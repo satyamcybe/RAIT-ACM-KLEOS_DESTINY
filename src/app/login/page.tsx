@@ -71,12 +71,12 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 shadow-sm">
             <img 
               src="/logo-icon.png" 
-              alt="Pranam Logo" 
+              alt="PRAMAAN Logo" 
               className="w-full h-auto object-contain rounded-2xl"
             />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
-            {step === 'phone' ? "Welcome to Pranam" : "Verify Mobile"}
+            {step === 'phone' ? "Welcome to PRAMAAN" : "Verify Mobile"}
           </h1>
           <p className="text-sm text-gray-500">
             {step === 'phone' 
@@ -117,7 +117,7 @@ export default function LoginPage() {
             <div className="bg-emerald-50/50 rounded-xl p-4 flex gap-3 items-start border border-emerald-100/50">
               <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <p className="text-xs text-gray-600 leading-relaxed">
-                By continuing, you agree to Pranam's Terms of Service and Privacy Policy.
+                By continuing, you agree to PRAMAAN's Terms of Service and Privacy Policy.
               </p>
             </div>
 

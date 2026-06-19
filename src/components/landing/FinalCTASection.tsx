@@ -24,7 +24,7 @@ export default function FinalCTASection() {
           className="text-[#E8F5EF] text-[18px] max-w-md mx-auto"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          Get your Pranam credential in 2 minutes.
+          Get your PRAMAAN credential in 2 minutes.
         </p>
 
         {/* White button green text */}

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Reputation Types
+// PRAMAAN - Reputation Types
 // ===========================================
 
 export interface ReputationProfile {

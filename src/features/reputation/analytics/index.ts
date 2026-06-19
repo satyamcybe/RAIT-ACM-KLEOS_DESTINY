@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Analytics Sub-feature
+// PRAMAAN - Analytics Sub-feature
 // Usage and performance analytics
 // ===========================================
 

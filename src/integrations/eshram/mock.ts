@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram Mock Adapter
+// PRAMAAN - eShram Mock Adapter
 // Returns simulated eShram data
 // ===========================================
 

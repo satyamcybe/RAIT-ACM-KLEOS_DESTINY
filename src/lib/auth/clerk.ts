@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Clerk Auth Helpers
+// PRAMAAN - Clerk Auth Helpers
 // Server-side auth utilities
 // ===========================================
 
@@ -21,7 +21,7 @@ const MOCK_USER: MockUser = {
   id: "mock_user_001",
   firstName: "Demo",
   lastName: "Worker",
-  email: "demo@pranam.dev",
+  email: "demo@PRAMAAN.dev",
 };
 
 /**

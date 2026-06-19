@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Setu AA Mock Adapter
+// PRAMAAN - Setu AA Mock Adapter
 // Returns simulated AA data
 // ===========================================
 

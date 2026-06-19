@@ -34,7 +34,7 @@ export default function LabourPassportSection() {
             className="text-3xl md:text-[36px] font-bold text-[#111827] tracking-tight"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            What Your Pranam Credential Contains
+            What Your PRAMAAN Credential Contains
           </h2>
         </div>
 
@@ -90,9 +90,9 @@ export default function LabourPassportSection() {
 
                 {/* Bottom Row */}
                 <div className="flex items-center justify-between text-[11px] text-emerald-300/80 border-t border-white/10 pt-4">
-                  <span className="font-medium">PRANAM TRUST ID</span>
+                  <span className="font-medium">PRAMAAN TRUST ID</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono tracking-wider">PRANAM-2026-RK</span>
+                    <span className="font-mono tracking-wider">PRAMAAN-2026-RK</span>
                     <QrCode size={16} className="text-white" />
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Wallet Layout
+// PRAMAAN - Wallet Layout
 // ===========================================
 
 import { Navbar } from "@/components/layout/navbar";

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Logger Utility
+// PRAMAAN - Logger Utility
 // Simple structured logging
 // ===========================================
 

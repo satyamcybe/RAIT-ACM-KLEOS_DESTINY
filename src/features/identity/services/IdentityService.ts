@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Identity Service
+// PRAMAAN - Identity Service
 // Orchestrates identity verification
 // ===========================================
 

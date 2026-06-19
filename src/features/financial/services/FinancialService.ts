@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Service
+// PRAMAAN - Financial Service
 // Orchestrates AA consent and data flows
 // ===========================================
 

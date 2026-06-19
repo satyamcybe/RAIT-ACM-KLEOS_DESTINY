@@ -1,8 +1,8 @@
-# Pranam — Architecture Overview
+# PRAMAAN — Architecture Overview
 
-## What is Pranam?
+## What is PRAMAAN?
 
-Pranam is a financial identity platform for India's gig and informal workers. It enables workers to build verifiable identities by linking government IDs (Aadhaar via DigiLocker, eShram cards), financial data (via Account Aggregator), and packaging them as Verifiable Credentials (SSI).
+PRAMAAN is a financial identity platform for India's gig and informal workers. It enables workers to build verifiable identities by linking government IDs (Aadhaar via DigiLocker, eShram cards), financial data (via Account Aggregator), and packaging them as Verifiable Credentials (SSI).
 
 ## Architecture
 

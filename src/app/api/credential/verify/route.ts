@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Verify API Route
+// PRAMAAN - Credential Verify API Route
 // POST: Verify a credential
 // ===========================================
 

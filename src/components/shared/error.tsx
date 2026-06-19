@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Error Component
+// PRAMAAN - Error Component
 // Shared error display
 // ===========================================
 

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Summary Component
+// PRAMAAN - Financial Summary Component
 // Displays financial overview
 // ===========================================
 

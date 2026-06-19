@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Sidebar Component
+// PRAMAAN - Sidebar Component
 // Side navigation for dashboard
 // ===========================================
 

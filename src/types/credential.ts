@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Types
+// PRAMAAN - Credential Types
 // Verifiable Credentials (SSI)
 // ===========================================
 

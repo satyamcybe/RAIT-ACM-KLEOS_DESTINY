@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Navbar Component
+// PRAMAAN - Navbar Component
 // Top navigation bar
 // ===========================================
 
@@ -25,7 +25,7 @@ export function Navbar({ className }: NavbarProps) {
         <Link href="/dashboard" className="flex items-center gap-2">
           <img 
             src="/logo-text.png" 
-            alt="Pranam Logo" 
+            alt="PRAMAAN Logo" 
             className="h-12 w-auto object-contain mix-blend-multiply"
           />
         </Link>

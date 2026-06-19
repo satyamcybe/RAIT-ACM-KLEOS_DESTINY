@@ -33,11 +33,11 @@ Worker Data → Credential Service → SSI Adapter → Verifiable Credential
 ```json
 {
   "@context": ["https://www.w3.org/2018/credentials/v1"],
-  "type": ["VerifiableCredential", "PranamIdentityCredential"],
-  "issuer": "did:pranam:issuer:001",
+  "type": ["VerifiableCredential", "PRAMAANIdentityCredential"],
+  "issuer": "did:PRAMAAN:issuer:001",
   "issuanceDate": "2024-01-01T00:00:00Z",
   "credentialSubject": {
-    "id": "did:pranam:worker:xxx",
+    "id": "did:PRAMAAN:worker:xxx",
     "name": "Rajesh Kumar",
     "verificationScore": 85
   },

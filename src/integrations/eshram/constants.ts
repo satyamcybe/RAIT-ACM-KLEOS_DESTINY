@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram Constants
+// PRAMAAN - eShram Constants
 // ===========================================
 
 export const ESHRAM_CONSTANTS = {

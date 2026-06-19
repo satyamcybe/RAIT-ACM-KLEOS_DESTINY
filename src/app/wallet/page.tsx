@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Wallet Page
+// PRAMAAN - Wallet Page
 // Verifiable Credentials wallet
 // ===========================================
 

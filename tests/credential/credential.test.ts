@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Tests
+// PRAMAAN - Credential Tests
 // ===========================================
 
 // TODO: Implement credential service tests
@@ -14,8 +14,8 @@ describe("Credential - SSI Mock", () => {
 
   it("should issue credential", async () => {
     const result = await adapter.issueCredential({
-      subjectDid: "did:pranam:worker:test",
-      credentialType: "PranamIdentityCredential",
+      subjectDid: "did:PRAMAAN:worker:test",
+      credentialType: "PRAMAANIdentityCredential",
       claims: { name: "Test Worker" },
     });
     expect(result.id).toBeDefined();

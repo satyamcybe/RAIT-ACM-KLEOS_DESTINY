@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - DigiLocker Mock Adapter
+// PRAMAAN - DigiLocker Mock Adapter
 // Returns simulated data for development
 // ===========================================
 

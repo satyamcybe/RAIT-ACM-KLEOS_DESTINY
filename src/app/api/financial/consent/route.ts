@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Consent API Route
+// PRAMAAN - Financial Consent API Route
 // POST: Create consent request
 // GET: Get consent status
 // ===========================================

@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Verifier Sub-feature
+// PRAMAAN - Credential Verifier Sub-feature
 // Credential presentation and verification
 // ===========================================
 

@@ -52,7 +52,7 @@ export default function HowItWorksSection() {
     },
     {
       title: "Get Your Credential",
-      desc: "Receive a signed, verifiable Pranam credential. Share with banks, landlords, welfare schemes.",
+      desc: "Receive a signed, verifiable PRAMAAN credential. Share with banks, landlords, welfare schemes.",
       badge: "Layer 3: Credential",
       badgeClass: "bg-[#E8F5EF] text-[#1A6B47] border-[#1A6B47]/20",
       accentBg: "bg-[#E8F5EF]",
@@ -131,10 +131,10 @@ export default function HowItWorksSection() {
               </div>
             </div>
 
-            {/* Panel B: Pranam Reputation Passport (Green Accent) */}
+            {/* Panel B: PRAMAAN Reputation Passport (Green Accent) */}
             <div className="bg-[#FFFFFF] border-2 border-[#E8F5EF] hover:border-[#2ECC8F] rounded-[16px] p-6 shadow-sm flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 relative group">
               <div className="absolute top-0 right-0 bg-[#E8F5EF] text-[#1A6B47] text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-wider">
-                Pranam Unlocked
+                PRAMAAN Unlocked
               </div>
               
               <div className="space-y-4 text-left pt-2">
@@ -144,7 +144,7 @@ export default function HowItWorksSection() {
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </div>
-                  <h4 className="font-bold text-[#111827] text-[16px]">Pranam Verified Credentials</h4>
+                  <h4 className="font-bold text-[#111827] text-[16px]">PRAMAAN Verified Credentials</h4>
                 </div>
 
                 <div className="space-y-2 text-[#374151] text-[14px]">
@@ -175,7 +175,7 @@ export default function HowItWorksSection() {
           {/* Interactive Arrow Banner */}
           <div className="text-center pt-4 flex flex-col items-center gap-1.5">
             <span className="text-[13px] font-bold text-[#1A6B47] uppercase tracking-widest">
-              Pranam Unlocks It
+              PRAMAAN Unlocks It
             </span>
             <svg className="w-5 h-5 text-[#1A6B47] animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="5" x2="12" y2="19" />
@@ -339,7 +339,7 @@ export default function HowItWorksSection() {
                         <span className="text-[15px] font-black text-[#1A6B47] leading-none">प्र</span>
                       </div>
                       <div className="text-left flex-1 min-w-0">
-                        <div className="text-[13px] font-bold truncate">Pranam Credential Generated</div>
+                        <div className="text-[13px] font-bold truncate">PRAMAAN Credential Generated</div>
                         <div className="text-[10px] text-white/50 truncate">Cryptographically Signed</div>
                       </div>
                       <span className="badge-verified bg-[#2ECC8F]/20 text-[#2ECC8F] border-[#2ECC8F]/30 text-[9px] font-bold px-2 py-0.5">

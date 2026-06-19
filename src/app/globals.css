@@ -5,7 +5,7 @@
 }
 
 /* ==========================================================================
-   PRANAM - Strict Government-Grade Design System & Tokens
+   PRAMAAN - Strict Government-Grade Design System & Tokens
    ========================================================================== */
 
 :root {
@@ -57,13 +57,13 @@ body {
 }
 
 /* Card design utility class */
-.pranam-card {
+.PRAMAAN-card {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-.pranam-card:hover {
+.PRAMAAN-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

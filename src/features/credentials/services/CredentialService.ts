@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Service
+// PRAMAAN - Credential Service
 // Manages verifiable credential lifecycle
 // ===========================================
 
@@ -37,14 +37,14 @@ export class CredentialService {
 
     const year = new Date().getFullYear();
     const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const credId = `PRANAM-${year}-MH-${random}`;
+    const credId = `PRAMAAN-${year}-MH-${random}`;
 
     const signals = worker.financialProfile.signalsJson as any || {};
 
     const credential = {
       id: credId,
       type: "GigWorkerReputationCredential",
-      issuer: "Pranam Platform",
+      issuer: "PRAMAAN Platform",
       issuedAt: new Date().toISOString(),
       subject: {
         name: worker.name,
@@ -68,7 +68,7 @@ export class CredentialService {
       proof: {
         type: "RSA_MOCK_SIGNED",
         created: new Date().toISOString(),
-        verificationMethod: "Pranam-PublicKey-2026"
+        verificationMethod: "PRAMAAN-PublicKey-2026"
       },
       verificationUrl: `${process.env.NEXT_PUBLIC_APP_URL}/verify/${credId}`
     };
@@ -78,7 +78,7 @@ export class CredentialService {
         id: credId,
         workerId: worker.id,
         type: "reputation",
-        issuer: "pranam",
+        issuer: "PRAMAAN",
         subject: credential.subject,
         claims: credential.claims,
         proof: credential.proof as any,

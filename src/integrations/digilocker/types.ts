@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - DigiLocker Types
+// PRAMAAN - DigiLocker Types
 // ===========================================
 
 /** DigiLocker adapter interface - implemented by mock & sandbox */

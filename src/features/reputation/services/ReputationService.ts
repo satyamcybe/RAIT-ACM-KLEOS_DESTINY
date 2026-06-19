@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Reputation Service
+// PRAMAAN - Reputation Service
 // Calculates reputation scores from signals
 // ===========================================
 

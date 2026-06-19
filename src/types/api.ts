@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - API Types
+// PRAMAAN - API Types
 // Shared API request/response types
 // ===========================================
 

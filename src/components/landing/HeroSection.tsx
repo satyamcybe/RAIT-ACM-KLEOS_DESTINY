@@ -51,7 +51,7 @@ export default function HeroSection() {
             className="text-[#6B7280] text-[16px] leading-[1.6]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Raju has worked 3 years for Zomato. 4.8 rating. 97% on-time. Banks still reject his loans. Pranam changes that — with verifiable, government-grade credentials.
+            Raju has worked 3 years for Zomato. 4.8 rating. 97% on-time. Banks still reject his loans. PRAMAAN changes that — with verifiable, government-grade credentials.
           </p>
 
           {/* Action CTAs */}

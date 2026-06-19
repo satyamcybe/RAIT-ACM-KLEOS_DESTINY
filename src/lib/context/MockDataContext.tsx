@@ -46,15 +46,15 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
   // Load from localStorage and API on mount
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("pranam_mock_user");
+      const storedUser = localStorage.getItem("PRAMAAN_mock_user");
       if (storedUser) {
         try {
           setUser(JSON.parse(storedUser));
         } catch (e) {}
       }
       
-      const localIdVerified = localStorage.getItem("pranam_identity_verified") === "true";
-      const localBankLinked = localStorage.getItem("pranam_bank_linked") === "true";
+      const localIdVerified = localStorage.getItem("PRAMAAN_identity_verified") === "true";
+      const localBankLinked = localStorage.getItem("PRAMAAN_bank_linked") === "true";
       
       setIdentityVerified(localIdVerified);
       setBankLinked(localBankLinked);
@@ -67,16 +67,16 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
           if (data.success) {
             if (data.identityVerified) {
               setIdentityVerified(true);
-              localStorage.setItem("pranam_identity_verified", "true");
+              localStorage.setItem("PRAMAAN_identity_verified", "true");
             }
             if (data.bankLinked) {
               setBankLinked(true);
-              localStorage.setItem("pranam_bank_linked", "true");
+              localStorage.setItem("PRAMAAN_bank_linked", "true");
             }
             if (data.name) {
               setUser(prev => {
                 const nextUser = { ...prev, name: data.name, dob: data.dob || prev.dob };
-                localStorage.setItem("pranam_mock_user", JSON.stringify(nextUser));
+                localStorage.setItem("PRAMAAN_mock_user", JSON.stringify(nextUser));
                 return nextUser;
               });
             }
@@ -89,19 +89,19 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
   // Save to localStorage when state changes
   React.useEffect(() => {
     if (isLoaded && typeof window !== "undefined") {
-      localStorage.setItem("pranam_mock_user", JSON.stringify(user));
+      localStorage.setItem("PRAMAAN_mock_user", JSON.stringify(user));
     }
   }, [user, isLoaded]);
 
   React.useEffect(() => {
     if (isLoaded && typeof window !== "undefined") {
-      localStorage.setItem("pranam_identity_verified", String(identityVerified));
+      localStorage.setItem("PRAMAAN_identity_verified", String(identityVerified));
     }
   }, [identityVerified, isLoaded]);
 
   React.useEffect(() => {
     if (isLoaded && typeof window !== "undefined") {
-      localStorage.setItem("pranam_bank_linked", String(bankLinked));
+      localStorage.setItem("PRAMAAN_bank_linked", String(bankLinked));
     }
   }, [bankLinked, isLoaded]);
 

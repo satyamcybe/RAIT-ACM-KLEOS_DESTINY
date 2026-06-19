@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Empty State Component
+// PRAMAAN - Empty State Component
 // Shown when no data is available
 // ===========================================
 

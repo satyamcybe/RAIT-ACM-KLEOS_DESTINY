@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - DigiLocker API Route
+// PRAMAAN - DigiLocker API Route
 // POST: Initiate verification
 // GET: Check verification status
 // ===========================================

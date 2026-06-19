@@ -19,7 +19,7 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
           <h1 className="text-3xl font-bold text-gray-900 mb-2">INVALID ✗</h1>
           <p className="text-gray-600 mb-8">This credential does not exist or has been revoked.</p>
           <div className="text-sm text-gray-500 mt-8 pt-6 border-t border-gray-100">
-            Powered by Pranam | Verified via e-Shram + AA Framework
+            Powered by Pramaan | Verified via e-Shram + AA Framework
           </div>
         </div>
       </div>
@@ -116,7 +116,7 @@ export default async function VerifyCredentialPage({ params }: { params: Promise
         {/* Footer */}
         <div className="text-center pb-8 pt-4">
           <p className="text-sm font-medium text-gray-500">
-            Powered by Pranam | Verified via e-Shram + AA Framework
+            Powered by Pramaan | Verified via e-Shram + AA Framework
           </p>
         </div>
 

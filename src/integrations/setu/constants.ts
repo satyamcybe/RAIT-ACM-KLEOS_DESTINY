@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Setu AA Constants
+// PRAMAAN - Setu AA Constants
 // ===========================================
 
 export const SETU_CONSTANTS = {

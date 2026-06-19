@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Verification Page
+// PRAMAAN - Financial Verification Page
 // Account Aggregator consent and data flow
 // ===========================================
 

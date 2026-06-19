@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Issue API Route
+// PRAMAAN - Credential Issue API Route
 // POST: Issue a new verifiable credential
 // ===========================================
 

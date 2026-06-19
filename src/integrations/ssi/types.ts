@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - SSI Types
+// PRAMAAN - SSI Types
 // Self-Sovereign Identity types
 // ===========================================
 

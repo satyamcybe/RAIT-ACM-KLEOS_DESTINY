@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Consent Sub-feature
+// PRAMAAN - Financial Consent Sub-feature
 // Consent management for AA flow
 // ===========================================
 

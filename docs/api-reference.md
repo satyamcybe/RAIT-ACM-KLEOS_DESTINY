@@ -62,7 +62,7 @@ Verify a credential.
 
 **Body:**
 ```json
-{ "credentialId": "vc:pranam:..." }
+{ "credentialId": "vc:PRAMAAN:..." }
 ```
 
 ---

@@ -16,7 +16,7 @@ export default function Footer() {
           <Link href="/" className="flex items-center gap-2">
             <img 
               src="/logo-text.png" 
-              alt="Pranam Logo" 
+              alt="PRAMAAN Logo" 
               className="h-14 w-auto object-contain"
             />
           </Link>
@@ -60,7 +60,7 @@ export default function Footer() {
         <div className="space-y-4">
           <h4 className="text-[#111827] font-bold text-[13px] uppercase tracking-wider">Data Integrations</h4>
           <p className="text-[13px] leading-relaxed text-[#6B7280]">
-            Pranam securely interfaces directly with consent-based pipelines.
+            PRAMAAN securely interfaces directly with consent-based pipelines.
           </p>
           <div className="text-[13px] font-bold text-[#374151]">
             Data Sources: e-Shram, DigiLocker, Setu AA
@@ -71,7 +71,7 @@ export default function Footer() {
       
       {/* Bottom bar */}
       <div className="max-w-6xl mx-auto px-6 pt-8 border-t border-[#E5E7EB] text-[13px] flex flex-col md:flex-row justify-between items-center gap-4 text-[#6B7280]/80">
-        <p>&copy; {new Date().getFullYear()} Pranam. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} PRAMAAN. All rights reserved.</p>
         <p className="font-semibold text-[#1A6B47]">Built for India&apos;s 7.7 crore gig workers</p>
       </div>
 

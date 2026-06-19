@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Signals Sub-feature
+// PRAMAAN - Financial Signals Sub-feature
 // Signal extraction from financial data
 // ===========================================
 

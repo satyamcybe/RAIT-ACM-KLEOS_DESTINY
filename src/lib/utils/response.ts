@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - API Response Helpers
+// PRAMAAN - API Response Helpers
 // Standardized API responses
 // ===========================================
 

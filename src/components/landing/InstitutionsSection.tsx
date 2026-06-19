@@ -24,7 +24,7 @@ export default function InstitutionsSection() {
   const lenderPoints = [
     {
       title: "Machine-verifiable credentials",
-      desc: "Cryptographically signed by Pranam, preventing spoofing and profile tamper."
+      desc: "Cryptographically signed by PRAMAAN, preventing spoofing and profile tamper."
     },
     {
       title: "RBI Account Aggregator pipe",

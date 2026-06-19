@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Credential Card Component
+// PRAMAAN - Credential Card Component
 // Displays a verifiable credential in wallet
 // ===========================================
 

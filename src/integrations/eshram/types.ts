@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram Types
+// PRAMAAN - eShram Types
 // ===========================================
 
 /** eShram adapter interface - implemented by mock & sandbox */

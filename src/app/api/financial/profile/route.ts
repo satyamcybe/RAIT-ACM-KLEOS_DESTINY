@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - Financial Profile API Route
+// PRAMAAN - Financial Profile API Route
 // GET: Get financial profile/summary
 // ===========================================
 

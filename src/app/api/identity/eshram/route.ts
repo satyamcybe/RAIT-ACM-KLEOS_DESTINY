@@ -1,5 +1,5 @@
 // ===========================================
-// PRANAM - eShram API Route
+// PRAMAAN - eShram API Route
 // POST: Verify eShram card
 // GET: Get eShram status
 // ===========================================
