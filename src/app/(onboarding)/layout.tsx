@@ -15,7 +15,7 @@ export default function OnboardingLayout({
             <img 
               src="/logo-text.png" 
               alt="Pranam Logo" 
-              className="h-10 w-auto object-contain mix-blend-multiply"
+              className="h-10 w-auto object-contain mix-blend-multiply logo-brand-green"
             />
           </Link>
           {/* Layer references removed */}
