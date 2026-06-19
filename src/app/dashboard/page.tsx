@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { IdentityCard } from "@/components/identity/IdentityCard";
 import { useMockData } from "@/lib/context/MockDataContext";
-import { QrCode } from "lucide-react";
+import { QrCode, UserCheck, Building2, Wallet } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, identityVerified, bankLinked } = useMockData();
@@ -65,7 +65,7 @@ export default function DashboardPage() {
       {/* Welcome header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
-          Welcome back, {identityVerified ? user.name.split(' ')[0] : "Demo Worker"} 👋
+          Welcome back, {identityVerified ? user.name.split(' ')[0] : "Demo Worker"}
         </h1>
         <p className="mt-1 text-gray-600">
           Here&apos;s your identity and financial overview
@@ -151,13 +151,15 @@ export default function DashboardPage() {
       {/* Quick actions */}
       <div>
         <h2 className="mb-4 text-lg font-semibold text-gray-900">Quick Actions</h2>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-3">
           {!identityVerified && (
             <Link
               href="/onboarding"
               className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
             >
-              <span className="text-xl">🪪</span>
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-[#1A6B47] flex items-center justify-center border border-emerald-100/50 shrink-0">
+                <UserCheck className="w-5 h-5" />
+              </div>
               <div>
                 <p className="font-medium text-gray-900">Verify Identity</p>
                 <p className="text-xs text-gray-500">Connect DigiLocker & eShram</p>
@@ -169,7 +171,9 @@ export default function DashboardPage() {
               href="/financial-verification"
               className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
             >
-              <span className="text-xl">🏦</span>
+              <div className="w-10 h-10 rounded-lg bg-[#E8F5EF] text-[#1A6B47] flex items-center justify-center border border-emerald-100/50 shrink-0">
+                <Building2 className="w-5 h-5" />
+              </div>
               <div>
                 <p className="font-medium text-gray-900">Link Bank Account</p>
                 <p className="text-xs text-gray-500">Via Account Aggregator</p>
@@ -180,7 +184,9 @@ export default function DashboardPage() {
             href="/wallet"
             className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
           >
-            <span className="text-xl">👛</span>
+            <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100/50 shrink-0">
+              <Wallet className="w-5 h-5" />
+            </div>
             <div>
               <p className="font-medium text-gray-900">View Wallet</p>
               <p className="text-xs text-gray-500">Manage your credentials</p>

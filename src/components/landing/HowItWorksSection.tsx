@@ -199,7 +199,34 @@ export default function HowItWorksSection() {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* =====================================================
+=======
+          {/* Transition text */}
+          <div className="text-center flex flex-col items-center gap-3 pt-2">
+            <div className="w-px h-8 bg-gradient-to-b from-transparent to-[#1A6B47]/40" />
+            <span
+              className="text-[14px] font-bold text-[#1A6B47] tracking-wide"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              PRAMAAN solves this — in 3 simple steps
+            </span>
+            <svg
+              className="w-5 h-5 text-[#1A6B47] animate-bounce"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <polyline points="19,12 12,19 5,12" />
+            </svg>
+          </div>
+        </div>
+            {/* =====================================================
+>>>>>>> 13a343ddbc4e5edf112d789c0610752d35855a0a
             PART 2: THE 3-STEP CREDENTIAL PIPELINE
            ===================================================== */}
         <div id="for-workers" className="space-y-14 pt-6">

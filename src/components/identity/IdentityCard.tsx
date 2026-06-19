@@ -6,6 +6,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Fingerprint, Briefcase, Check, AlertCircle } from "lucide-react";
 
 interface IdentityCardProps {
   className?: string;
@@ -26,18 +27,18 @@ export function IdentityCard({
 }: IdentityCardProps) {
   const config = {
     aadhaar: {
-      icon: "🪪",
+      icon: Fingerprint,
       title: "Aadhaar (DigiLocker)",
       color: "emerald",
     },
     eshram: {
-      icon: "👷",
+      icon: Briefcase,
       title: "eShram Card",
       color: "blue",
     },
   };
 
-  const { icon, title } = config[type];
+  const { icon: IconComponent, title } = config[type];
 
   return (
     <div
@@ -50,19 +51,21 @@ export function IdentityCard({
       {/* Status badge */}
       <div className="absolute right-4 top-4">
         {verified ? (
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-            ✓ Verified
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
+            <Check className="w-3.5 h-3.5" />
+            Verified
           </span>
         ) : (
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700">
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700">
+            <AlertCircle className="w-3.5 h-3.5" />
             Pending
           </span>
         )}
       </div>
 
       <div className="flex items-start gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-50 text-2xl">
-          {icon}
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-50 text-slate-500 border border-gray-100/50">
+          <IconComponent className="w-6 h-6" />
         </div>
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900">{title}</h3>

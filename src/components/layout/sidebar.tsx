@@ -9,20 +9,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useMockData } from "@/lib/context/MockDataContext";
+import { 
+  LayoutDashboard, 
+  UserCheck, 
+  Coins, 
+  Wallet, 
+  Settings 
+} from "lucide-react";
 
 interface SidebarItem {
   label: string;
   href: string;
-  icon: string; // emoji for now, TODO: replace with Lucide icons
+  icon: React.ComponentType<{ className?: string }>;
   hideIf?: (ctx: { identityVerified: boolean; bankLinked: boolean }) => boolean;
 }
 
 const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/dashboard", icon: "📊" },
-  { label: "Identity", href: "/onboarding", icon: "🪪", hideIf: (ctx) => ctx.identityVerified },
-  { label: "Financial", href: "/financial-verification", icon: "💰", hideIf: (ctx) => ctx.bankLinked },
-  { label: "Wallet", href: "/wallet", icon: "👛" },
-  { label: "Settings", href: "/settings", icon: "⚙️" },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Identity", href: "/onboarding", icon: UserCheck, hideIf: (ctx) => ctx.identityVerified },
+  { label: "Financial", href: "/financial-verification", icon: Coins, hideIf: (ctx) => ctx.bankLinked },
+  { label: "Wallet", href: "/wallet", icon: Wallet },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 interface SidebarProps {
@@ -56,7 +63,7 @@ export function Sidebar({ className }: SidebarProps) {
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
               )}
             >
-              <span className="text-lg">{item.icon}</span>
+              <item.icon className="w-5 h-5 shrink-0" />
               {item.label}
             </Link>
           );
