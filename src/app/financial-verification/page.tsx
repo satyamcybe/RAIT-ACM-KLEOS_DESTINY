@@ -317,6 +317,9 @@ export default function FinancialVerificationPage() {
     setStep('processing');
   };
 
+  // NEW: State for Layer 3 Intelligence Data
+  const [intelligenceData, setIntelligenceData] = useState<any>(null);
+
   useEffect(() => {
     if (step === 'processing') {
       // Background ingestion with requested months
@@ -326,10 +329,7 @@ export default function FinancialVerificationPage() {
           setTimeout(() => {
             setIngestData(data);
             setStep('success');
-            setBankLinked(true);
-            if (typeof window !== "undefined") {
-              localStorage.setItem("PRAMAAN_bank_linked", "true");
-            }
+            // Do NOT set bankLinked here anymore, let them click the button
           }, 4500); // Wait for the 4-step animation to finish
         })
         .catch(err => {
@@ -338,9 +338,45 @@ export default function FinancialVerificationPage() {
           setStep('consent');
         });
     }
-  }, [step, months, setBankLinked]);
+  }, [step, months]);
 
-  if (bankLinked) {
+  // When bankLinked becomes true, fetch Layer 3 data
+  useEffect(() => {
+    if (bankLinked) {
+      const runIntelligenceEngine = async () => {
+        try {
+          // Send mock raw transactions to Layer 3 Engine
+          const mockTransactions = [
+            { txnId: "T1", date: "2025-01-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+            { txnId: "T2", date: "2025-01-06", amount: 150, type: "DEBIT", narration: "SWIGGY INSTAMART" },
+            { txnId: "T3", date: "2025-01-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+            { txnId: "T4", date: "2025-01-14", amount: 450, type: "DEBIT", narration: "ZOMATO ORDER" },
+            { txnId: "T5", date: "2025-01-16", amount: 450, type: "CREDIT", narration: "ZOMATO REFUND" },
+            { txnId: "T6", date: "2025-01-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+            { txnId: "T7", date: "2025-01-22", amount: 1000, type: "CREDIT", narration: "TRANSFER TO OWN A/C" },
+            { txnId: "T8", date: "2025-01-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+            { txnId: "T9", date: "2025-02-02", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+            { txnId: "T10", date: "2025-02-09", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+          ];
+
+          const response = await fetch('/api/intelligence', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ workerId: "mock-worker-123", transactions: mockTransactions })
+          });
+          const result = await response.json();
+          if (result.success) {
+            setIntelligenceData(result.data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch layer 3 intelligence", error);
+        }
+      };
+      runIntelligenceEngine();
+    }
+  }, [bankLinked]);
+
+  if (bankLinked && intelligenceData) {
     return (
       <div className="space-y-8 select-none max-w-2xl mx-auto animate-in fade-in duration-500" style={{ fontFamily: "var(--font-plus-jakarta)" }}>
         {/* Page Header */}
@@ -401,24 +437,24 @@ export default function FinancialVerificationPage() {
           <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs space-y-4">
             <h3 className="font-bold text-[#0F172A] text-sm flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#1A6B47]" />
-              Analysis Statistics
+              Analysis Statistics (Layer 3)
             </h3>
             <div className="space-y-3.5 text-xs text-gray-600 font-sans">
               <div className="flex justify-between">
                 <span>Total Ingested Txns:</span>
-                <span className="text-gray-900 font-bold">{ingestData?.totalTransactions || 120} Transactions</span>
+                <span className="text-gray-900 font-bold">{intelligenceData.transactionsAnalyzed} Transactions</span>
               </div>
               <div className="flex justify-between">
                 <span>Gig Income Detected:</span>
-                <span className="text-[#1A6B47] font-bold">65 Payouts</span>
+                <span className="text-[#1A6B47] font-bold">{intelligenceData.gigPayoutsDetected} Payouts</span>
               </div>
               <div className="flex justify-between">
                 <span>Income Consistency:</span>
-                <span className="text-emerald-600 font-bold">94% Score</span>
+                <span className="text-emerald-600 font-bold">{intelligenceData.behaviouralSignals.weeklyConsistency}% Score</span>
               </div>
               <div className="flex justify-between">
                 <span>Platforms Mapped:</span>
-                <span className="text-gray-900 font-semibold">Zomato, Swiggy, Rapido</span>
+                <span className="text-gray-900 font-semibold">{intelligenceData.platformsDetected.join(', ')}</span>
               </div>
             </div>
           </div>
@@ -426,9 +462,9 @@ export default function FinancialVerificationPage() {
 
         {/* Custom Bar Chart representing income flow */}
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs space-y-4">
-          <h3 className="font-bold text-[#0F172A] text-sm">Monthly Gig Deposit Consistency (Zomato / Swiggy / Rapido Payouts)</h3>
+          <h3 className="font-bold text-[#0F172A] text-sm">Monthly Gig Deposit Consistency (Layer 3 Signals)</h3>
           <div className="flex justify-between items-end h-28 gap-3 px-1 pt-4 border-b border-gray-100 pb-2">
-            {[35, 55, 45, 80, 85, 70].map((height, i) => (
+            {[35, 55, 45, intelligenceData.behaviouralSignals.monthlyIncomeStability, 85, 70].map((height, i) => (
               <div key={i} className="flex-1 flex flex-col justify-end h-full items-center gap-1.5">
                 <div 
                   className="w-full bg-gradient-to-t from-[#1A6B47] to-[#2ECC8F] rounded-t-md transition-all duration-700 ease-out" 
@@ -1139,7 +1175,7 @@ export default function FinancialVerificationPage() {
             </div>
 
             <button
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push('/dashboard/intelligence')}
               className="w-full flex items-center justify-center text-white font-semibold cursor-pointer"
               style={{
                 height: 56,

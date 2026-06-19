@@ -40,6 +40,7 @@ model Worker {
   consentRequests     ConsentRequest[]
   transactions        Transaction[]
   financialProfile    FinancialProfile?
+  financialSignals    FinancialSignal[]
   credentials         Credential[]
   auditLogs           AuditLog[]
 
@@ -97,7 +98,9 @@ model Transaction {
   narration   String?
   txnDate     DateTime @map("txn_date")
   balance     Float?
-  category    String?  // salary, upi, transfer, etc.
+  category    String?  // GIG_PAYOUT, REFUND, etc.
+  platform    String?  // ZOMATO, SWIGGY, etc.
+  confidence  Float?   // 0-100
   createdAt   DateTime @default(now()) @map("created_at")
 
   worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
@@ -125,6 +128,27 @@ model FinancialProfile {
   worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
 
   @@map("financial_profiles")
+}
+
+// ------------------------------------
+// FinancialSignal - Layer 3 Behavioural Signals
+// ------------------------------------
+model FinancialSignal {
+  id                      String   @id @default(uuid())
+  workerId                String   @map("worker_id")
+  weeklyConsistency       Float    @map("weekly_consistency")
+  gigTenureMonths         Int      @map("gig_tenure_months")
+  platformDiversity       Int      @map("platform_diversity")
+  activityContinuity      Float    @map("activity_continuity")
+  avgWeeklyGigIncome      Float    @map("avg_weekly_gig_income")
+  refundRatio             Float    @map("refund_ratio")
+  monthlyIncomeStability  Float    @map("monthly_income_stability")
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  @@map("financial_signals")
 }
 
 // ------------------------------------
