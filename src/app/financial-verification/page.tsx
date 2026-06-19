@@ -1253,7 +1253,12 @@ export default function FinancialVerificationPage() {
             </div>
 
             <button
-              onClick={() => router.push('/dashboard/intelligence')}
+              onClick={() => {
+                setBankLinked(true);
+                if (typeof window !== "undefined") {
+                  localStorage.setItem("PRAMAAN_bank_linked", "true");
+                }
+              }}
               className="w-full flex items-center justify-center text-white font-semibold cursor-pointer"
               style={{
                 height: 56,
