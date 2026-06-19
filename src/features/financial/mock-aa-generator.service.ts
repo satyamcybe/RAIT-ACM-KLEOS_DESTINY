@@ -3,8 +3,6 @@
 // Layer 2: Simulated Financial Data Generation
 // ===========================================
 
-import { v4 as uuidv4 } from "uuid";
-
 export interface MockTransaction {
   transactionId: string;
   date: string;
@@ -103,7 +101,7 @@ export class MockAAGeneratorService {
       }
 
       transactions.push({
-        transactionId: `txn_${uuidv4()}`,
+        transactionId: `txn_${Math.random().toString(36).substring(2, 11)}_${Math.random().toString(36).substring(2, 11)}`,
         date: date.toISOString(),
         amount: amt,
         type: p.type,

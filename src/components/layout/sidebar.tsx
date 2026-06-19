@@ -26,8 +26,8 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Identity", href: "/onboarding", icon: UserCheck, hideIf: (ctx) => ctx.identityVerified },
-  { label: "Financial", href: "/financial-verification", icon: Coins, hideIf: (ctx) => ctx.bankLinked },
+  { label: "Identity", href: "/onboarding", icon: UserCheck },
+  { label: "Financial", href: "/financial-verification", icon: Coins },
   { label: "Wallet", href: "/wallet", icon: Wallet },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
