@@ -12,11 +12,16 @@ export class FinancialIngestionService {
   /**
    * Generates a mock dataset, stores it for the worker, and returns a summary.
    */
-  public async ingestForWorker(workerId: string) {
-    console.log(`[Layer 2] Starting ingestion for worker ${workerId}`);
+  public async ingestForWorker(workerId: string, months: number = 12) {
+    console.log(`[Layer 2] Starting ingestion for worker ${workerId} for last ${months} months`);
 
-    // 1. Generate Mock Dataset
-    const mockData = this.generator.generateDataset();
+    // 1. Generate Mock Dataset (covers 6-12 months naturally)
+    let mockData = this.generator.generateDataset();
+    
+    // Filter by months
+    const cutoffDate = new Date();
+    cutoffDate.setMonth(cutoffDate.getMonth() - months);
+    mockData = mockData.filter(txn => new Date(txn.date) >= cutoffDate);
 
     // 2. Prepare for Prisma
     const prismaTransactions = mockData.map(txn => ({

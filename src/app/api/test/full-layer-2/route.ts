@@ -6,6 +6,8 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     let workerId = searchParams.get("workerId");
+    const monthsParam = searchParams.get("months");
+    const months = monthsParam ? parseInt(monthsParam, 10) : 12;
 
     // If no workerId is provided, just pick the first worker in the DB
     if (!workerId) {
@@ -26,7 +28,7 @@ export async function GET(req: Request) {
     }
 
     const ingestionService = new FinancialIngestionService();
-    const result = await ingestionService.ingestForWorker(workerId);
+    const result = await ingestionService.ingestForWorker(workerId, months);
 
     return NextResponse.json(result);
   } catch (error) {
