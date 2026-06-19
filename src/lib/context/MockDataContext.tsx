@@ -139,11 +139,10 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
     setUser(defaultUser);
     setCredentials([]);
     
-    try {
-      await fetch("/api/identity/reset", { method: "POST" });
-    } catch (e) {
+    // Call the reset endpoint in the background so client reloads instantly
+    fetch("/api/identity/reset", { method: "POST" }).catch(e => {
       console.error("Failed to reset DB status", e);
-    }
+    });
   };
 
   return (

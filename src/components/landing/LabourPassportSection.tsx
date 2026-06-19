@@ -1,6 +1,6 @@
 "use client";
 
-import { QrCode, ShieldCheck } from "lucide-react";
+import { QrCode } from "lucide-react";
 
 export default function LabourPassportSection() {
   const trustFactors = [
@@ -65,113 +65,69 @@ export default function LabourPassportSection() {
 
         {/* Two Columns Grid */}
         <div className="grid lg:grid-cols-12 gap-12 items-center max-w-5xl mx-auto">
-          {/* Column 1: Passport Card (Span 5) */}
-          <div className="lg:col-span-5 flex flex-col items-center w-full">
-            <div className="w-full max-w-[360px] group">
-              <div className="relative bg-gradient-to-br from-[#1A6B47] to-[#0D3D28] rounded-[20px] p-6 text-white w-full border border-white/5 overflow-hidden shadow-2xl hover:shadow-[0_25px_60px_rgba(26,107,71,0.25)] hover:scale-[1.02] transition-all duration-500">
-                {/* Glassmorphism glow decorators */}
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-400 rounded-full mix-blend-screen filter blur-3xl opacity-15 pointer-events-none group-hover:opacity-25 transition-opacity duration-500" />
-                <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-[#2ECC8F] rounded-full filter blur-2xl opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity duration-500" />
-
-                {/* Floating verified stamp */}
-                <div className="absolute top-4 right-4 glassmorphism rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 z-20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#2ECC8F] animate-pulse" />
-                  <span className="text-[9px] font-bold text-white/90 uppercase tracking-wider">Active</span>
+          {/* Column 1: Passport Card (Span 5) - Real Horizontal Rectangular Card Shape */}
+          <div className="lg:col-span-5 flex flex-col items-center w-full justify-center">
+            <div className="w-full max-w-[400px] h-[250px] group relative bg-gradient-to-br from-[#1A6B47] to-[#0D3D28] rounded-[24px] p-5 text-white border border-white/10 shadow-2xl hover:shadow-[0_25px_60px_rgba(26,107,71,0.25)] hover:scale-[1.02] transition-all duration-500 flex flex-col justify-between overflow-hidden">
+              
+              {/* Sheen & Glow */}
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-400 rounded-full mix-blend-screen filter blur-3xl opacity-15 pointer-events-none group-hover:opacity-25 transition-opacity duration-500" />
+              
+              {/* Top Row: Brand Header & Status Label */}
+              <div className="flex justify-between items-start z-10">
+                <div className="flex flex-col text-left">
+                  <span className="text-[9px] font-mono tracking-widest text-emerald-300 font-bold">PRAMAAN REPUTATION PASS</span>
+                  <span className="text-[11px] font-bold text-white/90">W3C Verifiable Credential</span>
                 </div>
-
-                {/* Top Row */}
-                <div className="flex items-start gap-3 relative z-10">
-                  <div className="bg-white/10 backdrop-blur-md w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg border border-white/15">
-                    RK
-                  </div>
-                  <div>
-                    <div className="font-bold text-base tracking-tight">
-                      Ramesh Kumar
-                    </div>
-                    <div className="text-xs text-emerald-300 font-medium">
-                      Delivery Partner
-                    </div>
-                  </div>
+                <div className="bg-white/10 backdrop-blur-md rounded-full px-2.5 py-0.5 flex items-center gap-1.5 border border-white/10">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2ECC8F] animate-pulse" />
+                  <span className="text-[8px] font-bold tracking-wider uppercase text-white/95">VERIFIED</span>
                 </div>
+              </div>
 
-                <div className="border-t border-white/10 my-5" />
+              {/* Middle Row: Chip, Rating and Statistics */}
+              <div className="flex justify-between items-center z-10 my-2">
+                {/* Smart Card Chip */}
+                <div className="w-11 h-8 bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500 rounded-md relative shadow-md border border-amber-600/20 overflow-hidden shrink-0">
+                  <div className="absolute inset-x-0 top-2.5 h-px bg-amber-900/10" />
+                  <div className="absolute inset-x-0 bottom-2.5 h-px bg-amber-900/10" />
+                  <div className="absolute inset-y-0 left-3.5 w-px bg-amber-900/10" />
+                  <div className="absolute inset-y-0 right-3.5 w-px bg-amber-900/10" />
+                </div>
+                
+                {/* Middle details - Actual Reputation Data */}
+                <div className="text-right space-y-0.5">
+                  <div className="text-[10px] text-emerald-200 font-bold tracking-wide uppercase">Performance Index</div>
+                  <div className="text-[14px] font-black text-white">4.85 ★ &middot; 4,800+ Deliveries</div>
+                  <div className="text-[9px] text-white/60">3.4 Years (Zomato & Swiggy)</div>
+                </div>
+              </div>
 
-                {/* Verification Grid */}
-                <div className="grid grid-cols-2 gap-y-4 gap-x-6 mb-5 relative z-10">
-                  <div>
-                    <div className="text-[10px] text-emerald-300 uppercase tracking-wider font-bold">
-                      Aadhaar
-                    </div>
-                    <div className="text-xs font-semibold text-white mt-0.5">
-                      ✓ Verified
-                    </div>
+              {/* Bottom Row: Holder Details & QR code & Trust Score */}
+              <div className="flex justify-between items-end z-10 border-t border-white/10 pt-3">
+                <div className="text-left space-y-0.5">
+                  <div className="text-[14px] font-bold tracking-wide text-white uppercase">
+                    Ramesh Kumar
                   </div>
-                  <div>
-                    <div className="text-[10px] text-emerald-300 uppercase tracking-wider font-bold">
-                      eShram
-                    </div>
-                    <div className="text-xs font-semibold text-white mt-0.5">
-                      ✓ Verified
-                    </div>
+                  <div className="text-[9px] font-mono text-emerald-300/90">
+                    UID: PRMN-9842-1084
                   </div>
-                  <div>
-                    <div className="text-[10px] text-emerald-300 uppercase tracking-wider font-bold">
-                      UAN
-                    </div>
-                    <div className="text-xs font-semibold text-white mt-0.5">
-                      1005-XXXX-1234
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-emerald-300 uppercase tracking-wider font-bold">
-                      DigiLocker
-                    </div>
-                    <div className="text-xs font-semibold text-white mt-0.5">
-                      ✓ Connected
-                    </div>
+                  <div className="text-[8.5px] text-white/65">
+                    eShram Verified &middot; AA Consent Active
                   </div>
                 </div>
-
-                {/* Trust Score Mini Ring */}
-                <div className="flex items-center gap-4 bg-white/5 rounded-xl p-3 border border-white/10 mb-4 relative z-10">
-                  <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
-                    <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                      <path
-                        className="text-white/10"
-                        strokeWidth="3"
-                        stroke="currentColor"
-                        fill="none"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                      <path
-                        className="text-[#2ECC8F]"
-                        strokeWidth="3"
-                        strokeDasharray="85, 100"
-                        strokeLinecap="round"
-                        stroke="currentColor"
-                        fill="none"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                    </svg>
-                    <span className="text-[12px] font-bold text-white">847</span>
+                
+                {/* Score & QR */}
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="flex flex-col items-center bg-white/10 rounded-lg px-2 py-1 border border-white/10">
+                    <span className="text-[12px] font-bold leading-none">847</span>
+                    <span className="text-[6px] font-mono uppercase text-emerald-300 tracking-wider mt-0.5">SCORE</span>
                   </div>
-                  <div>
-                    <div className="text-[10px] text-emerald-300 uppercase tracking-wider font-bold">Pramaan Score</div>
-                    <div className="text-[12px] font-semibold text-white/80">Excellent — Top 15%</div>
-                  </div>
-                </div>
-
-                {/* Bottom Row */}
-                <div className="flex items-center justify-between text-[11px] text-emerald-300/80 border-t border-white/10 pt-4 relative z-10">
-                  <span className="font-medium">PRAMAAN TRUST ID</span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono tracking-wider">
-                      PRAMAAN-2026-RK
-                    </span>
-                    <QrCode size={16} className="text-white" />
+                  <div className="bg-white p-1 rounded-lg shadow-sm shrink-0">
+                    <QrCode size={24} className="text-[#0D3D28]" />
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
 
@@ -198,28 +154,6 @@ export default function LabourPassportSection() {
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Divider & Supported Uses */}
-        <div className="border-t border-[#E5E7EB] mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto">
-          <div className="text-left space-y-1">
-            <span className="text-[12px] font-bold text-[#1A6B47] uppercase tracking-wider">Accepted Nationwide</span>
-            <h4 className="text-[15px] font-bold text-[#111827]">Where can you use your PRAMAAN passport?</h4>
-          </div>
-          <div className="flex flex-wrap gap-3 justify-center md:justify-end">
-            {[
-              "Bank Loan Applications",
-              "Rental Agreements",
-              "Welfare & Insurance"
-            ].map((use, idx) => (
-              <span
-                key={idx}
-                className="text-[13px] font-semibold bg-white border border-[#E5E7EB] px-4 py-2 rounded-full shadow-xs text-[#374151] hover:border-[#1A6B47]/30 hover:text-[#1A6B47] transition-all cursor-default"
-              >
-                {use}
-              </span>
             ))}
           </div>
         </div>
