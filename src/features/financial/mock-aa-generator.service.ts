@@ -3,7 +3,8 @@
 // Layer 2: Simulated Financial Data Generation
 // ===========================================
 
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
+const uuidv4 = () => crypto.randomUUID();
 
 export interface MockTransaction {
   transactionId: string;
