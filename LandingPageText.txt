@@ -3,7 +3,7 @@ Headline
 Aapki Mehnat, Aapki Pehchaan
 Subheadline
 You have completed thousands of deliveries. Maintained a 4.8 rating for three years. Earned consistently, month after month.
-But to a bank, a landlord, or an insurer — you are still invisible.
+But to a bank, a landlord, or an insurer you are still invisible.
 Pramaan changes that. One verified passport. Every institution. Your reputation, finally portable.
 Primary CTA
 Generate My Passport
@@ -12,7 +12,7 @@ See How It Works
 
 TRUST INDICATORS
 India Ki Trusted Infrastructure Par Bana Hai
-No new accounts to create. No new systems to trust. Pramaan works with the digital infrastructure India already relies on — so your existing records finally work for you.
+No new accounts to create. No new systems to trust. Pramaan works with the digital infrastructure India already relies on so your existing records finally work for you.
 eShram Verified
 Your national workforce registration, recognised and connected.
 DigiLocker Connected
@@ -29,7 +29,7 @@ Loan application rejected. Rental denied. No credit history on record.
 The problem is not the worker's reliability. The problem is that reliability has no form institutions can read.
 The Solution
 Pramaan gives that reliability a form.
-It pulls together your verified identity, financial patterns, and work signals into a single structured credential — one that speaks the language banks, landlords, and insurers already understand.
+It pulls together your verified identity, financial patterns, and work signals into a single structured credential one that speaks the language banks, landlords, and insurers already understand.
 
 FEATURES SECTION
 Identity Verification
@@ -40,12 +40,12 @@ No guesswork. No manual document submission. Just verified identity, done right.
 Financial Verification
 Aapki Kamai Jo Baat Karti Hai
 Bank statements and transaction history carry more weight than most people realise.
-With your consent, Pramaan reads patterns in your financial activity — income frequency, earning consistency, stability over time — and translates them into signals institutions actually trust.
+With your consent, Pramaan reads patterns in your financial activity income frequency, earning consistency, stability over time — and translates them into signals institutions actually trust.
 
 Trust Intelligence
 Sirf Numbers Nahi, Ek Puri Kahani
 Income and identity alone do not capture four years of showing up every day.
-Pramaan layers in additional signals — tenure, activity regularity, platform engagement — to build a trust profile that reflects the full picture of your professional life.
+Pramaan layers in additional signals tenure, activity regularity, platform engagement to build a trust profile that reflects the full picture of your professional life.
 
 Portable Credential
 Ek Baar Banao, Har Jagah Use Karo
@@ -68,13 +68,13 @@ DASHBOARD PREVIEW
 Ek Nazar Mein Poora Profile
 Most workers carry their reputation across five different apps and zero official records. The Pramaan dashboard changes that.
 Trust Score
-A single number that reflects verified professional credibility — not a credit score, something more relevant to how gig workers actually work.
+A single number that reflects verified professional credibility not a credit score, something more relevant to how gig workers actually work.
 Monthly Income
 An estimated income range derived from financial records you have already consented to share.
 Verification Status
 Live confirmation of which identity and financial sources have been successfully verified.
 Activity Trend
-A rolling view of your work consistency over recent months — the kind of data that tells institutions you show up.
+A rolling view of your work consistency over recent months the kind of data that tells institutions you show up.
 
 PASSPORT PREVIEW
 Aapka Professional Passport
