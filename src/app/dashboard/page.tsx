@@ -2,7 +2,7 @@
 
 import { useMockData } from "@/lib/context/MockDataContext";
 import { generateIntelligence, rawMockTransactions } from "@/lib/score-engine";
-import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2 } from "lucide-react";
+import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2, User } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, identityVerified, bankLinked } = useMockData();
@@ -40,8 +40,8 @@ export default function DashboardPage() {
         
         {/* IDENTITY CARD */}
         <div className="col-span-1 bg-white border border-gray-100 rounded-2xl p-6 shadow-xs flex flex-col items-center text-center relative overflow-hidden">
-          <div className="w-20 h-20 rounded-full bg-slate-100 border-4 border-white shadow-sm flex items-center justify-center text-3xl mb-4 z-10">
-            🧑🏽‍🦱
+          <div className="w-20 h-20 rounded-full bg-[#E8F3ED] border-4 border-white shadow-sm flex items-center justify-center mb-4 z-10 text-[#1A6B47]">
+            <User className="w-8 h-8" />
           </div>
           <h2 className="text-xl font-bold text-gray-900 z-10">{user.name}</h2>
           <p className="text-sm font-semibold text-gray-500 mb-4 z-10 flex items-center justify-center gap-1">

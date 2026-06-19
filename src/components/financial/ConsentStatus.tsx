@@ -7,6 +7,8 @@
 
 import { cn } from "@/lib/utils";
 
+import { ClipboardList, Clock, CheckCircle2, XCircle } from "lucide-react";
+
 interface ConsentStatusProps {
   className?: string;
   status: "pending" | "approved" | "rejected" | "expired" | "none";
@@ -15,11 +17,11 @@ interface ConsentStatusProps {
 }
 
 const statusConfig = {
-  none: { label: "Not Requested", color: "gray", icon: "📋" },
-  pending: { label: "Pending", color: "amber", icon: "⏳" },
-  approved: { label: "Approved", color: "emerald", icon: "✅" },
-  rejected: { label: "Rejected", color: "red", icon: "❌" },
-  expired: { label: "Expired", color: "gray", icon: "⏰" },
+  none: { label: "Not Requested", color: "gray", icon: ClipboardList },
+  pending: { label: "Pending", color: "amber", icon: Clock },
+  approved: { label: "Approved", color: "emerald", icon: CheckCircle2 },
+  rejected: { label: "Rejected", color: "red", icon: XCircle },
+  expired: { label: "Expired", color: "gray", icon: Clock },
 };
 
 export function ConsentStatus({
@@ -29,6 +31,7 @@ export function ConsentStatus({
   onRequestConsent,
 }: ConsentStatusProps) {
   const config = statusConfig[status];
+  const IconComponent = config.icon;
 
   return (
     <div className={cn("rounded-xl border border-gray-200 bg-white p-6", className)}>
@@ -36,7 +39,7 @@ export function ConsentStatus({
         <h3 className="font-semibold text-gray-900">Consent Status</h3>
         <span
           className={cn(
-            "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
+            "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
             {
               "bg-gray-50 text-gray-700": config.color === "gray",
               "bg-amber-50 text-amber-700": config.color === "amber",
@@ -45,7 +48,8 @@ export function ConsentStatus({
             }
           )}
         >
-          {config.icon} {config.label}
+          <IconComponent className="w-3.5 h-3.5" />
+          <span>{config.label}</span>
         </span>
       </div>
 

@@ -26,16 +26,11 @@ import {
   ReceiptText,
   TrendingUp,
   ChevronRight,
-  Search
+  Search,
+  MessageSquare
 } from "lucide-react";
 
 type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'select_banks' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
-
-const ALL_BANKS = [
-  { id: 'hdfc', name: 'HDFC Bank', icon: '🏛️' },
-  { id: 'sbi', name: 'State Bank of India', icon: '🏦' },
-  { id: 'icici', name: 'ICICI Bank', icon: '🏦' },
-];
 
 /* ─── Premium SVG Illustrations ─── */
 
@@ -132,6 +127,23 @@ const accessItems = [
 ];
 
 /* ─── Main Page Component ─── */
+
+/* ─── Premium Success Icon Animation ─── */
+function SuccessIcon() {
+  return (
+    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-emerald-50 border border-emerald-100 shadow-[0_0_25px_rgba(16,185,129,0.12)] relative overflow-hidden">
+      <svg className="w-12 h-12 text-[#1A6B47]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" className="animate-dash" style={{
+          strokeDasharray: 50,
+          strokeDashoffset: 50,
+          animation: 'dash 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s'
+        }} />
+      </svg>
+      {/* Decorative pulse waves */}
+      <div className="absolute inset-0 rounded-full border-2 border-emerald-400/20 animate-ping opacity-75 pointer-events-none" style={{ animationDuration: '2s' }}></div>
+    </div>
+  );
+}
 
 export default function FinancialVerificationPage() {
   const router = useRouter();
@@ -1203,52 +1215,60 @@ export default function FinancialVerificationPage() {
       {step === 'success' && (
         <div className="space-y-6 animate-in zoom-in-95 duration-500">
           <div 
-            className="bg-white border border-[#E2E8F0] rounded-[24px] p-8 text-center shadow-xs"
+            className="bg-white border border-[#E2E8F0] rounded-[24px] p-8 text-center shadow-md relative overflow-hidden"
             style={{
-              boxShadow: "0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04)"
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)"
             }}
           >
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F4FAF7] border-4 border-emerald-50 mb-6">
-              <span className="text-4xl animate-bounce">🎉</span>
-            </div>
+            <style>{`
+              @keyframes dash {
+                to {
+                  stroke-dashoffset: 0;
+                }
+              }
+            `}</style>
             
-            <h2 className="text-2xl font-bold text-[#0F172A] mb-6">Retrieval Summary</h2>
+            <div className="mb-8">
+              <SuccessIcon />
+            </div>
 
             {/* --- NEW DATA SOURCE METADATA SECTION --- */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-left mb-6">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Data Source Metadata</p>
-              <div className="space-y-2.5">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500">AA Provider</span>
-                  <span className="font-semibold text-slate-800">Finvu Sandbox</span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500">Financial Information Provider(s)</span>
-                  <span className="font-semibold text-slate-800">
-                    {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(a => a.bankName.split(' ')[0]).join(', ')}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500">Data Status</span>
-                  <span className="font-semibold text-emerald-600 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Retrieved Successfully
-                  </span>
+            <div className="space-y-4">
+              <div className="bg-[#F4FAF7] border border-emerald-100/50 rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xs">
+                <p className="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-3">Data Source Metadata</p>
+                <div className="space-y-2.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">AA Provider</span>
+                    <span className="font-semibold text-slate-800">Finvu Sandbox</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Financial Information Provider(s)</span>
+                    <span className="font-semibold text-slate-800">
+                      {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(a => a.bankName.split(' ')[0]).join(', ')}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Data Status</span>
+                    <span className="font-semibold text-[#1A6B47] flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Retrieved Successfully
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="bg-slate-50 p-5 rounded-xl text-left space-y-4 border border-gray-100">
-              <div className="flex justify-between items-center border-b border-slate-200 pb-3">
-                <span className="text-sm font-semibold text-slate-600">Accounts Connected</span>
-                <span className="text-lg font-black text-slate-800">{selectedAccountIds.length}</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-slate-200 pb-3">
-                <span className="text-sm font-semibold text-slate-600">Selected Period</span>
-                <span className="text-lg font-black text-slate-800">Last {months} Months</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-slate-600">Transactions Retrieved</span>
-                <span className="text-lg font-black text-[#059669]">{ingestData?.totalTransactions || 0}</span>
+              <div className="bg-slate-50 p-5 rounded-2xl text-left space-y-4 border border-gray-100 transition-all duration-300 hover:shadow-xs">
+                <div className="flex justify-between items-center border-b border-slate-200/60 pb-3.5">
+                  <span className="text-sm font-semibold text-slate-600">Accounts Connected</span>
+                  <span className="text-lg font-black text-slate-800">{selectedAccountIds.length}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-slate-200/60 pb-3.5">
+                  <span className="text-sm font-semibold text-slate-600">Selected Period</span>
+                  <span className="text-lg font-black text-slate-800">Last {months} Months</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-semibold text-slate-600">Transactions Ingested</span>
+                  <span className="text-xl font-black text-[#1A6B47]">{ingestData?.totalTransactions || 0}</span>
+                </div>
               </div>
             </div>
 
@@ -1258,26 +1278,27 @@ export default function FinancialVerificationPage() {
                 if (typeof window !== "undefined") {
                   localStorage.setItem("PRAMAAN_bank_linked", "true");
                 }
+                router.push('/dashboard');
               }}
               className="w-full flex items-center justify-center text-white font-semibold cursor-pointer"
               style={{
                 height: 56,
                 borderRadius: 14,
-                background: "#0F172A",
+                background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                 fontSize: 15,
                 fontWeight: 600,
-                boxShadow: "0 2px 6px rgba(15, 23, 42, 0.15)",
+                boxShadow: "0 4px 14px rgba(16, 185, 129, 0.2)",
                 border: "none",
                 transition: "all 0.2s ease-in-out",
-                marginTop: 24
+                marginTop: 28
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#000000";
                 e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(5, 150, 105, 0.25)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#0F172A";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 14px rgba(16, 185, 129, 0.2)";
               }}
             >
               Proceed To Transaction Intelligence
@@ -1290,8 +1311,8 @@ export default function FinancialVerificationPage() {
       {showOtpToast && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-10 fade-in duration-300 w-[90%] max-w-sm">
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex items-start gap-4">
-            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-              <span className="text-xl">💬</span>
+            <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-blue-100/50">
+              <MessageSquare className="w-5 h-5" />
             </div>
             <div>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Messages • Now</p>
