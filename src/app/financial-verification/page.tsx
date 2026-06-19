@@ -6,29 +6,69 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useMockData } from "@/lib/context/MockDataContext";
 
 export default function FinancialVerificationPage() {
-  const [step, setStep] = useState<'consent' | 'otp'>('consent');
-  const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { bankLinked, setBankLinked } = useMockData();
+  const router = useRouter();
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [error, setError] = useState("");
 
-  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
-    setOtp(value);
-    setError("");
-  };
+  // bankLinked auto-redirect removed to allow step 4 to display fully
 
-  const handleVerify = () => {
-    if (otp.length < 6) {
-      setError("Please enter a 6-digit OTP.");
-      return;
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (step === 2) {
+      interval = setInterval(async () => {
+        try {
+          const res = await fetch("/api/financial/consent");
+          const data = await res.json();
+          if (data.data?.status === "approved") {
+            clearInterval(interval);
+            setStep(3);
+          }
+        } catch (err) {
+          console.error("Poll error", err);
+        }
+      }, 2000);
     }
-    setIsLoading(true);
-    setTimeout(() => {
-      window.location.href = "/dashboard";
-    }, 2000);
+    return () => clearInterval(interval);
+  }, [step]);
+
+  useEffect(() => {
+    if (step === 3) {
+      const fetchData = async () => {
+        try {
+          await fetch("/api/financial/fetch");
+          setStep(4);
+          setTimeout(() => {
+            setBankLinked(true);
+            router.replace('/dashboard');
+          }, 2000);
+        } catch (err) {
+          setError("Failed to fetch financial data");
+          setStep(1);
+        }
+      };
+      fetchData();
+    }
+  }, [step, setBankLinked, router]);
+
+  const handleConnect = async () => {
+    setStep(2);
+    setError("");
+    try {
+      await fetch("/api/financial/consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fiTypes: ["TRANSACTIONS"] }),
+      });
+    } catch (err) {
+      setError("Failed to initiate consent");
+      setStep(1);
+    }
   };
 
   return (
@@ -38,18 +78,15 @@ export default function FinancialVerificationPage() {
           <span className="text-2xl">🏦</span>
         </div>
         <h1 className="text-2xl font-bold text-gray-900">
-          {step === 'consent' ? "Financial Verification" : "Verify Bank OTP"}
+          Financial Verification
         </h1>
         <p className="mt-2 text-sm text-gray-600">
-          {step === 'consent' 
-            ? "Link your bank account via Account Aggregator to build your financial profile" 
-            : "Enter the OTP sent by your bank to approve the Account Aggregator request"}
+          Link your bank account via Account Aggregator to build your financial profile
         </p>
       </div>
 
-      {step === 'consent' ? (
+      {step === 1 && (
         <>
-          {/* Consent info */}
           <div className="rounded-xl border border-gray-200 bg-white p-6">
             <h3 className="font-semibold text-gray-900">What we&apos;ll access</h3>
             <div className="mt-4 space-y-3">
@@ -69,73 +106,38 @@ export default function FinancialVerificationPage() {
             </div>
           </div>
 
-          {/* Mock mode notice */}
-          <div className="rounded-lg bg-amber-50 p-4">
-            <p className="text-sm font-medium text-amber-800">
-              ⚡ Running in Mock Mode
-            </p>
-            <p className="mt-1 text-xs text-amber-600">
-              Account Aggregator flow is simulated. No real bank data will be accessed.
-            </p>
-          </div>
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
-          {/* CTA */}
           <button
-            onClick={() => setStep('otp')}
+            onClick={handleConnect}
             className="w-full rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-emerald-700"
           >
-            Give Consent & Link Account
+            Connect Bank
           </button>
-
-          <div className="text-center">
-            <Link
-              href="/dashboard"
-              className="text-sm text-gray-500 hover:text-emerald-600"
-            >
-              Skip for now →
-            </Link>
-          </div>
         </>
-      ) : (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-6">
-          <div>
-            <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2 text-center">
-              Enter 6-Digit OTP
-            </label>
-            <input
-              type="text"
-              id="otp"
-              value={otp}
-              onChange={handleOtpChange}
-              placeholder="000000"
-              className={`block w-full px-4 py-4 border text-center ${
-                error ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500"
-              } rounded-xl text-2xl tracking-[0.5em] font-mono text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all`}
-            />
-            {error && (
-              <p className="mt-2 text-sm text-red-500 text-center">{error}</p>
-            )}
-          </div>
-          <button
-            onClick={handleVerify}
-            disabled={isLoading}
-            className="w-full rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-emerald-700 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
-          >
-            {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Verifying...</span>
-              </>
-            ) : (
-              "Verify OTP"
-            )}
-          </button>
-          <button
-            onClick={() => setStep('consent')}
-            className="w-full text-center text-sm text-gray-500 hover:text-gray-700"
-          >
-            Back
-          </button>
+      )}
+
+      {step === 2 && (
+        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center space-y-4">
+          <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <h3 className="font-semibold text-gray-900">Awaiting Consent...</h3>
+          <p className="text-sm text-gray-500">Please approve the request sent to your bank.</p>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center space-y-4">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <h3 className="font-semibold text-gray-900">Fetching Financial Data...</h3>
+          <p className="text-sm text-gray-500">Analyzing your transactions securely.</p>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className="rounded-xl border border-green-200 bg-green-50 p-8 text-center space-y-4">
+          <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl">✓</div>
+          <h3 className="font-semibold text-green-900">Successfully Connected</h3>
+          <p className="text-sm text-green-700">Redirecting to dashboard...</p>
         </div>
       )}
     </div>

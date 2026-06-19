@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { MockDataProvider } from "@/lib/context/MockDataContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased scroll-smooth`}>
       <body className="min-h-full bg-white font-sans text-[#111827]">
-        {children}
+        <MockDataProvider>
+          {children}
+        </MockDataProvider>
       </body>
     </html>
   );

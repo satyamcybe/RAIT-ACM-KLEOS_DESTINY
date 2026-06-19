@@ -8,20 +8,25 @@ import { NextRequest } from "next/server";
 import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
 import { financialService } from "@/features/financial/services/FinancialService";
 import { getAuthUserId } from "@/lib/auth/clerk";
+import { prisma } from "@/lib/database/prisma";
 
 export async function POST(request: NextRequest) {
   try {
     const userId = await getAuthUserId();
+    const worker = await prisma.worker.upsert({
+      where: { clerkUserId: userId },
+      update: {},
+      create: { clerkUserId: userId },
+    });
+
     const body = await request.json();
-    const { fiTypes } = body;
+    const fiTypes = body.fiTypes || ["TRANSACTIONS"];
 
-    if (!fiTypes || !Array.isArray(fiTypes)) {
-      return errorResponse("fiTypes array is required");
-    }
-
-    // TODO: Implement consent creation flow
-    const vua = `${userId}@pranam-aa-mock`;
-    const result = await financialService.createConsent(vua, fiTypes);
+    const result = await financialService.createConsent(
+      userId + "@onemoney",
+      fiTypes,
+      worker.id
+    );
 
     return successResponse(result, "Consent request created");
   } catch (error) {
@@ -31,12 +36,21 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    await getAuthUserId();
+    const userId = await getAuthUserId();
+    const worker = await prisma.worker.upsert({
+      where: { clerkUserId: userId },
+      update: {},
+      create: { clerkUserId: userId },
+    });
 
-    // TODO: Fetch current consent status
+    const consent = await prisma.consentRequest.findFirst({
+      where: { workerId: worker.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
     return successResponse({
-      status: "none",
-      fiTypes: [],
+      status: consent?.status || "none",
+      fiTypes: consent?.fiTypes || [],
     });
   } catch (error) {
     return serverErrorResponse(error);

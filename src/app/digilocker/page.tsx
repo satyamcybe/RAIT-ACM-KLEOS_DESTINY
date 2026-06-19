@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ShieldCheck, ArrowRight, Lock, UserCheck } from "lucide-react";
+import { useMockData } from "@/lib/context/MockDataContext";
 
 export default function DigiLockerMock() {
+  const { identityVerified, setIdentityVerified } = useMockData();
+  const router = useRouter();
   const [step, setStep] = useState<'aadhaar' | 'otp'>('aadhaar');
   const [aadhaar, setAadhaar] = useState("");
+
+  useEffect(() => {
+    if (identityVerified) {
+      router.replace('/dashboard');
+    }
+  }, [identityVerified, router]);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -48,6 +57,10 @@ export default function DigiLockerMock() {
     setIsLoading(true);
     // Mock API call delay
     setTimeout(() => {
+      setIdentityVerified(true);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("pranam_identity_verified", "true");
+      }
       window.location.href = '/api/digilocker/callback?code=mock_oauth_code_xyz789';
     }, 2000);
   };
@@ -60,21 +73,15 @@ export default function DigiLockerMock() {
         <div className="absolute top-40 -left-40 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+      <div
         className="w-full max-w-md bg-white rounded-3xl shadow-xl shadow-blue-900/5 p-8 relative z-10 border border-slate-100"
       >
         <div className="text-center mb-8">
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          <div
             className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm"
           >
             <ShieldCheck className="w-8 h-8" />
-          </motion.div>
+          </div>
           <h1 className="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
             {step === 'aadhaar' ? "DigiLocker Authentication" : "Enter OTP"}
           </h1>
@@ -98,6 +105,7 @@ export default function DigiLockerMock() {
                 <input
                   type="text"
                   id="aadhaar"
+                  suppressHydrationWarning
                   value={formatAadhaar(aadhaar)}
                   onChange={handleAadhaarChange}
                   placeholder="0000 0000 0000"
@@ -107,13 +115,11 @@ export default function DigiLockerMock() {
                 />
               </div>
               {error && (
-                <motion.p
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
+                <p
                   className="mt-2 text-sm text-red-500"
                 >
                   {error}
-                </motion.p>
+                </p>
               )}
             </div>
 
@@ -124,17 +130,16 @@ export default function DigiLockerMock() {
               </p>
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
+              suppressHydrationWarning
               className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
             >
               <div className="flex items-center gap-2">
                 <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
               </div>
-            </motion.button>
+            </button>
           </form>
         ) : (
           <form onSubmit={handleOtpSubmit} className="space-y-6">
@@ -146,6 +151,7 @@ export default function DigiLockerMock() {
                 <input
                   type="text"
                   id="otp"
+                  suppressHydrationWarning
                   value={otp}
                   onChange={handleOtpChange}
                   placeholder="000000"
@@ -155,21 +161,18 @@ export default function DigiLockerMock() {
                 />
               </div>
               {error && (
-                <motion.p
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
+                <p
                   className="mt-2 text-sm text-red-500 text-center"
                 >
                   {error}
-                </motion.p>
+                </p>
               )}
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
               disabled={isLoading}
+              suppressHydrationWarning
               className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
             >
               {isLoading ? (
@@ -183,7 +186,7 @@ export default function DigiLockerMock() {
                   <ArrowRight className="w-4 h-4" />
                 </div>
               )}
-            </motion.button>
+            </button>
             <button
               type="button"
               onClick={() => { setStep('aadhaar'); setOtp(''); setError(''); }}
@@ -193,7 +196,7 @@ export default function DigiLockerMock() {
             </button>
           </form>
         )}
-      </motion.div>
+      </div>
       
       <div className="mt-8 text-center relative z-10">
         <p className="text-xs text-slate-400">

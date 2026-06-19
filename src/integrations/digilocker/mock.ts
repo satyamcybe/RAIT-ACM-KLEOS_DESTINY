@@ -27,14 +27,15 @@ export class DigiLockerMockAdapter implements DigiLockerAdapter {
     sessionId: string,
     _data: DigiLockerCallbackData
   ): Promise<DigiLockerVerifyResult> {
-    // TODO: Implement mock verification completion
     console.log(`[MOCK] DigiLocker: Completing verification for session ${sessionId}`);
     return {
       success: true,
-      aadhaarName: "Rajesh Kumar",
-      dateOfBirth: "1990-05-15",
+      aadhaarName: "Raju Kamble",
+      dateOfBirth: "1998-03-22",
       gender: "Male",
-      maskedAadhaar: "XXXX-XXXX-5678",
+      maskedAadhaar: "XXXX-XXXX-4521",
+      digilockerId: "raju-" + Date.now(),
+      referenceKey: "ref_" + Math.random().toString(36).substring(7),
     };
   }
 
@@ -42,15 +43,14 @@ export class DigiLockerMockAdapter implements DigiLockerAdapter {
     userId: string,
     docType: DigiLockerDocType
   ): Promise<DigiLockerDocument> {
-    // TODO: Implement mock document fetch
     console.log(`[MOCK] DigiLocker: Fetching ${docType} for user ${userId}`);
     return {
       docType,
       name: "Mock Aadhaar Card",
       data: {
-        name: "Rajesh Kumar",
-        dob: "1990-05-15",
-        address: "123, Mock Street, New Delhi",
+        name: "Raju Kamble",
+        dob: "1998-03-22",
+        address: "123, Mock Street, Mumbai",
       },
       issuedAt: new Date().toISOString(),
     };

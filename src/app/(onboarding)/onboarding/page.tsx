@@ -1,12 +1,22 @@
 "use client";
 
 import { ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import DigiLockerConnectCard from "@/components/identity/DigiLockerConnectCard";
 import OAuthRedirectScreen from "@/components/identity/OAuthRedirectScreen";
+import { useMockData } from "@/lib/context/MockDataContext";
 
 export default function OnboardingPage() {
+  const { identityVerified } = useMockData();
+  const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
+
+  useEffect(() => {
+    if (identityVerified) {
+      router.replace('/dashboard');
+    }
+  }, [identityVerified, router]);
 
   return (
     <div className="w-full max-w-[480px] mx-auto">

@@ -30,4 +30,5 @@ export interface EshramWorkerDetails {
   district: string;
   registrationDate: string;
   cardStatus: "active" | "inactive" | "expired";
+  platform?: string;
 }

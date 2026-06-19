@@ -9,6 +9,7 @@ import type {
   SetuConsentResponse,
   SetuConsentStatusResponse,
   SetuFIDataResponse,
+  SetuTransaction,
 } from "./types";
 
 export class SetuMockAdapter implements SetuAdapter {
@@ -33,8 +34,40 @@ export class SetuMockAdapter implements SetuAdapter {
   }
 
   async fetchFinancialData(_consentId: string): Promise<SetuFIDataResponse> {
-    // TODO: Implement mock financial data fetch
     console.log("[MOCK] Setu: Fetching financial data");
+
+    const transactions: SetuTransaction[] = [];
+    let currentBalance = 28000;
+    const now = new Date();
+
+    for (let i = 0; i < 48; i++) {
+      const base = 4200;
+      const variation = Math.sin(i) * 600;
+      const amount = Math.round(base + variation);
+      
+      const isEven = i % 2 === 0;
+      const narration = isEven 
+        ? `NEFT/ZOMATO TECHNOLOGIES PVT LTD/WK${48 - i}`
+        : `IMPS/ZOMATO TECH/WEEKLY/${48 - i}`;
+
+      const txnDate = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000);
+      
+      transactions.push({
+        txnId: `mock_txn_${i.toString().padStart(3, '0')}`,
+        amount,
+        type: "CREDIT",
+        narration,
+        transactionTimestamp: txnDate.toISOString(),
+        currentBalance,
+        reference: `ZOM${48 - i}`,
+      });
+
+      // Simulate a debit between credits to keep balance realistic
+      if (i > 0) {
+        currentBalance -= Math.round(amount * 0.9); // Spend most of what was earned
+      }
+    }
+
     return {
       accounts: [
         {
@@ -42,41 +75,13 @@ export class SetuMockAdapter implements SetuAdapter {
           maskedAccountNumber: "XXXX1234",
           fiType: "DEPOSIT",
           summary: {
-            currentBalance: 25000,
-            branch: "New Delhi Main Branch",
+            currentBalance: transactions[0].currentBalance,
+            branch: "Mumbai Main Branch",
             ifscCode: "SBIN0001234",
           },
         },
       ],
-      transactions: [
-        {
-          txnId: "mock_txn_001",
-          amount: 15000,
-          type: "CREDIT",
-          narration: "SALARY/JUN/2024",
-          transactionTimestamp: new Date().toISOString(),
-          currentBalance: 25000,
-          reference: "SAL001",
-        },
-        {
-          txnId: "mock_txn_002",
-          amount: 2000,
-          type: "DEBIT",
-          narration: "UPI/GROCERY",
-          transactionTimestamp: new Date().toISOString(),
-          currentBalance: 23000,
-          reference: "UPI001",
-        },
-        {
-          txnId: "mock_txn_003",
-          amount: 5000,
-          type: "DEBIT",
-          narration: "ATM/CASH",
-          transactionTimestamp: new Date().toISOString(),
-          currentBalance: 18000,
-          reference: "ATM001",
-        },
-      ],
+      transactions,
     };
   }
 }

@@ -34,7 +34,10 @@ export default function Navbar() {
         </nav>
 
         {/* Right: CTA Button */}
-        <div>
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="hidden sm:block text-[15px] font-semibold text-[#4B5563] hover:text-[#1A6B47] transition-colors">
+            Log In
+          </Link>
           <Link 
             href="/onboarding" 
             className="btn-primary py-2 px-5 text-[15px] rounded-[8px]"

@@ -3,17 +3,29 @@
 // GET: Fetch financial data after consent
 // ===========================================
 
-import { successResponse, serverErrorResponse } from "@/lib/utils/response";
+import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
 import { financialService } from "@/features/financial/services/FinancialService";
 import { getAuthUserId } from "@/lib/auth/clerk";
+import { prisma } from "@/lib/database/prisma";
 
 export async function GET() {
   try {
-    await getAuthUserId();
+    const userId = await getAuthUserId();
+    const worker = await prisma.worker.upsert({
+      where: { clerkUserId: userId },
+      update: {},
+      create: { clerkUserId: userId },
+    });
 
-    // TODO: Get active consent and fetch data
-    const consentId = "mock_consent_id"; // Placeholder
-    const data = await financialService.fetchFinancialData(consentId);
+    const consent = await prisma.consentRequest.findFirst({
+      where: { workerId: worker.id, status: "approved" },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const data = await financialService.fetchFinancialData(
+      consent?.consentHandle || "mock",
+      worker.id
+    );
 
     return successResponse(data);
   } catch (error) {

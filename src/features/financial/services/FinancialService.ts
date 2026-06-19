@@ -8,6 +8,8 @@ import { SetuMockAdapter } from "@/integrations/setu/mock";
 import { SetuSandboxAdapter } from "@/integrations/setu/sandbox";
 import type { SetuAdapter } from "@/integrations/setu/types";
 import type { FinancialData } from "../types/financial";
+import { prisma } from "@/lib/database/prisma";
+import { reputationService } from "@/features/reputation/services/ReputationService";
 
 /** Factory: get the right Setu adapter */
 function getSetuAdapter(): SetuAdapter {
@@ -29,15 +31,27 @@ export class FinancialService {
   }
 
   /** Create a consent request */
-  async createConsent(customerVua: string, fiTypes: string[]) {
-    // TODO: Implement consent creation flow
-    return this.setu.createConsent({
+  async createConsent(customerVua: string, fiTypes: string[], workerId: string) {
+    const res = await this.setu.createConsent({
       customerVua,
       fiTypes,
       dateRangeFrom: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(),
       dateRangeTo: new Date().toISOString(),
       redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL}/financial-verification`,
     });
+
+    await prisma.consentRequest.create({
+      data: {
+        workerId,
+        consentHandle: res.consentHandle,
+        status: "approved", // auto-approve for mock flow
+        fiTypes,
+        dateRangeFrom: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000),
+        dateRangeTo: new Date(),
+      },
+    });
+
+    return res;
   }
 
   /** Check consent status */
@@ -47,9 +61,30 @@ export class FinancialService {
   }
 
   /** Fetch financial data */
-  async fetchFinancialData(consentId: string): Promise<FinancialData> {
-    // TODO: Implement data fetch, parse, and store
+  async fetchFinancialData(consentId: string, workerId: string): Promise<FinancialData> {
     const raw = await this.setu.fetchFinancialData(consentId);
+    
+    // Save transactions to DB
+    const txnsToSave = raw.transactions.map((t) => ({
+      workerId,
+      amount: t.amount,
+      type: t.type === "CREDIT" ? "credit" : "debit",
+      narration: t.narration,
+      txnDate: new Date(t.transactionTimestamp),
+      category: t.narration?.includes("ZOMATO") || t.narration?.includes("SWIGGY") 
+        ? "platform_credit" 
+        : "other",
+      accountType: "SAVINGS",
+      balance: t.currentBalance,
+    }));
+
+    await prisma.transaction.createMany({
+      data: txnsToSave,
+    });
+
+    await reputationService.calculateReputation(workerId);
+    const reputationProfile = await reputationService.getReputationProfile(workerId);
+
     return {
       accounts: raw.accounts.map((a) => ({
         accountType: a.accountType,
@@ -64,7 +99,7 @@ export class FinancialService {
         narration: t.narration,
         date: t.transactionTimestamp,
       })),
-      profile: null, // TODO: Compute from transactions
+      profile: reputationProfile as any,
     };
   }
 }
