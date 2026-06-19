@@ -345,19 +345,97 @@ export default function FinancialVerificationPage() {
     if (bankLinked) {
       const runIntelligenceEngine = async () => {
         try {
-          // Send mock raw transactions to Layer 3 Engine
-          const mockTransactions = [
-            { txnId: "T1", date: "2025-01-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
-            { txnId: "T2", date: "2025-01-06", amount: 150, type: "DEBIT", narration: "SWIGGY INSTAMART" },
-            { txnId: "T3", date: "2025-01-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
-            { txnId: "T4", date: "2025-01-14", amount: 450, type: "DEBIT", narration: "ZOMATO ORDER" },
-            { txnId: "T5", date: "2025-01-16", amount: 450, type: "CREDIT", narration: "ZOMATO REFUND" },
-            { txnId: "T6", date: "2025-01-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
-            { txnId: "T7", date: "2025-01-22", amount: 1000, type: "CREDIT", narration: "TRANSFER TO OWN A/C" },
-            { txnId: "T8", date: "2025-01-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
-            { txnId: "T9", date: "2025-02-02", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
-            { txnId: "T10", date: "2025-02-09", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
-          ];
+          let mockTransactions: any[] = [];
+          
+          if (months === 3) {
+            mockTransactions = [
+              { txnId: "T1", date: "2025-01-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T2", date: "2025-01-06", amount: 150, type: "DEBIT", narration: "SWIGGY INSTAMART" },
+              { txnId: "T3", date: "2025-01-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T4", date: "2025-01-14", amount: 450, type: "DEBIT", narration: "ZOMATO ORDER" },
+              { txnId: "T5", date: "2025-01-16", amount: 450, type: "CREDIT", narration: "ZOMATO REFUND" },
+              { txnId: "T6", date: "2025-01-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T7", date: "2025-01-22", amount: 1000, type: "CREDIT", narration: "TRANSFER TO OWN A/C" },
+              { txnId: "T8", date: "2025-01-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T9", date: "2025-02-02", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T10", date: "2025-02-09", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+            ];
+          } else if (months === 6) {
+            mockTransactions = [
+              { txnId: "T1", date: "2024-09-05", amount: 3100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T2", date: "2024-09-12", amount: 2950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T3", date: "2024-09-19", amount: 3200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T4", date: "2024-09-26", amount: 3050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T5", date: "2024-10-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T6", date: "2024-10-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T7", date: "2024-10-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T8", date: "2024-10-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T9", date: "2024-11-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T10", date: "2024-11-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T11", date: "2024-11-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T12", date: "2024-11-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T13", date: "2024-12-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T14", date: "2024-12-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T15", date: "2024-12-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T16", date: "2024-12-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T17", date: "2025-01-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T18", date: "2025-01-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T19", date: "2025-01-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T20", date: "2025-01-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T21", date: "2025-02-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T22", date: "2025-02-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+            ];
+          } else {
+            // 12 months
+            mockTransactions = [
+              { txnId: "T1", date: "2024-03-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T2", date: "2024-03-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T3", date: "2024-03-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T4", date: "2024-03-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T5", date: "2024-04-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T6", date: "2024-04-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T7", date: "2024-04-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T8", date: "2024-04-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T9", date: "2024-05-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T10", date: "2024-05-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T11", date: "2024-05-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T12", date: "2024-05-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T13", date: "2024-06-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T14", date: "2024-06-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T15", date: "2024-06-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T16", date: "2024-06-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T17", date: "2024-07-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T18", date: "2024-07-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T19", date: "2024-07-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T20", date: "2024-07-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T21", date: "2024-08-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T22", date: "2024-08-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T23", date: "2024-08-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T24", date: "2024-08-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T25", date: "2024-09-05", amount: 3100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T26", date: "2024-09-12", amount: 2950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T27", date: "2024-09-19", amount: 3200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T28", date: "2024-09-26", amount: 3050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T29", date: "2024-10-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T30", date: "2024-10-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T31", date: "2024-10-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T32", date: "2024-10-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T33", date: "2024-11-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T34", date: "2024-11-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T35", date: "2024-11-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T36", date: "2024-11-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T37", date: "2024-12-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T38", date: "2024-12-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T39", date: "2024-12-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T40", date: "2024-12-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T41", date: "2025-01-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T42", date: "2025-01-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T43", date: "2025-01-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T44", date: "2025-01-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T45", date: "2025-02-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T46", date: "2025-02-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+            ];
+          }
 
           const response = await fetch('/api/intelligence', {
             method: 'POST',
@@ -374,7 +452,7 @@ export default function FinancialVerificationPage() {
       };
       runIntelligenceEngine();
     }
-  }, [bankLinked]);
+  }, [bankLinked, months]);
 
   if (bankLinked && intelligenceData) {
     return (
