@@ -29,9 +29,6 @@ export function Footer({ className }: FooterProps) {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-              Hackathon MVP
-            </span>
           </div>
         </div>
       </div>
