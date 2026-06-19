@@ -1,0 +1,158 @@
+// ===========================================
+// PRANAM - Prisma Schema
+// Hackathon-friendly, UUID-based models
+// ===========================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------
+// Worker - Core identity model
+// ------------------------------------
+model Worker {
+  id                  String   @id @default(uuid())
+  clerkUserId         String   @unique @map("clerk_user_id")
+  name                String?
+  phone               String?
+  email               String?
+  aadhaarVerified     Boolean  @default(false) @map("aadhaar_verified")
+  eshramId            String?  @map("eshram_id")
+  eshramVerified      Boolean  @default(false) @map("eshram_verified")
+  profileComplete     Boolean  @default(false) @map("profile_complete")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  verificationProfile VerificationProfile?
+  consentRequests     ConsentRequest[]
+  transactions        Transaction[]
+  financialProfile    FinancialProfile?
+  credentials         Credential[]
+  auditLogs           AuditLog[]
+
+  @@map("workers")
+}
+
+// ------------------------------------
+// VerificationProfile - Aggregated verification data
+// ------------------------------------
+model VerificationProfile {
+  id                String   @id @default(uuid())
+  workerId          String   @unique @map("worker_id")
+  digilockerData    Json?    @map("digilocker_data")
+  eshramData        Json?    @map("eshram_data")
+  verificationScore Int      @default(0) @map("verification_score")
+  status            String   @default("pending") // pending | partial | verified
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  @@map("verification_profiles")
+}
+
+// ------------------------------------
+// ConsentRequest - AA consent tracking
+// ------------------------------------
+model ConsentRequest {
+  id             String   @id @default(uuid())
+  workerId       String   @map("worker_id")
+  consentHandle  String?  @map("consent_handle")
+  status         String   @default("pending") // pending | approved | rejected | expired
+  fiTypes        String[] @map("fi_types") // DEPOSIT, INSURANCE, etc.
+  dateRangeFrom  DateTime? @map("date_range_from")
+  dateRangeTo    DateTime? @map("date_range_to")
+  approvedAt     DateTime? @map("approved_at")
+  expiresAt      DateTime? @map("expires_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  @@map("consent_requests")
+}
+
+// ------------------------------------
+// Transaction - Financial transaction data
+// ------------------------------------
+model Transaction {
+  id          String   @id @default(uuid())
+  workerId    String   @map("worker_id")
+  accountType String   @map("account_type") // savings, current, etc.
+  amount      Float
+  type        String   // credit | debit
+  narration   String?
+  txnDate     DateTime @map("txn_date")
+  balance     Float?
+  category    String?  // salary, upi, transfer, etc.
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  @@map("transactions")
+}
+
+// ------------------------------------
+// FinancialProfile - Computed financial summary
+// ------------------------------------
+model FinancialProfile {
+  id                 String   @id @default(uuid())
+  workerId           String   @unique @map("worker_id")
+  avgMonthlyIncome   Float?   @map("avg_monthly_income")
+  avgMonthlyExpense  Float?   @map("avg_monthly_expense")
+  salaryRegularity   Float?   @map("salary_regularity") // 0-1 score
+  accountCount       Int      @default(0) @map("account_count")
+  riskScore          Float?   @map("risk_score") // 0-100
+  reputationScore    Float?   @map("reputation_score") // 0-100
+  signalsJson        Json?    @map("signals_json")
+  lastFetchedAt      DateTime? @map("last_fetched_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  @@map("financial_profiles")
+}
+
+// ------------------------------------
+// Credential - Verifiable Credential (SSI)
+// ------------------------------------
+model Credential {
+  id             String   @id @default(uuid())
+  workerId       String   @map("worker_id")
+  type           String   // identity | financial | reputation
+  issuer         String   @default("pranam")
+  subject        Json
+  claims         Json
+  proof          Json?
+  status         String   @default("active") // active | revoked | expired
+  issuedAt       DateTime @default(now()) @map("issued_at")
+  expiresAt      DateTime? @map("expires_at")
+  revokedAt      DateTime? @map("revoked_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  @@map("credentials")
+}
+
+// ------------------------------------
+// AuditLog - Action tracking
+// ------------------------------------
+model AuditLog {
+  id        String   @id @default(uuid())
+  workerId  String?  @map("worker_id")
+  action    String   // e.g. "digilocker_verify", "consent_approved"
+  details   Json?
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  worker Worker? @relation(fields: [workerId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
