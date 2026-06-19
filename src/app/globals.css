@@ -51,3 +51,97 @@ body {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Custom Animations */
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fade-in-detail {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes fill-width-100 {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes fill-width-87 {
+  from { width: 0; }
+  to { width: 87%; }
+}
+
+@keyframes fill-width-74 {
+  from { width: 0; }
+  to { width: 74%; }
+}
+
+@keyframes fill-circle {
+  from { stroke-dasharray: 0 314; }
+  to { stroke-dasharray: 232 314; }
+}
+
+.pulse-ring {
+  animation: pulse-ring 1.2s infinite;
+}
+
+.fade-in-detail {
+  animation: fade-in-detail 0.3s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out 0.3s forwards;
+}
+
+.animate-step {
+  opacity: 0;
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.dot-1 {
+  animation: dot-pulse 1.5s infinite;
+}
+
+.dot-2 {
+  animation: dot-pulse 1.5s infinite;
+  animation-delay: 0.2s;
+}
+
+.dot-3 {
+  animation: dot-pulse 1.5s infinite;
+  animation-delay: 0.4s;
+}
+
+.animate-fill-100 {
+  width: 0;
+  animation: fill-width-100 1s ease-out 0.2s forwards;
+}
+
+.animate-fill-87 {
+  width: 0;
+  animation: fill-width-87 1s ease-out 0.4s forwards;
+}
+
+.animate-fill-74 {
+  width: 0;
+  animation: fill-width-74 1s ease-out 0.6s forwards;
+}
+
+.animate-fill-circle {
+  stroke-dasharray: 0 314;
+  animation: fill-circle 1.5s ease-out forwards;
+}

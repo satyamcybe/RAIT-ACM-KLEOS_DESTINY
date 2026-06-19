@@ -1,21 +1,32 @@
-// ===========================================
-// PRANAM - Identity Profile API Route
-// GET: Get combined identity profile
-// ===========================================
+import { NextRequest, NextResponse } from "next/server";
 
-import { successResponse, serverErrorResponse } from "@/lib/utils/response";
-import { identityService } from "@/features/identity/services/IdentityService";
-import { getAuthUserId } from "@/lib/auth/clerk";
-
-export async function GET() {
+export async function POST(req: NextRequest) {
   try {
-    const userId = await getAuthUserId();
+    const body = await req.json();
+    const { digilockerData, eshramData } = body;
 
-    // TODO: Fetch combined identity verification profile
-    const profile = await identityService.getVerificationStatus(userId);
+    if (!digilockerData || !eshramData) {
+      return NextResponse.json({ error: "Missing required identity data" }, { status: 400 });
+    }
 
-    return successResponse(profile);
+    // MOCK: Simulate profile generation response
+    return NextResponse.json({
+      success: true,
+      workerId: "WRK_20241234",
+      layer1Complete: true,
+      verifiedAt: new Date().toISOString(),
+      profile: {
+        name: "Raju Kumar",
+        sector: "Transport & Delivery",
+        verifications: {
+          aadhaar: true,
+          eshram: true,
+          uan: true,
+          digilocker: true
+        }
+      }
+    });
   } catch (error) {
-    return serverErrorResponse(error);
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 }
