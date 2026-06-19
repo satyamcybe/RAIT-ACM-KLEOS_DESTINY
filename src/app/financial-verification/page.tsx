@@ -1,6 +1,6 @@
 // ===========================================
 // PRANAM - Financial Verification Page
-// Realistic Account Aggregator User Journey
+// Realistic Account Aggregator User Journey (Finvu Inspired)
 // ===========================================
 
 "use client";
@@ -18,10 +18,11 @@ import {
   FileText,
   Clock,
   CalendarDays,
-  Smartphone
+  Smartphone,
+  Network
 } from "lucide-react";
 
-type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'discovering' | 'accounts_found' | 'consent' | 'processing' | 'success';
+type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
 
 const ALL_BANKS = [
   { id: 'hdfc', name: 'HDFC Bank', icon: '🏛️' },
@@ -59,7 +60,6 @@ export default function FinancialVerificationPage() {
       setTimeout(() => {
         setOtp("492015");
         setShowOtpToast(false);
-        // Optional: you can auto-verify, but letting user click verify is fine
       }, 2500);
     }, 1500);
   };
@@ -72,18 +72,16 @@ export default function FinancialVerificationPage() {
     setError("");
     setStep('discovering');
     
-    // Simulate AA discovering accounts
+    // Simulate AA discovering Financial Institutions
     setTimeout(() => {
-      // Mock discovering from some default banks for this demo
       const mockDiscovered = [
         { id: 'sbi_1', bankName: 'State Bank of India', accountNumber: `XXXX1234` },
         { id: 'hdfc_1', bankName: 'HDFC Bank', accountNumber: `XXXX5678` },
-        { id: 'icici_1', bankName: 'ICICI Bank', accountNumber: `XXXX9876` }
       ];
       setDiscoveredAccounts(mockDiscovered);
-      setSelectedAccountIds(['sbi_1', 'hdfc_1']); // Default select first two like in prompt
+      setSelectedAccountIds(['sbi_1', 'hdfc_1']); // Default select
       setStep('accounts_found');
-    }, 2000);
+    }, 2500);
   };
 
   const toggleAccountSelection = (id: string) => {
@@ -95,11 +93,16 @@ export default function FinancialVerificationPage() {
 
   const handleAccountsSubmit = () => {
     if (selectedAccountIds.length === 0) {
-      setError("Please select at least one account");
+      setError("Please select at least one account to link");
       return;
     }
     setError("");
-    setStep('consent');
+    setStep('linked');
+    
+    // Briefly show linked success before consent
+    setTimeout(() => {
+      setStep('consent');
+    }, 2000);
   };
 
   const handleConsentApprove = () => {
@@ -115,7 +118,7 @@ export default function FinancialVerificationPage() {
           setTimeout(() => {
             setIngestData(data);
             setStep('success');
-          }, 4000); // Wait for simulation to finish
+          }, 4500); // Wait for the 4-step animation to finish
         })
         .catch(err => {
           console.error("Ingestion error:", err);
@@ -126,31 +129,33 @@ export default function FinancialVerificationPage() {
   }, [step, months]);
 
   return (
-    <div className="space-y-6 max-w-xl mx-auto">
+    <div className="space-y-6 max-w-xl mx-auto pb-10">
       {/* Dynamic Header */}
       <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E8F3ED] border border-[#1A6B47]/10 shadow-sm">
-          {step === 'consent' ? <ShieldCheck className="w-8 h-8 text-[#1A6B47]" /> : <Building2 className="w-8 h-8 text-[#1A6B47]" />}
+          {step === 'consent' ? <ShieldCheck className="w-8 h-8 text-[#1A6B47]" /> : <Network className="w-8 h-8 text-[#1A6B47]" />}
         </div>
         <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
           {step === 'intro' && "Connect Financial Records"}
           {step === 'mobile_verify' && "Enter Mobile Number"}
           {step === 'otp_verify' && "Verify Mobile"}
-          {step === 'discovering' && "Account Discovery"}
+          {step === 'discovering' && "Discovering Institutions..."}
           {step === 'accounts_found' && "Accounts Found"}
-          {step === 'consent' && "Consent Configuration"}
+          {step === 'linked' && "Accounts Linked"}
+          {step === 'consent' && "Configure Consent"}
           {step === 'processing' && "Retrieving Records"}
           {step === 'success' && "Retrieval Summary"}
         </h1>
         <p className="mt-3 text-base text-gray-500 max-w-sm mx-auto leading-relaxed">
           {step === 'intro' && "We use consent-based financial sharing to generate your Pramaan Gig Passport."}
-          {step === 'mobile_verify' && "We will check for linked bank accounts securely."}
+          {step === 'mobile_verify' && "We will check for linked bank accounts securely across the AA network."}
           {step === 'otp_verify' && `Enter the OTP sent to +91 ${mobile}`}
-          {step === 'discovering' && "Searching the Account Aggregator network..."}
+          {step === 'discovering' && "Finding Available Financial Institutions (FIPs)..."}
           {step === 'accounts_found' && "Select the accounts you want to connect to Pramaan."}
-          {step === 'consent' && "Pramaan wants access to your financial records."}
-          {step === 'processing' && "Connecting to FIPs and processing your transaction history..."}
-          {step === 'success' && "Your financial data has been successfully ingested."}
+          {step === 'linked' && "Your selected accounts have been successfully linked to your AA profile."}
+          {step === 'consent' && "Pramaan wants access to your financial records. Review the artefact."}
+          {step === 'processing' && "Activating consent and fetching data from Financial Information Providers..."}
+          {step === 'success' && "Your financial data has been successfully ingested from FIPs."}
         </p>
       </div>
 
@@ -159,9 +164,9 @@ export default function FinancialVerificationPage() {
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
           <button
             onClick={() => setStep('mobile_verify')}
-            className="w-full py-4 px-4 rounded-xl text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] shadow-sm"
+            className="w-full py-4 px-4 rounded-xl text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] shadow-sm flex justify-center items-center gap-2"
           >
-            Continue
+            Continue to Account Aggregator
           </button>
         </div>
       )}
@@ -233,16 +238,16 @@ export default function FinancialVerificationPage() {
         </div>
       )}
 
-      {/* ----------------- SCREEN 4: DISCOVERING ----------------- */}
+      {/* ----------------- SCREEN 4: DISCOVERING FIPs ----------------- */}
       {step === 'discovering' && (
         <div className="rounded-2xl border border-gray-100 bg-white p-12 text-center space-y-6 shadow-xs animate-in zoom-in-95 duration-300">
           <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
             <Loader2 className="w-10 h-10 text-[#1A6B47] animate-spin" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900 text-lg">Contacting Banks</h3>
+            <h3 className="font-bold text-gray-900 text-lg">Finding Available Financial Institutions...</h3>
             <p className="text-sm text-gray-500 mt-2">
-              Securely discovering accounts across the AA network for +91 {mobile}...
+              Querying FIPs mapped to +91 {mobile}...
             </p>
           </div>
         </div>
@@ -252,7 +257,7 @@ export default function FinancialVerificationPage() {
       {step === 'accounts_found' && (
         <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
           <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs">
-            <h3 className="font-bold text-gray-900 mb-4">Select Accounts</h3>
+            <h3 className="font-bold text-gray-900 mb-4">Select Accounts to Link</h3>
             
             <div className="space-y-3">
               {discoveredAccounts.map((acc) => {
@@ -283,12 +288,27 @@ export default function FinancialVerificationPage() {
             onClick={handleAccountsSubmit}
             className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] shadow-sm"
           >
-            Continue
+            Link Selected Accounts
           </button>
         </div>
       )}
 
-      {/* ----------------- SCREEN 6: CONSENT REQUEST ----------------- */}
+      {/* ----------------- SCREEN 6: ACCOUNTS LINKED ----------------- */}
+      {step === 'linked' && (
+        <div className="rounded-2xl border border-emerald-100 bg-[#F4FAF7] p-12 text-center space-y-5 shadow-xs animate-in zoom-in-95 duration-300">
+          <div className="w-16 h-16 bg-emerald-100 text-[#1A6B47] rounded-full flex items-center justify-center mx-auto border border-emerald-200">
+            <CheckCircle2 className="w-10 h-10" />
+          </div>
+          <div>
+            <h3 className="font-bold text-[#0D3D28] text-lg">Accounts Linked Successfully</h3>
+            <p className="text-sm text-emerald-700 mt-1">
+              Preparing consent artefact...
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ----------------- SCREEN 7: CONSENT CONFIGURATION ----------------- */}
       {step === 'consent' && (
         <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
           <div className="rounded-2xl border border-gray-100 bg-white shadow-xs overflow-hidden">
@@ -346,84 +366,104 @@ export default function FinancialVerificationPage() {
           </div>
 
           <div className="rounded-xl bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs font-medium text-gray-600 text-center">
+            <p className="text-xs font-medium text-gray-600 text-center leading-relaxed">
               By continuing, you allow Pramaan to access your selected financial records for the chosen period.
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <button
+            onClick={handleConsentApprove}
+            className="w-full py-4 px-4 rounded-xl text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] shadow-sm"
+          >
+            Approve Consent
+          </button>
+        </div>
+      )}
+
+      {/* ----------------- SCREEN 8: PROCESSING / FIP FETCH ----------------- */}
+      {step === 'processing' && (
+        <div className="rounded-2xl border border-gray-100 bg-white p-12 text-center space-y-6 shadow-xs animate-in zoom-in-95 duration-300">
+          <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+            <Loader2 className="w-16 h-16 text-emerald-100 animate-spin absolute" />
+            <Loader2 className="w-10 h-10 text-[#1A6B47] animate-spin absolute" />
+          </div>
+          <div className="space-y-2">
+            <p className="text-sm font-semibold text-gray-700 animate-pulse">Creating Consent Artefact...</p>
+            <p className="text-sm font-semibold text-gray-700 animate-pulse delay-75">Consent Activated</p>
+            <p className="text-sm font-semibold text-gray-700 animate-pulse delay-150">Requesting Financial Information...</p>
+            <p className="text-sm font-semibold text-gray-700 animate-pulse delay-300">Fetching Data From FIPs...</p>
+          </div>
+        </div>
+      )}
+
+      {/* ----------------- SCREEN 9: SUCCESS ----------------- */}
+      {step === 'success' && (
+        <div className="space-y-6 animate-in zoom-in-95 duration-500">
+          <div className="rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-xs">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F4FAF7] border-4 border-emerald-50 mb-6">
+              <span className="text-4xl">🎉</span>
+            </div>
+            
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Retrieval Summary</h2>
+
+            {/* --- NEW DATA SOURCE METADATA SECTION --- */}
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-left mb-6">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Data Source Metadata</p>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600">AA Provider</span>
+                  <span className="text-sm font-semibold text-slate-900">Finvu Sandbox</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600">Financial Information Provider(s)</span>
+                  <span className="text-sm font-semibold text-slate-900">
+                    {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(a => a.bankName.split(' ')[0]).join(', ')}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600">Data Status</span>
+                  <span className="text-sm font-semibold text-emerald-600 flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Retrieved Successfully
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-5 rounded-xl text-left space-y-4 border border-gray-100">
+              <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                <span className="text-sm font-semibold text-gray-600">Accounts Connected</span>
+                <span className="text-lg font-black text-gray-900">{selectedAccountIds.length}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                <span className="text-sm font-semibold text-gray-600">Selected Period</span>
+                <span className="text-lg font-black text-gray-900">Last {months} Months</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold text-gray-600">Transactions Retrieved</span>
+                <span className="text-lg font-black text-[#1A6B47]">{ingestData?.totalTransactions || 0}</span>
+              </div>
+            </div>
+
             <button
-              onClick={handleConsentApprove}
-              className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#1A6B47] hover:bg-[#0D3D28] transition-all active:scale-[0.98] shadow-sm"
+              onClick={() => router.push('/dashboard')}
+              className="w-full py-4 px-6 rounded-xl text-sm font-bold text-white bg-[#0f172a] hover:bg-black transition-all active:scale-[0.98] shadow-sm mt-6"
             >
-              Approve Consent
+              Proceed To Transaction Intelligence
             </button>
           </div>
         </div>
       )}
 
-      {/* ----------------- SCREEN 7: PROCESSING / MOCK FETCH ----------------- */}
-      {step === 'processing' && (
-        <div className="rounded-2xl border border-gray-100 bg-white p-12 text-center space-y-6 shadow-xs animate-in zoom-in-95 duration-300">
-          <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
-            {/* Double spinner effect */}
-            <Loader2 className="w-16 h-16 text-emerald-100 animate-spin absolute" />
-            <Loader2 className="w-10 h-10 text-[#1A6B47] animate-spin absolute" />
-          </div>
-          <div className="space-y-2">
-            <p className="text-sm font-semibold text-gray-700 animate-pulse">Consent Approved</p>
-            <p className="text-sm font-semibold text-gray-700 animate-pulse delay-75">Locating Accounts...</p>
-            <p className="text-sm font-semibold text-gray-700 animate-pulse delay-150">Retrieving Financial Records...</p>
-            <p className="text-sm font-semibold text-gray-700 animate-pulse delay-300">Processing Transaction History...</p>
-          </div>
-        </div>
-      )}
-
-      {/* ----------------- SCREEN 8: SUCCESS ----------------- */}
-      {step === 'success' && (
-        <div className="rounded-2xl border border-gray-100 bg-white p-8 text-center space-y-6 shadow-xs animate-in zoom-in-95 duration-500">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F4FAF7] border-4 border-emerald-50">
-            <span className="text-4xl">🎉</span>
-          </div>
-          
-          <div className="bg-gray-50 p-5 rounded-xl text-left space-y-4 border border-gray-100">
-            <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-              <span className="text-sm font-semibold text-gray-600">Accounts Connected</span>
-              <span className="text-lg font-black text-gray-900">{selectedAccountIds.length}</span>
-            </div>
-            <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-              <span className="text-sm font-semibold text-gray-600">Selected Period</span>
-              <span className="text-lg font-black text-gray-900">Last {months} Months</span>
-            </div>
-            <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-              <span className="text-sm font-semibold text-gray-600">Transactions Retrieved</span>
-              <span className="text-lg font-black text-[#1A6B47]">{ingestData?.totalTransactions || 0}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-semibold text-gray-600">Status</span>
-              <span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">Successfully Retrieved</span>
-            </div>
-          </div>
-
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="w-full py-4 px-6 rounded-xl text-sm font-bold text-white bg-[#0f172a] hover:bg-black transition-all active:scale-[0.98] shadow-sm mt-4"
-          >
-            Proceed To Transaction Intelligence
-          </button>
-        </div>
-      )}
-
       {/* ----------------- OTP TOAST NOTIFICATION ----------------- */}
       {showOtpToast && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-10 fade-in duration-300">
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex items-center gap-4 min-w-[300px]">
-            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-10 fade-in duration-300 w-[90%] max-w-sm">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex items-start gap-4">
+            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0 mt-0.5">
               <span className="text-xl">💬</span>
             </div>
             <div>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Messages • Now</p>
-              <p className="text-sm font-semibold text-gray-900 mt-0.5">
+              <p className="text-sm font-semibold text-gray-900 mt-1 leading-relaxed">
                 492015 is your OTP for Pramaan Account Aggregator. Do not share this with anyone.
               </p>
             </div>
