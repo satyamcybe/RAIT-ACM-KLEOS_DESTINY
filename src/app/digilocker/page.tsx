@@ -86,7 +86,7 @@ export default function DigiLockerMock() {
     setTimeout(() => {
       setIdentityVerified(true);
       if (typeof window !== "undefined") {
-        localStorage.setItem("pranam_identity_verified", "true");
+        localStorage.setItem("PRAMAAN_identity_verified", "true");
       }
       window.location.href = '/api/digilocker/callback?code=mock_oauth_code_xyz789';
     }, 2000);

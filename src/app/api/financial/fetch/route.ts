@@ -1,34 +1,39 @@
-// ===========================================
-// PRAMAAN - Financial Fetch API Route
-// GET: Fetch financial data after consent
-// ===========================================
+// API Route: POST /api/financial/fetch - Fetch FI data after consent approval
 
-import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
-import { financialService } from "@/features/financial/services/FinancialService";
-import { getAuthUserId } from "@/lib/auth/clerk";
-import { prisma } from "@/lib/database/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import { fetchAndStoreFinancialData } from "@/features/financial/fetch.service";
+import { generateFinancialProfile } from "@/features/financial/financial-profile.service";
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
-    const userId = await getAuthUserId();
-    const worker = await prisma.worker.upsert({
-      where: { clerkUserId: userId },
-      update: {},
-      create: { clerkUserId: userId },
+    const body = await request.json();
+    const { workerId, consentId } = body;
+
+    if (!workerId || !consentId) {
+      return NextResponse.json(
+        { success: false, error: "workerId and consentId are required" },
+        { status: 400 }
+      );
+    }
+
+    // 1. Fetch and store transactions
+    const fetchResult = await fetchAndStoreFinancialData(workerId, consentId);
+
+    // 2. Analyze and generate financial profile
+    const profileResult = await generateFinancialProfile(workerId, fetchResult.transactions);
+
+    return NextResponse.json({
+      success: true,
+      message: "Financial data fetched and profile generated",
+      data: {
+        transactionsStored: fetchResult.transactionsStored,
+        accounts: fetchResult.accounts,
+        profile: profileResult.profile,
+        analysis: profileResult.analysis,
+      },
     });
-
-    const consent = await prisma.consentRequest.findFirst({
-      where: { workerId: worker.id, status: "approved" },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    const data = await financialService.fetchFinancialData(
-      consent?.consentHandle || "mock",
-      worker.id
-    );
-
-    return successResponse(data);
-  } catch (error) {
-    return serverErrorResponse(error);
+  } catch (error: any) {
+    console.error("FI Fetch API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

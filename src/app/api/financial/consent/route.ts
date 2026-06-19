@@ -1,58 +1,50 @@
-// ===========================================
-// PRAMAAN - Financial Consent API Route
-// POST: Create consent request
-// GET: Get consent status
-// ===========================================
+// API Route: POST /api/financial/consent - Create consent
+// API Route: GET /api/financial/consent?handle=xxx - Check consent status
 
-import { NextRequest } from "next/server";
-import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
-import { financialService } from "@/features/financial/services/FinancialService";
-import { getAuthUserId } from "@/lib/auth/clerk";
-import { prisma } from "@/lib/database/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import { createConsent, pollConsentStatus } from "@/features/financial/consent.service";
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = await getAuthUserId();
-    const worker = await prisma.worker.upsert({
-      where: { clerkUserId: userId },
-      update: {},
-      create: { clerkUserId: userId },
-    });
-
     const body = await request.json();
-    const fiTypes = body.fiTypes || ["TRANSACTIONS"];
+    const { workerId, mobileNumber } = body;
 
-    const result = await financialService.createConsent(
-      userId + "@onemoney",
-      fiTypes,
-      worker.id
-    );
+    if (!workerId) {
+      return NextResponse.json({ success: false, error: "workerId is required" }, { status: 400 });
+    }
 
-    return successResponse(result, "Consent request created");
-  } catch (error) {
-    return serverErrorResponse(error);
+    const result = await createConsent(workerId, mobileNumber || "9999999999");
+
+    return NextResponse.json({
+      success: true,
+      message: "Consent request created",
+      data: result,
+    });
+  } catch (error: any) {
+    console.error("Consent API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const userId = await getAuthUserId();
-    const worker = await prisma.worker.upsert({
-      where: { clerkUserId: userId },
-      update: {},
-      create: { clerkUserId: userId },
-    });
+    const { searchParams } = new URL(request.url);
+    const handle = searchParams.get("handle");
+    const workerId = searchParams.get("workerId");
 
-    const consent = await prisma.consentRequest.findFirst({
-      where: { workerId: worker.id },
-      orderBy: { createdAt: 'desc' },
-    });
+    if (!handle || !workerId) {
+      return NextResponse.json({ success: false, error: "handle and workerId are required" }, { status: 400 });
+    }
 
-    return successResponse({
-      status: consent?.status || "none",
-      fiTypes: consent?.fiTypes || [],
+    const result = await pollConsentStatus(workerId, handle);
+
+    return NextResponse.json({
+      success: true,
+      message: "Consent status retrieved",
+      data: result,
     });
-  } catch (error) {
-    return serverErrorResponse(error);
+  } catch (error: any) {
+    console.error("Consent Status API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

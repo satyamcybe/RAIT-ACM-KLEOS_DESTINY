@@ -1,35 +1,33 @@
-// ===========================================
-// PRAMAAN - Financial Profile API Route
-// GET: Get financial profile/summary
-// ===========================================
+// API Route: GET /api/financial/profile?workerId=xxx - Get financial profile
 
-import { successResponse, errorResponse, serverErrorResponse } from "@/lib/utils/response";
-import { getAuthUserId } from "@/lib/auth/clerk";
-import { prisma } from "@/lib/database/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import { getFinancialProfile } from "@/features/financial/financial-profile.service";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const userId = await getAuthUserId();
-    const worker = await prisma.worker.upsert({
-      where: { clerkUserId: userId },
-      update: {},
-      create: { clerkUserId: userId },
-    });
+    const { searchParams } = new URL(request.url);
+    const workerId = searchParams.get("workerId");
 
-    const profile = await prisma.financialProfile.findUnique({
-      where: { workerId: worker.id },
-    });
+    if (!workerId) {
+      return NextResponse.json({ success: false, error: "workerId is required" }, { status: 400 });
+    }
 
-    return successResponse(profile || {
-      avgMonthlyIncome: null,
-      avgMonthlyExpense: null,
-      riskScore: null,
-      reputationScore: null,
-      accountCount: 0,
-      lastFetchedAt: null,
-      signalsJson: null,
+    const profile = await getFinancialProfile(workerId);
+
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, error: "Financial profile not found. Complete Layer 2 first." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Financial profile retrieved",
+      data: profile,
     });
-  } catch (error) {
-    return serverErrorResponse(error);
+  } catch (error: any) {
+    console.error("Financial Profile API Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

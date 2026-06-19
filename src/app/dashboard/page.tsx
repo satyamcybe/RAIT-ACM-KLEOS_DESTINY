@@ -1,133 +1,67 @@
 // ===========================================
-// PRAMAAN - Dashboard Page
+// PRANAM - Dashboard Page
 // Main dashboard with overview cards
 // ===========================================
 
-"use client";
-
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { IdentityCard } from "@/components/identity/IdentityCard";
-import { useMockData } from "@/lib/context/MockDataContext";
-import { QrCode } from "lucide-react";
+import { prisma } from "@/lib/database/prisma";
 
-export default function DashboardPage() {
-  const { user, identityVerified, bankLinked } = useMockData();
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [credential, setCredential] = useState<any>(null);
-  const [issuing, setIssuing] = useState(false);
+export default async function DashboardPage() {
+  const firstWorker = await prisma.worker.findFirst();
+  const workerId = firstWorker?.id;
 
-  useEffect(() => {
-    if (bankLinked) {
-      fetch("/api/financial/profile")
-        .then(res => res.json())
-        .then(data => {
-          setProfile(data.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error(err);
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, [bankLinked]);
+  let allTxns: any[] = [];
+  if (workerId) {
+    allTxns = await prisma.transaction.findMany({
+      where: { workerId },
+      orderBy: { txnDate: 'desc' }
+    });
+  }
 
-  const handleIssueCredential = async () => {
-    setIssuing(true);
-    try {
-      const res = await fetch("/api/credential/issue", { method: "POST" });
-      const data = await res.json();
-      if (data.success) {
-        setCredential(data.data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-    setIssuing(false);
-  };
+  let gigTransactions = 0;
+  const gigPlatforms = new Set<string>();
+  
+  allTxns.forEach(txn => {
+    if (txn.narration?.includes("ZOMATO")) { gigTransactions++; gigPlatforms.add("Zomato"); }
+    if (txn.narration?.includes("SWIGGY")) { gigTransactions++; gigPlatforms.add("Swiggy"); }
+    if (txn.narration?.includes("RAPIDO")) { gigTransactions++; gigPlatforms.add("Rapido"); }
+  });
 
-  const getBadge = (score: number) => {
-    if (score >= 700) return <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">Gold Reliability</span>;
-    if (score >= 500) return <span className="bg-gray-200 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">Silver Reliability</span>;
-    return <span className="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">Bronze Reliability</span>;
-  };
-
-  if (loading) return <div className="p-8 text-center">Loading dashboard...</div>;
-
-  const score = profile?.reputationScore ? Math.round(profile.reputationScore * 10) : 0;
-  const signals = profile?.signalsJson || {};
+  const platformsDetected = Array.from(gigPlatforms);
+  const latestTxns = allTxns.slice(0, 5);
 
   return (
     <div className="space-y-8">
       {/* Welcome header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
-          Welcome back, {identityVerified ? user.name.split(' ')[0] : "Demo Worker"} 👋
+          Welcome back, {firstWorker?.name || "Demo Worker"} 👋
         </h1>
         <p className="mt-1 text-gray-600">
           Here&apos;s your identity and financial overview
         </p>
       </div>
 
-      {bankLinked && profile && (
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-100 shadow-sm">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">Your Pramaan Score</p>
-              <div className="flex items-center">
-                <span className="text-6xl font-extrabold text-blue-900">{score}</span>
-                {getBadge(score)}
-              </div>
-              <p className="text-xs text-blue-500 mt-2">Rating data: Simulated (zkTLS integration pending)</p>
-            </div>
-            
-            <div className="mt-6 md:mt-0">
-              {!credential ? (
-                <button 
-                  onClick={handleIssueCredential}
-                  disabled={issuing}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-colors flex items-center gap-2 disabled:opacity-70"
-                >
-                  {issuing ? "Issuing..." : "Get My Credential"}
-                </button>
-              ) : (
-                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-                  <div className="bg-white p-2 border border-gray-100 rounded-lg mb-2">
-                    <QrCode size={100} className="text-gray-800" />
-                  </div>
-                  <p className="text-xs font-mono text-gray-500 break-all w-32 text-center">{credential.credentialId}</p>
-                  <Link href={`/verify/${credential.credentialId}`} target="_blank" className="text-xs text-blue-600 mt-1 hover:underline">View Public Page</Link>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 border-t border-blue-100 pt-6">
-            <div>
-              <p className="text-sm text-blue-600 font-medium">Tenure</p>
-              <p className="text-xl font-bold text-gray-900">{signals.tenureMonths || 0} months</p>
-            </div>
-            <div>
-              <p className="text-sm text-blue-600 font-medium">Consistency</p>
-              <p className="text-xl font-bold text-gray-900">{signals.consistencyPct || 0}%</p>
-            </div>
-            <div>
-              <p className="text-sm text-blue-600 font-medium">Avg Income</p>
-              <p className="text-xl font-bold text-gray-900">₹{Math.round(profile.avgMonthlyIncome || 0).toLocaleString('en-IN')}/mo</p>
-              <p className="text-xs text-green-600 flex items-center mt-1">
-                {signals.incomeTrend === "growing" ? "Growing ↑" : "Stable ↔"}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-blue-600 font-medium">Deliveries</p>
-              <p className="text-xl font-bold text-gray-900">~{signals.estDeliveriesRange || "0-0"}</p>
-            </div>
+      {/* Layer 2 Stats */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <p className="text-sm text-gray-500">Total Transactions</p>
+          <p className="mt-1 text-2xl font-bold text-blue-600">{allTxns.length}</p>
+        </div>
+        <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <p className="text-sm text-gray-500">Gig Transactions</p>
+          <p className="mt-1 text-2xl font-bold text-emerald-600">{gigTransactions}</p>
+        </div>
+        <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <p className="text-sm text-gray-500">Detected Platforms</p>
+          <div className="mt-2 flex gap-1 flex-wrap">
+            {platformsDetected.length > 0 ? platformsDetected.map(p => (
+              <span key={p} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">{p}</span>
+            )) : <span className="text-sm text-gray-400">None</span>}
           </div>
         </div>
-      )}
+      </div>
 
       {/* Identity cards */}
       <div>
@@ -135,16 +69,59 @@ export default function DashboardPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           <IdentityCard
             type="aadhaar"
-            name={identityVerified ? user.name : "Unverified User"}
-            verified={identityVerified}
-            details={identityVerified ? { "Aadhaar": user.aadhaar, "DOB": user.dob } : undefined}
+            name="Rajesh Kumar"
+            verified={true}
+            details={{ "Aadhaar": "XXXX-XXXX-5678", "DOB": "15 May 1990" }}
           />
           <IdentityCard
             type="eshram"
-            name={identityVerified ? user.name : "Unverified User"}
-            verified={identityVerified}
-            details={identityVerified ? { "UAN": "ESHRAM001", "Occupation": user.occupation } : undefined}
+            name="Rajesh Kumar"
+            verified={true}
+            details={{ "UAN": "ESHRAM001", "Occupation": "Construction Worker" }}
           />
+        </div>
+      </div>
+
+      {/* Latest Transactions */}
+      <div>
+        <h2 className="mb-4 text-lg font-semibold text-gray-900">Latest Transactions</h2>
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          {latestTxns.length > 0 ? (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Narration</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {latestTxns.map(txn => (
+                  <tr key={txn.id}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(txn.txnDate).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {txn.narration}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      ₹{txn.amount.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${txn.type === 'credit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        {txn.type.toUpperCase()}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="p-6 text-center text-gray-500 text-sm">
+              No transactions found. <Link href="/financial-verification" className="text-emerald-600 hover:underline">Link your bank account</Link> to see them.
+            </div>
+          )}
         </div>
       </div>
 
@@ -152,38 +129,24 @@ export default function DashboardPage() {
       <div>
         <h2 className="mb-4 text-lg font-semibold text-gray-900">Quick Actions</h2>
         <div className="grid gap-3 sm:grid-cols-2">
-          {!identityVerified && (
-            <Link
-              href="/onboarding"
-              className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
-            >
-              <span className="text-xl">🪪</span>
-              <div>
-                <p className="font-medium text-gray-900">Verify Identity</p>
-                <p className="text-xs text-gray-500">Connect DigiLocker & eShram</p>
-              </div>
-            </Link>
-          )}
-          {!bankLinked && (
-            <Link
-              href="/financial-verification"
-              className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
-            >
-              <span className="text-xl">🏦</span>
-              <div>
-                <p className="font-medium text-gray-900">Link Bank Account</p>
-                <p className="text-xs text-gray-500">Via Account Aggregator</p>
-              </div>
-            </Link>
-          )}
+          <Link
+            href="/financial-verification"
+            className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
+          >
+            <span className="text-xl">🏦</span>
+            <div>
+              <p className="font-medium text-gray-900">Link Bank Account</p>
+              <p className="text-xs text-gray-500">Via Account Aggregator</p>
+            </div>
+          </Link>
           <Link
             href="/wallet"
             className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-emerald-200 hover:shadow-sm"
           >
             <span className="text-xl">👛</span>
             <div>
-              <p className="font-medium text-gray-900">View Wallet</p>
-              <p className="text-xs text-gray-500">Manage your credentials</p>
+              <p className="font-medium text-gray-900">View Credentials</p>
+              <p className="text-xs text-gray-500">Manage your VCs</p>
             </div>
           </Link>
         </div>

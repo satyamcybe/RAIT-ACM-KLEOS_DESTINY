@@ -130,6 +130,9 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
 
   const resetDemo = async () => {
     if (typeof window !== "undefined") {
+      localStorage.removeItem("PRAMAAN_identity_verified");
+      localStorage.removeItem("PRAMAAN_bank_linked");
+      localStorage.removeItem("PRAMAAN_mock_user");
       localStorage.removeItem("pranam_identity_verified");
       localStorage.removeItem("pranam_bank_linked");
       localStorage.removeItem("pranam_mock_user");
@@ -139,6 +142,7 @@ export function MockDataProvider({ children }: { children: React.ReactNode }) {
     setUser(defaultUser);
     setCredentials([]);
     
+    // Await the reset endpoint so it completes before any reload/remount sync happens
     try {
       await fetch("/api/identity/reset", { method: "POST" });
     } catch (e) {
