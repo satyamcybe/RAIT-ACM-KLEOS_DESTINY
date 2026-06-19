@@ -38,12 +38,11 @@ export default function LabourPassportSection() {
           </h2>
         </div>
 
-        {/* Two Columns Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start max-w-5xl mx-auto">
+        {/* Three Columns Grid */}
+        <div className="grid lg:grid-cols-12 gap-10 items-start max-w-6xl mx-auto">
           
-          {/* Left Column: Passport Card & Facts Grid */}
-          <div className="flex flex-col items-center w-full">
-            
+          {/* Column 1: Passport Card (Span 4) */}
+          <div className="lg:col-span-4 flex flex-col items-center w-full">
             {/* Live Ramesh Kumar verified credential passport card */}
             <div className="w-full max-w-[360px] drop-shadow-xl hover:scale-[1.02] transition-all duration-300">
               <div className="bg-gradient-to-br from-[#1A6B47] to-[#0D3D28] rounded-[20px] p-6 text-white w-full border border-white/5 relative overflow-hidden shadow-2xl">
@@ -99,13 +98,21 @@ export default function LabourPassportSection() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Facts Grid */}
-            <div className="grid grid-cols-2 gap-4 mt-8 w-full max-w-[360px]">
+          {/* Column 2: Facts Grid (Span 5) */}
+          <div className="lg:col-span-5 w-full space-y-6">
+            <h3 
+              className="text-xl font-bold text-[#111827] text-left"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              Verified Details
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
               {verifiedFacts.map((fact, idx) => (
                 <div 
                   key={idx} 
-                  className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-3 flex flex-col items-start text-left hover:border-[#1A6B47]/40 hover:bg-[#E8F5EF]/20 hover:shadow-xs transition-all duration-300 relative group"
+                  className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 flex flex-col items-start text-left hover:border-[#1A6B47]/40 hover:bg-[#E8F5EF]/20 hover:shadow-xs transition-all duration-300 relative group"
                 >
                   <div className="flex items-center gap-2">
                     <svg className="w-4 h-4 text-[#059669] shrink-0" viewBox="0 0 16 16" fill="currentColor">
@@ -114,7 +121,7 @@ export default function LabourPassportSection() {
                     </svg>
                     <span className="text-[10px] text-[#6B7280] uppercase font-bold tracking-wider">{fact.label}</span>
                   </div>
-                  <span className="text-[13px] text-[#111827] font-bold mt-1.5">{fact.val}</span>
+                  <span className="text-[14px] text-[#111827] font-bold mt-2">{fact.val}</span>
                   
                   {/* Subtle tooltip revealing verification source on hover */}
                   <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-[#0D3D28] text-white text-[9px] font-mono px-2 py-1 rounded shadow-md opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-30">
@@ -123,13 +130,12 @@ export default function LabourPassportSection() {
                 </div>
               ))}
             </div>
-
           </div>
 
-          {/* Right Column: Accepted Uses List */}
-          <div className="space-y-6 text-left lg:pt-4">
+          {/* Column 3: Accepted Uses List (Span 3) */}
+          <div className="lg:col-span-3 space-y-6 text-left lg:pt-0">
             <h3 
-              className="text-2xl font-bold text-[#111827]"
+              className="text-xl font-bold text-[#111827]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Accepted for:
@@ -144,7 +150,7 @@ export default function LabourPassportSection() {
                     <polyline points="7.5,12 10.5,15 16.5,9" />
                   </svg>
                   <span 
-                    className="text-[16px] font-semibold text-[#374151]"
+                    className="text-[15px] font-semibold text-[#374151]"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {use}
