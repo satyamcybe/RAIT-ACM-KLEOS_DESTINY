@@ -14,6 +14,31 @@ export default function LoginPage() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && "Notification" in window) {
+      if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+        Notification.requestPermission();
+      }
+    }
+  }, []);
+
+  const showNotification = (msg: string) => {
+    setToastMessage(msg);
+    if (typeof window !== "undefined" && "Notification" in window) {
+      if (Notification.permission === "granted") {
+        new Notification("Pranam Auth Service", {
+          body: msg,
+          icon: "/logo-icon.png"
+        });
+      }
+    }
+    setTimeout(() => {
+      setToastMessage("");
+    }, 10000);
+  };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10);
@@ -33,6 +58,9 @@ export default function LoginPage() {
       setError("Please enter a valid 10-digit mobile number.");
       return;
     }
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(code);
+    showNotification(`Mock SMS: OTP code is ${code} (sent to +91 ${phone})`);
     setStep('otp');
   };
 
@@ -40,6 +68,10 @@ export default function LoginPage() {
     e.preventDefault();
     if (otp.length < 6) {
       setError("Please enter a valid 6-digit OTP.");
+      return;
+    }
+    if (otp !== generatedOtp) {
+      setError(`Incorrect OTP. Use the code sent to your notification: ${generatedOtp}`);
       return;
     }
     
@@ -215,6 +247,25 @@ export default function LoginPage() {
           Powered by <span className="text-gray-500">Pramaan Trust Infrastructure</span>
         </p>
       </div>
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-4 right-4 z-[9999] max-w-sm w-full bg-slate-900 text-white rounded-2xl p-4 shadow-2xl border border-white/10 flex items-start gap-3 animate-float-slow-2">
+          <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">
+            ✉
+          </div>
+          <div className="flex-1">
+            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">SMS Notification</div>
+            <div className="text-sm font-semibold mt-1 leading-normal text-white">{toastMessage}</div>
+          </div>
+          <button 
+            onClick={() => setToastMessage("")} 
+            className="text-slate-400 hover:text-white text-xs font-bold px-1.5 cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 }
