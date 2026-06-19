@@ -1,212 +1,176 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   PRAMAAN - Strict Premium Design System & Design Tokens
+   PRANAM - Strict Government-Grade Design System & Tokens
    ========================================================================== */
 
 :root {
-  /* Strict Color System */
-  --green-deep: #1A4D3A;
-  --green-mint: #2ECC8F;
-  --green-light: #E8F5EF;
-  --cream: #F7F6F2;
-  --cream-dark: #EDF0EB;
-  --ink: #111827;
-  --slate: #6B7280;
-  --border: #E5E1DA;
+  --primary: #1A6B47;
+  --primary-light: #E8F5EF;
+  --primary-dark: #0D3D28;
+  
+  --accent: #F5A623;
+  --accent-light: #FEF3DC;
+  
+  --text-dark: #111827;
+  --text-muted: #6B7280;
+  
+  --border: #E5E7EB;
   --white: #FFFFFF;
-  --gold-accent: #D4A853;
-
-  /* Fonts */
-  --font-serif: var(--font-fraunces), serif;
-  --font-sans: var(--font-inter), sans-serif;
-  --font-mono: var(--font-jetbrains), monospace;
-
-  /* Shadows (Strict Limit) */
-  --shadow-premium: 0 1px 6px rgba(0, 0, 0, 0.06);
 }
 
 body {
-  background-color: var(--cream);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  background-color: #FFFFFF;
+  color: var(--text-dark);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom premium scrollbar (Strict Green Mint Theme) */
+/* Custom premium scrollbar (Deep Green theme) */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--cream-dark);
+  background: var(--white);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--green-mint);
-  border-radius: 4px;
+  background: var(--primary);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--green-deep);
+  background: var(--primary-dark);
 }
 
-/* Global Transition Settings */
+/* Smooth transitions */
 * {
   transition-property: transform, box-shadow, border-color, background-color, color, opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
 
-/* Card Hover micro-interaction */
-.card-hover-effect {
-  box-shadow: var(--shadow-premium);
-  border: 1.5px solid var(--border);
+/* Card design utility class */
+.pranam-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.pranam-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Floating stat cards styling */
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 12px;
-}
-.card-hover-effect:hover {
-  transform: translateY(-3px);
-  border-color: var(--green-mint);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Inputs styling (Strict Tokens) */
-input, select, textarea {
-  border: 1.5px solid var(--border);
+/* Buttons System */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
   border-radius: 8px;
-  padding: 10px 14px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  border: 2px solid var(--primary);
+  color: var(--primary);
   background-color: var(--white);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: var(--green-mint);
-  box-shadow: 0 0 0 3px rgba(46, 204, 227, 0.15); /* mint green shadow outline tint */
-}
-
-/* Focus Visible default outlines */
-:focus-visible {
-  outline: 2px solid var(--green-mint);
-  outline-offset: 2px;
+.btn-secondary:hover {
+  background-color: var(--primary-light);
 }
 
-/* Animation Keyframes (Pure CSS Only) */
-
-/* Pipeline dashed line flow */
-@keyframes dashflow {
-  from {
-    stroke-dashoffset: 20;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+/* Badges System */
+.badge-verified {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
 }
 
-/* Trust score gauge arc draw-in */
-@keyframes arcfill {
-  from {
-    stroke-dashoffset: 264; /* Total circumference approximation */
-  }
-  to {
-    stroke-dashoffset: 21;  /* Remaining path to display 92% */
-  }
+.badge-gold {
+  background-color: var(--accent-light);
+  color: #92400E;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
 }
 
-/* Income chart trendline draw-in */
-@keyframes linedraw {
-  from {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-  }
-  to {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 0;
-  }
+.badge-pending {
+  background-color: #F3F4F6;
+  color: var(--text-muted);
+  border: 1px solid #D1D5DB;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
 }
 
-/* Progress shimmer effect */
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: 200px 0;
-  }
+/* Animation triggers */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 0.4; }
+  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
-/* Marquee infinite horizontal loop */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.animate-pulse-green {
+  animation: pulse-ring 2s infinite;
 }
 
-/* Floating animation for info cards around character */
-@keyframes floatY1 {
+@keyframes float-slow-1 {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-6px) rotate(-3deg); }
+}
+
+@keyframes float-slow-2 {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-@keyframes floatY2 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-@keyframes floatY3 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-@keyframes livePulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+
+@keyframes float-slow-3 {
+  0%, 100% { transform: translateY(0) rotate(2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
 }
 
-/* Class Bindings */
-.animate-dashflow {
-  animation: dashflow 1.5s linear infinite;
+.animate-float-slow-1 {
+  animation: float-slow-1 6s ease-in-out infinite;
 }
 
-.animate-arcfill {
-  animation: arcfill 1.2s ease-out forwards;
+.animate-float-slow-2 {
+  animation: float-slow-2 8s ease-in-out infinite;
 }
 
-.animate-linedraw {
-  animation: linedraw 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--green-mint) 25%,
-    var(--green-light) 50%,
-    var(--green-mint) 75%
-  );
-  background-size: 200px 100%;
-  animation: shimmer 2s linear infinite;
-}
-
-.animate-marquee {
-  animation: marquee 24s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-.animate-float-1 {
-  animation: floatY1 6s ease-in-out infinite;
-}
-
-.animate-float-2 {
-  animation: floatY2 8s ease-in-out infinite;
-}
-
-.animate-float-3 {
-  animation: floatY3 5s ease-in-out infinite;
-}
-
-.animate-live-pulse {
-  animation: livePulse 1.8s ease-in-out infinite;
+.animate-float-slow-3 {
+  animation: float-slow-3 5s ease-in-out infinite;
 }
