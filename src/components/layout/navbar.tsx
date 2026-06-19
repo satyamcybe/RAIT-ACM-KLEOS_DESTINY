@@ -23,12 +23,11 @@ export function Navbar({ className }: NavbarProps) {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600">
-            <span className="text-sm font-bold text-white">P</span>
-          </div>
-          <span className="text-xl font-semibold text-gray-900">
-            Pranam
-          </span>
+          <img 
+            src="/logo-text.png" 
+            alt="Pranam Logo" 
+            className="h-8 w-auto object-contain"
+          />
         </Link>
 
         {/* Nav Links */}

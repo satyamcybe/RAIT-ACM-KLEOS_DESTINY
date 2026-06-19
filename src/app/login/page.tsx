@@ -68,8 +68,12 @@ export default function LoginPage() {
         
         {/* Logo & Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-600 text-white mb-6 shadow-md shadow-emerald-600/20">
-            <span className="text-3xl font-bold font-sans">P</span>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 shadow-sm">
+            <img 
+              src="/logo-icon.png" 
+              alt="Pranam Logo" 
+              className="w-full h-auto object-contain rounded-2xl"
+            />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
             {step === 'phone' ? "Welcome to Pranam" : "Verify Mobile"}
