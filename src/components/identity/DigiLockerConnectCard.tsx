@@ -10,10 +10,10 @@ interface DigiLockerConnectCardProps {
 export default function DigiLockerConnectCard({ onConnect }: DigiLockerConnectCardProps) {
   const handleConnect = () => {
     onConnect();
-    // In a real flow, this redirects the window. We'll simulate the redirect delay in the parent.
+    // Redirect to our interactive mock screen
     setTimeout(() => {
-      window.location.href = generateOAuthUrl();
-    }, 1500);
+      window.location.href = '/digilocker';
+    }, 100);
   };
 
   return (
