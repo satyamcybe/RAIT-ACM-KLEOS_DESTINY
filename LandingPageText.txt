@@ -1,0 +1,107 @@
+HERO SECTION
+Headline
+Aapki Mehnat, Aapki Pehchaan
+Subheadline
+You have completed thousands of deliveries. Maintained a 4.8 rating for three years. Earned consistently, month after month.
+But to a bank, a landlord, or an insurer — you are still invisible.
+Pramaan changes that. One verified passport. Every institution. Your reputation, finally portable.
+Primary CTA
+Generate My Passport
+Secondary CTA
+See How It Works
+
+TRUST INDICATORS
+India Ki Trusted Infrastructure Par Bana Hai
+No new accounts to create. No new systems to trust. Pramaan works with the digital infrastructure India already relies on — so your existing records finally work for you.
+eShram Verified
+Your national workforce registration, recognised and connected.
+DigiLocker Connected
+Government documents accessed securely through consent. Aapki files, aapke control mein.
+Account Aggregator Ready
+RBI regulated financial data sharing. Nothing moves without your explicit approval.
+Privacy First
+You choose what gets shared, with whom, and when. Always.
+
+WHY PRAMAAN EXISTS
+The Problem
+A delivery partner completes 8000 deliveries over four years. Never misses a shift. Maintains a top rating.
+Loan application rejected. Rental denied. No credit history on record.
+The problem is not the worker's reliability. The problem is that reliability has no form institutions can read.
+The Solution
+Pramaan gives that reliability a form.
+It pulls together your verified identity, financial patterns, and work signals into a single structured credential — one that speaks the language banks, landlords, and insurers already understand.
+
+FEATURES SECTION
+Identity Verification
+Ek Strong Foundation Se Shuru Karo
+Before any trust profile is built, Pramaan confirms you are exactly who you say you are — through eShram, DigiLocker, and other government backed sources.
+No guesswork. No manual document submission. Just verified identity, done right.
+
+Financial Verification
+Aapki Kamai Jo Baat Karti Hai
+Bank statements and transaction history carry more weight than most people realise.
+With your consent, Pramaan reads patterns in your financial activity — income frequency, earning consistency, stability over time — and translates them into signals institutions actually trust.
+
+Trust Intelligence
+Sirf Numbers Nahi, Ek Puri Kahani
+Income and identity alone do not capture four years of showing up every day.
+Pramaan layers in additional signals — tenure, activity regularity, platform engagement — to build a trust profile that reflects the full picture of your professional life.
+
+Portable Credential
+Ek Baar Banao, Har Jagah Use Karo
+The passport is yours to keep and share. Send it to a bank during a loan application. Show it to a landlord before signing a lease. Present it to an insurer when applying for coverage.
+No middlemen. No paperwork. Just one credential that travels with you.
+
+HOW IT WORKS
+Step 1 — Apni Identity Verify Karo
+Connect DigiLocker and eShram to confirm your identity. This takes minutes and requires no physical documents.
+Step 2 — Financial Signals Connect Karo
+Give one time consent to share financial information through RBI regulated frameworks. Your data is read, never stored or sold.
+Step 3 — Pramaan Analyse Karta Hai
+Identity records, financial patterns, and activity signals are evaluated together to build an accurate picture of your professional journey.
+Step 4 — Trust Profile Tayaar Hoti Hai
+Verified data is converted into clear trust indicators — income band, consistency score, tenure estimate — in a format any institution can act on.
+Step 5 — Passport Aapke Haath Mein
+Download your Professional Passport and share it whenever you need to prove your reputation. No re-verification required.
+
+DASHBOARD PREVIEW
+Ek Nazar Mein Poora Profile
+Most workers carry their reputation across five different apps and zero official records. The Pramaan dashboard changes that.
+Trust Score
+A single number that reflects verified professional credibility — not a credit score, something more relevant to how gig workers actually work.
+Monthly Income
+An estimated income range derived from financial records you have already consented to share.
+Verification Status
+Live confirmation of which identity and financial sources have been successfully verified.
+Activity Trend
+A rolling view of your work consistency over recent months — the kind of data that tells institutions you show up.
+
+PASSPORT PREVIEW
+Aapka Professional Passport
+Think of it as the document your years of work always deserved but never had.
+One page. Fully verified. Shareable in seconds.
+What It Contains
+Verified identity and profession — Income band and trust score — Activity level and estimated tenure — Data sources and verification method — QR code for instant institutional validation
+Built for gig workers. Readable by every institution they will ever encounter.
+
+HOW THE PASSPORT IS BUILT
+Char Layers, Ek Credential
+Identity Layer
+Anchors the passport to a verified, government confirmed individual. No identity, no passport.
+Financial Layer
+Adds depth through income patterns and earning consistency drawn from consented financial records.
+Trust Layer
+Incorporates tenure, activity regularity, and platform signals to move beyond numbers into meaning.
+Credential Layer
+Packages everything into a tamper evident, QR verified passport that institutions can validate in real time.
+Each layer is independently verified. Together they make something no single document could.
+
+FINAL CALL TO ACTION
+Aapka Kaam Bol Chuka Hai
+The years are there. The consistency is there. The reliability is there.
+All that was missing was a way to show it.
+Generate My Passport
+
+FOOTER
+Har kaam ka hisaab hona chahiye.
+Pramaan is building the infrastructure for a future where every worker — driver, delivery partner, service professional — can walk into any institution and say, yeh raha mera track record. And be believed.
