@@ -3,8 +3,7 @@
 // Layer 2: Simulated Financial Data Generation
 // ===========================================
 
-import crypto from "crypto";
-const uuidv4 = () => crypto.randomUUID();
+import { v4 as uuidv4 } from "uuid";
 
 export interface MockTransaction {
   transactionId: string;
@@ -24,14 +23,14 @@ export class MockAAGeneratorService {
   public generateDataset(): MockTransaction[] {
     const transactions: MockTransaction[] = [];
     const now = new Date();
-    
+
     // We will generate 6 months of data, roughly 180 days.
     // 120 transactions / 180 days = ~0.66 tx/day.
-    
+
     // Distributions required:
     // 45 Zomato, 15 Swiggy, 5 Rapido = 65 Gig Payouts
     // 55 Normal Transactions
-    
+
     let currentBalance = 5000; // Starting balance
 
     const generateDates = (count: number) => {
@@ -50,7 +49,7 @@ export class MockAAGeneratorService {
 
     // Prepare exactly the counts we need
     const pools: { type: "CREDIT" | "DEBIT", narration: string, amount: () => number, category: string }[] = [];
-    
+
     // 45 Zomato
     for (let i = 0; i < 45; i++) {
       const nar = i % 2 === 0 ? "ZOMATO PRIVATE LIMITED" : (i % 3 === 0 ? "ZOMATO SETTLEMENT" : "ZOMATO PAYOUT WEEKLY");
@@ -65,7 +64,7 @@ export class MockAAGeneratorService {
     for (let i = 0; i < 5; i++) {
       pools.push({ type: "CREDIT", narration: "RAPIDO DRIVER PAYOUT", amount: () => 800 + Math.floor(Math.random() * 1000), category: "salary" });
     }
-    
+
     // 55 Normal Transactions
     const normalTemplates = [
       { type: "DEBIT" as const, narration: "DMART PURCHASE", amount: () => 500 + Math.floor(Math.random() * 1500), category: "shopping" },
@@ -92,7 +91,7 @@ export class MockAAGeneratorService {
     allDates.forEach((date, i) => {
       const p = pools[i];
       const amt = p.amount();
-      
+
       if (p.type === "CREDIT") {
         currentBalance += amt;
       } else {
@@ -104,7 +103,7 @@ export class MockAAGeneratorService {
       }
 
       transactions.push({
-        transactionId: `txn_${uuidv4()}`,
+        transactionId: `txn_${Math.random().toString(36).substring(2, 11)}_${Math.random().toString(36).substring(2, 11)}`,
         date: date.toISOString(),
         amount: amt,
         type: p.type,

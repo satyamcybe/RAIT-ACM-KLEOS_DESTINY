@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useMockData } from "@/lib/context/MockDataContext";
 import { 
   Building2, 
   CreditCard, 
@@ -19,7 +20,8 @@ import {
   Clock,
   CalendarDays,
   Smartphone,
-  Network
+  Network,
+  RefreshCw
 } from "lucide-react";
 
 type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
@@ -32,6 +34,7 @@ const ALL_BANKS = [
 
 export default function FinancialVerificationPage() {
   const router = useRouter();
+  const { bankLinked, setBankLinked, resetDemo } = useMockData();
   const [step, setStep] = useState<Step>('intro');
   
   // State for user choices
@@ -118,6 +121,10 @@ export default function FinancialVerificationPage() {
           setTimeout(() => {
             setIngestData(data);
             setStep('success');
+            setBankLinked(true);
+            if (typeof window !== "undefined") {
+              localStorage.setItem("PRAMAAN_bank_linked", "true");
+            }
           }, 4500); // Wait for the 4-step animation to finish
         })
         .catch(err => {
@@ -126,7 +133,132 @@ export default function FinancialVerificationPage() {
           setStep('consent');
         });
     }
-  }, [step, months]);
+  }, [step, months, setBankLinked]);
+
+  if (bankLinked) {
+    return (
+      <div className="space-y-8 select-none max-w-2xl mx-auto animate-in fade-in duration-500" style={{ fontFamily: "var(--font-plus-jakarta)" }}>
+        {/* Page Header */}
+        <div>
+          <h1 className="text-2xl font-black text-gray-900 tracking-tight font-sans">Financial Intelligence</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Real-time Account Aggregator linkage and earnings insight.
+          </p>
+        </div>
+
+        {/* Status Header */}
+        <div className="rounded-2xl border border-emerald-100 bg-[#F4FAF7] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex gap-3">
+            <div className="w-12 h-12 bg-emerald-100 text-[#1A6B47] rounded-xl flex items-center justify-center border border-emerald-200/50">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 text-base">Linked Accounts & Data Active</h3>
+              <p className="text-xs text-emerald-800 font-medium">Auto-refreshing via Account Aggregator pipeline</p>
+            </div>
+          </div>
+          <span className="bg-[#1A6B47] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            Consented
+          </span>
+        </div>
+
+        {/* Ingested Accounts */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Linked Bank Accounts */}
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs space-y-4">
+            <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
+              <Landmark className="w-4 h-4 text-[#1A6B47]" />
+              Connected Institutions (FIPs)
+            </h3>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                <div>
+                  <p className="font-bold text-gray-800 text-xs">State Bank of India</p>
+                  <p className="text-[10px] text-gray-400 font-mono mt-0.5">XXXX1234</p>
+                </div>
+                <span className="bg-[#E8F5EF] text-[#1A6B47] border border-emerald-100/60 px-2 py-0.5 rounded-full text-[9px] font-bold">
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                <div>
+                  <p className="font-bold text-gray-800 text-xs">HDFC Bank</p>
+                  <p className="text-[10px] text-gray-400 font-mono mt-0.5">XXXX5678</p>
+                </div>
+                <span className="bg-[#E8F5EF] text-[#1A6B47] border border-emerald-100/60 px-2 py-0.5 rounded-full text-[9px] font-bold">
+                  Active
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Earnings Analytics */}
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs space-y-4">
+            <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#1A6B47]" />
+              Analysis Statistics
+            </h3>
+            <div className="space-y-3.5 text-xs text-gray-600 font-sans">
+              <div className="flex justify-between">
+                <span>Total Ingested Txns:</span>
+                <span className="text-gray-900 font-bold">120 Transactions</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Gig Income Detected:</span>
+                <span className="text-[#1A6B47] font-bold">65 Payouts</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Income Consistency:</span>
+                <span className="text-emerald-600 font-bold">94% Score</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Platforms Mapped:</span>
+                <span className="text-gray-900 font-semibold">Zomato, Swiggy, Rapido</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Custom Bar Chart representing income flow */}
+        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-xs space-y-4">
+          <h3 className="font-bold text-gray-900 text-sm">Monthly Gig Deposit Consistency (Zomato / Swiggy / Rapido Payouts)</h3>
+          <div className="flex justify-between items-end h-28 gap-3 px-1 pt-4 border-b border-gray-100 pb-2">
+            {[35, 55, 45, 80, 85, 70].map((height, i) => (
+              <div key={i} className="flex-1 flex flex-col justify-end h-full items-center gap-1.5">
+                <div 
+                  className="w-full bg-gradient-to-t from-[#1A6B47] to-[#2ECC8F] rounded-t-md transition-all duration-700 ease-out" 
+                  style={{ height: `${height}%` }}
+                />
+                <span className="text-[10px] text-gray-400 font-semibold">
+                  {["Jan", "Feb", "Mar", "Apr", "May", "Jun"][i]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Reset Actions */}
+        <div className="rounded-2xl border border-gray-100 bg-slate-50 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h4 className="font-bold text-gray-800 text-sm">Need to update bank connections?</h4>
+            <p className="text-xs text-gray-500 mt-0.5">You can reset or unlink your financial institutions and reconnect.</p>
+          </div>
+          <button
+            onClick={async () => {
+              if (confirm("Reset financial linkage? This will clear all ingested transactions.")) {
+                await resetDemo();
+                router.push("/financial-verification");
+              }
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2.5 text-xs font-bold text-gray-700 shadow-2xs transition-colors cursor-pointer active:scale-[0.98]"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Reconnect Bank</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 max-w-xl mx-auto pb-10">
