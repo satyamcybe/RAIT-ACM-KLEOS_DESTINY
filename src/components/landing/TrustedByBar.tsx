@@ -1,19 +1,33 @@
 export default function TrustedByBar() {
+  const partners = [
+    { name: "Aadhaar", icon: "🆔" },
+    { name: "DigiLocker", icon: "📂" },
+    { name: "eShram", icon: "⚙️" },
+    { name: "Account Aggregator", icon: "🏦" },
+    { name: "UPI", icon: "💸" },
+    { name: "Banking Partners", icon: "🤝" }
+  ];
+
   return (
-    <div className="border-y border-slate-100 bg-white py-8">
-      <div className="max-w-5xl mx-auto px-4 text-center">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-6">
-          Powered by India&apos;s Digital Public Infrastructure
-        </p>
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale">
-          {/* Mock Logos text */}
-          <span className="font-bold text-xl text-slate-800">DigiLocker</span>
-          <span className="font-bold text-xl text-slate-800">eShram</span>
-          <span className="font-bold text-xl text-slate-800">Aadhaar</span>
-          <span className="font-bold text-xl text-slate-800">UPI</span>
-          <span className="font-bold text-xl text-slate-800">Account Aggregator</span>
+    <section className="py-16 bg-white border-y border-[rgba(15,23,42,0.06)]">
+      <div className="max-w-[1440px] mx-auto px-8">
+        <div className="text-center mb-10">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            Built on Trusted Infrastructure
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16">
+          {partners.map((partner, idx) => (
+            <div 
+              key={idx}
+              className="flex items-center gap-2.5 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 transform hover:-translate-y-0.5 cursor-default"
+            >
+              <span className="text-2xl">{partner.icon}</span>
+              <span className="font-extrabold text-slate-800 text-lg tracking-tight">{partner.name}</span>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

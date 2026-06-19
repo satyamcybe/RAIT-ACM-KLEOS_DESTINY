@@ -1,44 +1,64 @@
-"use client";
-
-import { Shield, Wallet, Star } from "lucide-react";
+import { Shield, CreditCard, Sparkles, Award } from "lucide-react";
 
 export default function FeaturesBar() {
+  const features = [
+    {
+      icon: Shield,
+      title: "Identity Verification",
+      desc: "Verify your worker identity using eShram, India's national database, and government-anchored records instantly.",
+      color: "text-[#18C79C] bg-[#18C79C]/10 border-[#18C79C]/20"
+    },
+    {
+      icon: CreditCard,
+      title: "Earnings Verification",
+      desc: "Connect your bank accounts securely through RBI-regulated Account Aggregator infrastructure to verify monthly income.",
+      color: "text-blue-600 bg-blue-50 border-blue-100"
+    },
+    {
+      icon: Sparkles,
+      title: "AI Trust Engine",
+      desc: "Our AI model analyzes your financial consistency, gig activity, and platform tenure to calculate a dynamic trust score.",
+      color: "text-amber-600 bg-amber-50 border-amber-100"
+    },
+    {
+      icon: Award,
+      title: "Digital Reputation Passport",
+      desc: "Get a W3C-compliant, tamper-evident digital passport that belongs entirely to you and remains fully portable.",
+      color: "text-purple-600 bg-purple-50 border-purple-100"
+    }
+  ];
+
   return (
-    <section className="py-24 bg-slate-50">
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-12">
-          
-          <div className="flex flex-col items-center text-center">
-            <div className="w-14 h-14 bg-teal-100 rounded-2xl flex items-center justify-center mb-6">
-              <Shield className="w-7 h-7 text-teal-600" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-3">Identity Verified</h3>
-            <p className="text-slate-600 leading-relaxed">
-              Link your government IDs safely using DigiLocker and eShram to establish a verified base.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <div className="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
-              <Wallet className="w-7 h-7 text-amber-600" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-3">Financial Trust</h3>
-            <p className="text-slate-600 leading-relaxed">
-              Connect your bank account via Account Aggregator to prove your earning history securely.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-6">
-              <Star className="w-7 h-7 text-purple-600" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-3">Portable Reputation</h3>
-            <p className="text-slate-600 leading-relaxed">
-              Take your rating with you. Whether you deliver for Zomato or drive for Uber, your trust score is yours.
-            </p>
-          </div>
-
+    <section id="features" className="py-24 bg-[#F8FAFC]">
+      <div className="max-w-[1440px] mx-auto px-8">
+        
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <p className="text-xs font-bold text-[#18C79C] uppercase tracking-widest mb-3">
+            Core Engine
+          </p>
+          <h2 className="text-3xl md:text-5xl font-black text-[#0F172A] tracking-tight">
+            Trusted. Verified. Empowered.
+          </h2>
         </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feat, idx) => {
+            const Icon = feat.icon;
+            return (
+              <div 
+                key={idx}
+                className="bg-white border border-[rgba(15,23,42,0.06)] p-8 rounded-[24px] shadow-custom hover:-translate-y-2 hover:shadow-lg transition-all duration-300"
+              >
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border mb-6 ${feat.color}`}>
+                  <Icon className="w-7 h-7" />
+                </div>
+                <h4 className="font-bold text-[#0F172A] text-xl mb-3">{feat.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{feat.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );

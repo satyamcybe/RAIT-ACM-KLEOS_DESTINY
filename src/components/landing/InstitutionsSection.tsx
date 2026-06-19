@@ -1,22 +1,52 @@
-"use client";
-
-import { Building2, ArrowRight } from "lucide-react";
-import Link from "next/link";
-
 export default function InstitutionsSection() {
+  const categories = [
+    {
+      title: "Gig Platforms & Networks",
+      partners: ["Zomato", "Swiggy", "Uber", "Ola"]
+    },
+    {
+      title: "Banks & NBFCs",
+      partners: ["HDFC Bank", "ICICI Bank", "Kotak Bank", "Bajaj Finserv"]
+    },
+    {
+      title: "Insurance & Providers",
+      partners: ["Policybazaar", "Digit Insurance", "Acko"]
+    }
+  ];
+
   return (
-    <section id="institutions" className="py-24 bg-white border-y border-slate-100">
-      <div className="max-w-4xl mx-auto px-4 text-center">
-        <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-          <Building2 className="w-8 h-8 text-blue-600" />
+    <section id="institutions" className="py-24 bg-white border-t border-[rgba(15,23,42,0.06)] select-none">
+      <div className="max-w-[1440px] mx-auto px-8">
+        
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <p className="text-xs font-bold text-[#18C79C] uppercase tracking-widest mb-3">
+            Integration
+          </p>
+          <h2 className="text-3xl md:text-5xl font-black text-[#0F172A] tracking-tight">
+            Trusted by Institutions
+          </h2>
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">For Banks & Gig Platforms</h2>
-        <p className="text-lg text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto">
-          Integrate with Pramaan&apos;s API to instantly verify worker identities, assess creditworthiness, and streamline onboarding. We provide the trust layer so you can focus on growth.
-        </p>
-        <Link href="/api-docs" className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-          View Developer Documentation <ArrowRight className="w-4 h-4" />
-        </Link>
+
+        <div className="space-y-12">
+          {categories.map((cat, idx) => (
+            <div key={idx} className="border-b border-slate-100 pb-10 last:border-none last:pb-0">
+              <h4 className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-8">
+                {cat.title}
+              </h4>
+              <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16">
+                {cat.partners.map((partner, pIdx) => (
+                  <div 
+                    key={pIdx}
+                    className="font-black text-slate-700 hover:text-slate-900 text-xl tracking-tight transition-all duration-300 transform hover:scale-110 cursor-default opacity-60 hover:opacity-100"
+                  >
+                    {partner}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

@@ -6,9 +6,14 @@
    =========================================== */
 
 :root {
-  --color-primary: #059669;
+  --color-primary: #18C79C;
   --color-primary-light: #d1fae5;
-  --color-primary-dark: #047857;
+  --color-primary-dark: #129E7B;
+  --color-secondary: #0F172A;
+  --color-accent: #22D3EE;
+  --color-bg-base: #F8FAFC;
+  --radius-custom: 24px;
+  --shadow-custom: 0 20px 50px rgba(0, 0, 0, 0.08);
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
@@ -144,4 +149,40 @@ body {
 .animate-fill-circle {
   stroke-dasharray: 0 314;
   animation: fill-circle 1.5s ease-out forwards;
+}
+
+@keyframes float-y-1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float-y-2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes float-y-3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-float-1 {
+  animation: float-y-1 6s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-y-2 8s ease-in-out infinite;
+}
+
+.animate-float-3 {
+  animation: float-y-3 5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 25s linear infinite;
 }

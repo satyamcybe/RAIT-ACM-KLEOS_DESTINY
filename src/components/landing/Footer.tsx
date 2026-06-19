@@ -1,51 +1,86 @@
 import Link from "next/link";
+import { Send } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 py-12 text-slate-400 border-t border-slate-800">
-      <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-        <div className="col-span-2 md:col-span-1">
-          <Link href="/" className="flex items-center gap-2 mb-4">
-            <div className="w-6 h-6 rounded bg-teal-600 flex items-center justify-center text-white font-black text-xs">
+    <footer className="bg-[#F8FAFC] py-16 text-slate-500 border-t border-[rgba(15,23,42,0.06)] font-sans">
+      <div className="max-w-[1440px] mx-auto px-8 grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
+        
+        {/* Branding & Newsletter */}
+        <div className="col-span-2 space-y-6">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#18C79C] to-[#129E7B] flex items-center justify-center text-white font-black text-sm">
               P
             </div>
-            <span className="font-bold text-white tracking-tight">Pramaan</span>
+            <span className="font-bold text-slate-900 tracking-tight text-lg">Pramaan</span>
           </Link>
-          <p className="text-sm text-slate-500 mb-4">
-            Building financial trust for the informal economy.
+          
+          <p className="text-sm text-slate-500 leading-relaxed max-w-sm">
+            Building the trust layer for gig workers and modern institutions.
           </p>
+
+          {/* Newsletter field */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+              Subscribe to updates
+            </label>
+            <div className="flex gap-2 max-w-sm">
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                className="bg-white border border-[rgba(15,23,42,0.08)] px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-[#18C79C] w-full shadow-sm"
+              />
+              <button className="bg-gradient-to-r from-[#18C79C] to-[#129E7B] hover:opacity-95 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md">
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
-        
-        <div>
-          <h4 className="text-white font-semibold mb-4">Product</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="#how-it-works" className="hover:text-white transition-colors">How it works</Link></li>
-            <li><Link href="#trust-score" className="hover:text-white transition-colors">Trust Score</Link></li>
-            <li><Link href="/security" className="hover:text-white transition-colors">Security</Link></li>
+
+        {/* Product Column */}
+        <div className="col-span-1">
+          <h4 className="text-slate-900 font-bold text-sm mb-4 uppercase tracking-wider">Product</h4>
+          <ul className="space-y-3 text-sm font-semibold">
+            <li><Link href="#how-it-works" className="hover:text-[#18C79C] transition-colors">How it works</Link></li>
+            <li><Link href="#features" className="hover:text-[#18C79C] transition-colors">Features</Link></li>
+            <li><Link href="#trust-score" className="hover:text-[#18C79C] transition-colors">Trust Score</Link></li>
           </ul>
         </div>
 
-        <div>
-          <h4 className="text-white font-semibold mb-4">Developers</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="/api-docs" className="hover:text-white transition-colors">API Documentation</Link></li>
-            <li><Link href="/institutions" className="hover:text-white transition-colors">For Institutions</Link></li>
+        {/* Company Column */}
+        <div className="col-span-1">
+          <h4 className="text-slate-900 font-bold text-sm mb-4 uppercase tracking-wider">Company</h4>
+          <ul className="space-y-3 text-sm font-semibold">
+            <li><Link href="/about" className="hover:text-[#18C79C] transition-colors">About Us</Link></li>
+            <li><Link href="/careers" className="hover:text-[#18C79C] transition-colors">Careers</Link></li>
+            <li><Link href="/contact" className="hover:text-[#18C79C] transition-colors">Contact</Link></li>
           </ul>
         </div>
 
-        <div>
-          <h4 className="text-white font-semibold mb-4">Company</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-            <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-            <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+        {/* Resources Column */}
+        <div className="col-span-1">
+          <h4 className="text-slate-900 font-bold text-sm mb-4 uppercase tracking-wider">Resources</h4>
+          <ul className="space-y-3 text-sm font-semibold">
+            <li><Link href="/blog" className="hover:text-[#18C79C] transition-colors">Blog</Link></li>
+            <li><Link href="/docs" className="hover:text-[#18C79C] transition-colors">Documentation</Link></li>
+            <li><Link href="/help" className="hover:text-[#18C79C] transition-colors">Help Center</Link></li>
+          </ul>
+        </div>
+
+        {/* Legal Column */}
+        <div className="col-span-1">
+          <h4 className="text-slate-900 font-bold text-sm mb-4 uppercase tracking-wider">Legal</h4>
+          <ul className="space-y-3 text-sm font-semibold">
+            <li><Link href="/privacy" className="hover:text-[#18C79C] transition-colors">Privacy Policy</Link></li>
+            <li><Link href="/terms" className="hover:text-[#18C79C] transition-colors">Terms of Service</Link></li>
+            <li><Link href="/security" className="hover:text-[#18C79C] transition-colors">Security</Link></li>
           </ul>
         </div>
       </div>
       
-      <div className="max-w-6xl mx-auto px-4 pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="max-w-[1440px] mx-auto px-8 pt-8 border-t border-slate-200/50 text-sm flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 font-medium">
         <p>© {new Date().getFullYear()} Pramaan. All rights reserved.</p>
-        <p className="text-slate-500">Made with ❤️ for India&apos;s Gig Workers</p>
+        <p className="text-slate-400">Made with ❤️ for India&apos;s Gig Workers</p>
       </div>
     </footer>
   );
