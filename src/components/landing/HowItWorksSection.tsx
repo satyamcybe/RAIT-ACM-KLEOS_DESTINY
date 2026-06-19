@@ -201,6 +201,7 @@ export default function HowItWorksSection() {
             <polyline points="19,12 12,19 5,12" />
           </svg>
         </div>
+        {/* =====================================================
             PART 2: THE 3-STEP CREDENTIAL PIPELINE
            ===================================================== */}
         <div id="for-workers" className="space-y-14 pt-6">
