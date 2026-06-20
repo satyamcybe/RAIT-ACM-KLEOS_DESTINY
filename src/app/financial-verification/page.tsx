@@ -649,7 +649,15 @@ export default function FinancialVerificationPage() {
       ) : (
         <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E8F3ED]/60 border border-emerald-100/50 shadow-xs">
-            {step === 'consent' ? <ShieldCheck className="w-8 h-8 text-[#059669]" /> : <Network className="w-8 h-8 text-[#059669]" />}
+            {step === 'consent' && <ShieldCheck className="w-8 h-8 text-[#059669]" />}
+            {step === 'mobile_verify' && <Smartphone className="w-8 h-8 text-[#059669]" />}
+            {step === 'otp_verify' && <MessageSquare className="w-8 h-8 text-[#059669]" />}
+            {step === 'select_banks' && <Building2 className="w-8 h-8 text-[#059669]" />}
+            {step === 'discovering' && <Search className="w-8 h-8 text-[#059669]" />}
+            {step === 'accounts_found' && <CheckCircle2 className="w-8 h-8 text-[#059669]" />}
+            {step === 'linked' && <Wallet className="w-8 h-8 text-[#059669]" />}
+            {step === 'processing' && <RefreshCw className="w-8 h-8 text-[#059669] animate-spin" />}
+            {step === 'success' && <TrendingUp className="w-8 h-8 text-[#059669]" />}
           </div>
           <h1 className="text-3xl font-bold text-[#0F172A] tracking-tight">
             {step === 'mobile_verify' && "Enter Mobile Number"}
