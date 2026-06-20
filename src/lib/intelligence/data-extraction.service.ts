@@ -7,16 +7,16 @@ export interface ExtractedData {
   transactionReference?: string;
 }
 
-export interface ExtractedTransaction extends NormalizedTransaction {
+export type ExtractedTransaction<T extends NormalizedTransaction = NormalizedTransaction> = T & {
   extractedData: ExtractedData;
-}
+};
 
 export class DataExtractionService {
   /**
    * Extracts highly structured entities (UPI IDs, UTRs, Reference Numbers)
    * from messy unstructured bank narrations using Regex patterns.
    */
-  static extract(transactions: NormalizedTransaction[]): ExtractedTransaction[] {
+  static extract<T extends NormalizedTransaction>(transactions: T[]): ExtractedTransaction<T>[] {
     return transactions.map(txn => {
       const text = txn.narration; // We use raw narration for exact case matching if needed
       

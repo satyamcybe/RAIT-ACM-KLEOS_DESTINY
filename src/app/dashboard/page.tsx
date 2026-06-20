@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useMockData } from "@/lib/context/MockDataContext";
-import { generateIntelligence, rawMockTransactions } from "@/lib/score-engine";
+import { generateIntelligence } from "@/lib/score-engine";
+import { sahamatiTransactions } from "@/lib/sahamati-data";
 import { ScoreCalculatorService } from "@/lib/layer4-ssi/score-calculator.service";
 import { Layer3Simulation } from "@/components/dashboard/layer3-simulation";
 import { ExportCredentialsModal } from "@/components/dashboard/export-credentials-modal";
@@ -10,7 +11,8 @@ import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Br
 
 export default function DashboardPage() {
   const { user, identityVerified, bankLinked } = useMockData();
-  const intelligence = generateIntelligence(rawMockTransactions); // Keeping this for the transactions table only
+  // We use the 60 transaction Sahamati data for the dashboard tables
+  const intelligence = generateIntelligence(sahamatiTransactions as any); 
 
   const [layer3Signals, setLayer3Signals] = useState<any>(null);
   const [credential, setCredential] = useState<any>(null);
@@ -35,25 +37,10 @@ export default function DashboardPage() {
     // so we have authentic Layer 3 signals to feed to Layer 4
     const fetchIntelligence = async () => {
       try {
-        const mockTransactions = [
-          { txnId: "T1", date: "2024-03-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
-          { txnId: "T2", date: "2024-03-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
-          { txnId: "T3", date: "2024-03-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
-          { txnId: "T4", date: "2024-03-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
-          { txnId: "T5", date: "2024-04-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
-          { txnId: "T6", date: "2024-04-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
-          { txnId: "T7", date: "2024-04-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
-          { txnId: "T8", date: "2024-04-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
-          { txnId: "T9", date: "2024-05-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
-          { txnId: "T10", date: "2024-05-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
-          { txnId: "T11", date: "2024-05-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
-          { txnId: "T12", date: "2024-05-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" }
-        ];
-
         const response = await fetch('/api/intelligence', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ workerId: "mock-worker-123", transactions: mockTransactions })
+          body: JSON.stringify({ workerId: "mock-worker-123", transactions: sahamatiTransactions })
         });
         const result = await response.json();
         if (result.success) {
@@ -266,6 +253,7 @@ export default function DashboardPage() {
         isOpen={showExportModal} 
         onClose={() => setShowExportModal(false)} 
         credential={credential}
+        intelligence={intelligence}
       />
 
     </div>

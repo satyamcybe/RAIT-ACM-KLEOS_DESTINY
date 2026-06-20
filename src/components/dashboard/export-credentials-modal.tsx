@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, FileText, Share2, CreditCard, X, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Download, CreditCard, X, CheckCircle2 } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { TrustCardTemplate, GovernmentPdfTemplate } from "./export-templates";
@@ -10,9 +10,10 @@ interface ExportModalProps {
   isOpen: boolean;
   onClose: () => void;
   credential: any;
+  intelligence: any;
 }
 
-export function ExportCredentialsModal({ isOpen, onClose, credential }: ExportModalProps) {
+export function ExportCredentialsModal({ isOpen, onClose, credential, intelligence }: ExportModalProps) {
   const [downloading, setDownloading] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -46,7 +47,7 @@ export function ExportCredentialsModal({ isOpen, onClose, credential }: ExportMo
             format: [800, 500]
           });
           pdf.addImage(imgData, 'JPEG', 0, 0, 800, 500);
-          pdf.save('Pramaan_Trust_Card.pdf');
+          pdf.save('PramaanID.pdf');
         }
       } else if (type === 'link') {
         // Simulate copying link to clipboard
@@ -66,16 +67,16 @@ export function ExportCredentialsModal({ isOpen, onClose, credential }: ExportMo
     <div className="fixed inset-0 z-50 bg-[#020617]/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-300">
       
       {/* Hidden templates for PDF generation */}
-      <div className="absolute top-0 left-0 pointer-events-none">
-        <GovernmentPdfTemplate credential={credential} />
-        <TrustCardTemplate credential={credential} />
+      <div className="absolute top-[-10000px] left-[-10000px] pointer-events-none">
+        <GovernmentPdfTemplate credential={credential} intelligence={intelligence} />
+        <TrustCardTemplate credential={credential} intelligence={intelligence} />
       </div>
 
       <div className="max-w-md w-full bg-white rounded-3xl overflow-hidden shadow-2xl relative">
         <div className="p-6 pb-0 flex justify-between items-center">
           <div>
             <h2 className="text-xl font-bold text-slate-900">Export Credentials</h2>
-            <p className="text-sm text-slate-500 mt-1">Select an format to share your Trust Profile</p>
+            <p className="text-sm text-slate-500 mt-1">Download your Pramaan Trust Card</p>
           </div>
           <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">
             <X className="w-5 h-5" />
@@ -83,42 +84,6 @@ export function ExportCredentialsModal({ isOpen, onClose, credential }: ExportMo
         </div>
 
         <div className="p-6 flex flex-col gap-3">
-          {/* Option 1: PDF */}
-          <button 
-            onClick={() => handleExport('pdf')}
-            disabled={!!downloading}
-            className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-[#1A6B47] hover:bg-[#E8F3ED]/50 transition-all group disabled:opacity-50 text-left"
-          >
-            <div className="flex items-center gap-4">
-              <div className="bg-red-50 text-red-600 p-3 rounded-xl group-hover:bg-red-100 transition-colors">
-                <FileText className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-slate-900">Bank Loan PDF</p>
-                <p className="text-xs text-slate-500">Detailed report for underwriting</p>
-              </div>
-            </div>
-            {success === 'pdf' ? <CheckCircle2 className="w-5 h-5 text-[#1A6B47]" /> : downloading === 'pdf' ? <div className="w-5 h-5 border-2 border-[#1A6B47] border-t-transparent rounded-full animate-spin" /> : <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#1A6B47] transition-colors" />}
-          </button>
-
-          {/* Option 2: Shareable Link */}
-          <button 
-            onClick={() => handleExport('link')}
-            disabled={!!downloading}
-            className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-[#1A6B47] hover:bg-[#E8F3ED]/50 transition-all group disabled:opacity-50 text-left"
-          >
-            <div className="flex items-center gap-4">
-              <div className="bg-blue-50 text-blue-600 p-3 rounded-xl group-hover:bg-blue-100 transition-colors">
-                <Share2 className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-slate-900">Landlord Summary</p>
-                <p className="text-xs text-slate-500">Shareable secure web link</p>
-              </div>
-            </div>
-            {success === 'link' ? <CheckCircle2 className="w-5 h-5 text-[#1A6B47]" /> : downloading === 'link' ? <div className="w-5 h-5 border-2 border-[#1A6B47] border-t-transparent rounded-full animate-spin" /> : <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#1A6B47] transition-colors" />}
-          </button>
-
           {/* Option 3: Credential Card */}
           <button 
             onClick={() => handleExport('card')}

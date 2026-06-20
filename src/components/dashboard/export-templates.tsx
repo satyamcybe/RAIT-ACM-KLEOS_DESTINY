@@ -1,7 +1,7 @@
 import React from "react";
 import { User, Calendar, ShieldCheck } from "lucide-react";
 
-export function TrustCardTemplate({ credential }: { credential: any }) {
+export function TrustCardTemplate({ credential, intelligence }: { credential: any, intelligence?: any }) {
   return (
     <div 
       id="trust-card-template" 
@@ -78,7 +78,7 @@ export function TrustCardTemplate({ credential }: { credential: any }) {
         <div className="w-[220px] flex flex-col justify-between items-end pt-2 pb-6">
           <div className="w-[200px] h-[200px] bg-white rounded-2xl border-2 border-[#2B1014] flex items-center justify-center relative overflow-hidden">
             <img 
-              src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=pramaan://ZM-99214`} 
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http://10.20.2.55:3000/verify/${credential?.id || 'demo'}`} 
               alt="QR"
               className="w-[180px] h-[180px]"
               crossOrigin="anonymous"
@@ -103,7 +103,7 @@ export function TrustCardTemplate({ credential }: { credential: any }) {
   );
 }
 
-export function GovernmentPdfTemplate({ credential }: { credential: any }) {
+export function GovernmentPdfTemplate({ credential, intelligence }: { credential: any, intelligence?: any }) {
   return (
     <div 
       id="gov-pdf-template" 
@@ -134,19 +134,19 @@ export function GovernmentPdfTemplate({ credential }: { credential: any }) {
         <div className="grid grid-cols-2 gap-y-4 gap-x-8">
           <div>
             <p className="text-xs text-slate-500 font-bold uppercase">Average Monthly Income</p>
-            <p className="text-lg font-mono text-slate-900">₹ 24,500.00</p>
+            <p className="text-lg font-mono text-slate-900">₹ {Math.round((intelligence?.totalIncome || 73500) / 3).toLocaleString('en-IN')}.00</p>
           </div>
           <div>
             <p className="text-xs text-slate-500 font-bold uppercase">Income Regularity Score</p>
-            <p className="text-lg font-mono text-slate-900">84%</p>
+            <p className="text-lg font-mono text-slate-900">{credential?.credential?.credentialSubject?.metrics?.weeklyConsistency || 84}%</p>
           </div>
           <div>
             <p className="text-xs text-slate-500 font-bold uppercase">Gig Platforms Mapped</p>
-            <p className="text-lg font-mono text-slate-900">Zomato, Swiggy, Rapido</p>
+            <p className="text-lg font-mono text-slate-900">{intelligence?.topIncomeSources?.filter((s:any) => s.source !== 'Other Income').map((s:any) => s.source).join(', ') || 'Zomato, Swiggy, Rapido'}</p>
           </div>
           <div>
             <p className="text-xs text-slate-500 font-bold uppercase">Credit Risk Category</p>
-            <p className="text-lg font-mono text-emerald-700">LOW RISK</p>
+            <p className={`text-lg font-mono ${(credential?.credential?.credentialSubject?.riskCategory || 'LOW') === 'LOW' ? 'text-emerald-700' : 'text-yellow-700'}`}>{credential?.credential?.credentialSubject?.riskCategory || 'LOW'} RISK</p>
           </div>
         </div>
       </div>

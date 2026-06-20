@@ -41,9 +41,16 @@ export function generateIntelligence(transactions: Transaction[]): IntelligenceR
   transactions.forEach(t => {
     if (t.type === 'CREDIT') {
       totalIncome += t.amount;
-      const source = t.description.includes('SWIGGY') ? 'Swiggy' : 
-                     t.description.includes('ZOMATO') ? 'Zomato' : 
-                     t.description.includes('UBER') ? 'Uber' : 'Other Income';
+      const text = (t.description || (t as any).narration || '').toUpperCase();
+      const isSwiggy = text.includes('SWIGGY') || text.includes('BUNDL');
+      const isZomato = text.includes('ZOMATO') || text.includes('ZMT');
+      const isUber = text.includes('UBER');
+      const isUrban = text.includes('URBAN');
+      
+      const source = isSwiggy ? 'Swiggy' : 
+                     isZomato ? 'Zomato' : 
+                     isUber ? 'Uber' : 
+                     isUrban ? 'Urban Company' : 'Other Income';
       incomeSources[source] = (incomeSources[source] || 0) + t.amount;
     } else {
       totalExpense += t.amount;
