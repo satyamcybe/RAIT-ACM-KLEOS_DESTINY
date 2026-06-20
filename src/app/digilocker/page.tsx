@@ -38,8 +38,8 @@ export default function DigiLockerMock() {
   const router = useRouter();
 
   const [step, setStep] = useState<Step>("identifier");
-  const [idType, setIdType] = useState<"mobile" | "aadhaar">("mobile");
-  const [identifier, setIdentifier] = useState("");
+  const [idType, setIdType] = useState<"mobile" | "aadhaar">("aadhaar");
+  const [identifier, setIdentifier] = useState("987654321098");
   const [pin, setPin] = useState(["", "", "", "", "", ""]);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpFetching, setOtpFetching] = useState(false);
@@ -55,6 +55,47 @@ export default function DigiLockerMock() {
     d.setDate(d.getDate() + 30);
     return d.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
   });
+
+  // Auto-submit Step 1: Identifier
+  useEffect(() => {
+    if (step === "identifier" && identifier === "987654321098") {
+      const timer = setTimeout(() => {
+        handleIdentifierSubmit({ preventDefault: () => {} } as any);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step, identifier]);
+
+  // Auto-submit Step 2: PIN
+  useEffect(() => {
+    if (step === "pin") {
+      const timer = setTimeout(() => {
+        setPin(["1", "2", "3", "4", "5", "6"]);
+        handlePinSubmit(undefined, ["1", "2", "3", "4", "5", "6"]);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
+
+  // Auto-submit Step 3: OTP
+  useEffect(() => {
+    if (step === "otp" && otpReady && generatedOtp) {
+      const timer = setTimeout(() => {
+        handleOtpSubmit(undefined, generatedOtp);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step, otpReady, generatedOtp]);
+
+  // Auto-submit Step 4: Consent
+  useEffect(() => {
+    if (step === "consent") {
+      const timer = setTimeout(() => {
+        handleAllow();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -102,8 +143,8 @@ export default function DigiLockerMock() {
   };
 
   // ── Step 1: Identifier Submit ──
-  const handleIdentifierSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleIdentifierSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     const minLen = idType === "aadhaar" ? 12 : 10;
     if (identifier.replace(/\s/g, "").length < minLen) {
       setError(`Enter a valid ${idType === "aadhaar" ? "12-digit Aadhaar" : "10-digit mobile"} number.`);
@@ -114,16 +155,17 @@ export default function DigiLockerMock() {
   };
 
   // ── Step 2: PIN Submit ──
-  const handlePinSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pin.join("").length < 6) { setError("Enter your 6-digit Security PIN."); return; }
+  const handlePinSubmit = (e?: React.FormEvent, customPin?: string[]) => {
+    if (e) e.preventDefault();
+    const pinToVerify = customPin || pin;
+    if (pinToVerify.join("").length < 6) { setError("Enter your 6-digit Security PIN."); return; }
     // Auto-fetch OTP
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedOtp(code);
     setStep("otp");
     setOtpFetching(true);
     setOtpReady(false);
-    // Simulate OTP being fetched/sent ~2.2s
+    // Simulate OTP being fetched/sent ~300ms
     setTimeout(() => {
       setOtpFetching(false);
       setOtpReady(true);
@@ -132,13 +174,13 @@ export default function DigiLockerMock() {
       showToast(`DigiLocker OTP: ${code} has been sent to your registered mobile.`);
       // Focus last box so user just hits Enter
       setTimeout(() => otpRefs.current[5]?.focus(), 100);
-    }, 2200);
+    }, 300);
   };
 
   // ── Step 3: OTP Submit ──
-  const handleOtpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const entered = otp.join("");
+  const handleOtpSubmit = (e?: React.FormEvent, customOtp?: string) => {
+    if (e) e.preventDefault();
+    const entered = customOtp || otp.join("");
     if (entered.length < 6) { setError("Waiting for OTP…"); return; }
     if (entered !== generatedOtp) { setError(`Wrong OTP. (Hint: ${generatedOtp})`); return; }
     setStep("consent");
@@ -151,7 +193,7 @@ export default function DigiLockerMock() {
       setIdentityVerified(true);
       if (typeof window !== "undefined") localStorage.setItem("PRAMAAN_identity_verified", "true");
       window.location.href = "/api/digilocker/callback?code=mock_oauth_code_xyz789";
-    }, 1500);
+    }, 300);
   };
 
   const toggleDoc = (id: number) => {

@@ -50,7 +50,7 @@ export function Sidebar({ className }: SidebarProps) {
       )}
     >
       <div 
-        className="absolute top-0 left-0 bottom-0 w-[72px] group-hover/sidebar:w-64 bg-white border-r border-gray-100 transition-all duration-300 ease-in-out flex flex-col py-6 px-3.5 overflow-hidden shadow-[1px_0_10px_rgba(0,0,0,0.01)] group-hover/sidebar:shadow-[4px_0_20px_rgba(0,0,0,0.06)]"
+        className="fixed top-16 left-0 bottom-0 w-[72px] group-hover/sidebar:w-64 bg-white border-r border-gray-100 transition-all duration-300 ease-in-out flex flex-col py-6 px-3.5 overflow-hidden shadow-[1px_0_10px_rgba(0,0,0,0.01)] group-hover/sidebar:shadow-[4px_0_20px_rgba(0,0,0,0.06)] z-30"
       >
         <nav className="flex flex-col gap-4 mt-2">
           {visibleItems.map((item) => {

@@ -16,7 +16,7 @@ export function Navbar({ className }: NavbarProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md",
+        "fixed top-0 left-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md",
         className
       )}
     >

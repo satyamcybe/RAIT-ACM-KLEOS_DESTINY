@@ -58,10 +58,15 @@ export default function LoginPage() {
       setError("Please enter a valid 10-digit mobile number.");
       return;
     }
+    setIsLoading(true);
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedOtp(code);
-    showNotification(`Mock SMS: OTP code is ${code} (sent to +91 ${phone})`);
-    setStep('otp');
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      showNotification(`Mock SMS: OTP code is ${code} (sent to +91 ${phone})`);
+      setStep('otp');
+    }, 1500);
   };
 
   const handleOtpSubmit = (e: React.FormEvent) => {
@@ -84,7 +89,7 @@ export default function LoginPage() {
       } else {
         router.push('/onboarding');
       }
-    }, 1500);
+    }, 3000);
   };
 
   return (
@@ -156,12 +161,20 @@ export default function LoginPage() {
             <button
               suppressHydrationWarning
               type="submit"
-              className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm shadow-emerald-600/20 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all active:scale-[0.98]"
+              disabled={isLoading}
+              className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm shadow-emerald-600/20 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
             >
-              <div className="flex items-center gap-2">
-                <span>Continue</span>
-                <ArrowRight className="w-4 h-4" />
-              </div>
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Continuing...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span>Continue</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              )}
             </button>
 
             {/* Divider */}
