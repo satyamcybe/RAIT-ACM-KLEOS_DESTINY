@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/database/prisma';
 import { CategorizationService } from '@/lib/intelligence/categorization.service';
 import { RawTransaction } from '@/lib/intelligence/types';
-
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {

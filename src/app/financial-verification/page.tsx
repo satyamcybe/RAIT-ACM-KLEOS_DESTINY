@@ -26,16 +26,11 @@ import {
   ReceiptText,
   TrendingUp,
   ChevronRight,
-  Search
+  Search,
+  MessageSquare
 } from "lucide-react";
 
 type Step = 'intro' | 'mobile_verify' | 'otp_verify' | 'select_banks' | 'discovering' | 'accounts_found' | 'linked' | 'consent' | 'processing' | 'success';
-
-const ALL_BANKS = [
-  { id: 'hdfc', name: 'HDFC Bank', icon: '🏛️' },
-  { id: 'sbi', name: 'State Bank of India', icon: '🏦' },
-  { id: 'icici', name: 'ICICI Bank', icon: '🏦' },
-];
 
 /* ─── Premium SVG Illustrations ─── */
 
@@ -132,6 +127,23 @@ const accessItems = [
 ];
 
 /* ─── Main Page Component ─── */
+
+/* ─── Premium Success Icon Animation ─── */
+function SuccessIcon() {
+  return (
+    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-emerald-50 border border-emerald-100 shadow-[0_0_25px_rgba(16,185,129,0.12)] relative overflow-hidden">
+      <svg className="w-12 h-12 text-[#1A6B47]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" className="animate-dash" style={{
+          strokeDasharray: 50,
+          strokeDashoffset: 50,
+          animation: 'dash 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s'
+        }} />
+      </svg>
+      {/* Decorative pulse waves */}
+      <div className="absolute inset-0 rounded-full border-2 border-emerald-400/20 animate-ping opacity-75 pointer-events-none" style={{ animationDuration: '2s' }}></div>
+    </div>
+  );
+}
 
 export default function FinancialVerificationPage() {
   const router = useRouter();
@@ -345,19 +357,97 @@ export default function FinancialVerificationPage() {
     if (bankLinked) {
       const runIntelligenceEngine = async () => {
         try {
-          // Send mock raw transactions to Layer 3 Engine
-          const mockTransactions = [
-            { txnId: "T1", date: "2025-01-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
-            { txnId: "T2", date: "2025-01-06", amount: 150, type: "DEBIT", narration: "SWIGGY INSTAMART" },
-            { txnId: "T3", date: "2025-01-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
-            { txnId: "T4", date: "2025-01-14", amount: 450, type: "DEBIT", narration: "ZOMATO ORDER" },
-            { txnId: "T5", date: "2025-01-16", amount: 450, type: "CREDIT", narration: "ZOMATO REFUND" },
-            { txnId: "T6", date: "2025-01-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
-            { txnId: "T7", date: "2025-01-22", amount: 1000, type: "CREDIT", narration: "TRANSFER TO OWN A/C" },
-            { txnId: "T8", date: "2025-01-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
-            { txnId: "T9", date: "2025-02-02", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
-            { txnId: "T10", date: "2025-02-09", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
-          ];
+          let mockTransactions: any[] = [];
+          
+          if (months === 3) {
+            mockTransactions = [
+              { txnId: "T1", date: "2025-01-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T2", date: "2025-01-06", amount: 150, type: "DEBIT", narration: "SWIGGY INSTAMART" },
+              { txnId: "T3", date: "2025-01-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T4", date: "2025-01-14", amount: 450, type: "DEBIT", narration: "ZOMATO ORDER" },
+              { txnId: "T5", date: "2025-01-16", amount: 450, type: "CREDIT", narration: "ZOMATO REFUND" },
+              { txnId: "T6", date: "2025-01-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T7", date: "2025-01-22", amount: 1000, type: "CREDIT", narration: "TRANSFER TO OWN A/C" },
+              { txnId: "T8", date: "2025-01-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T9", date: "2025-02-02", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T10", date: "2025-02-09", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+            ];
+          } else if (months === 6) {
+            mockTransactions = [
+              { txnId: "T1", date: "2024-09-05", amount: 3100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T2", date: "2024-09-12", amount: 2950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T3", date: "2024-09-19", amount: 3200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T4", date: "2024-09-26", amount: 3050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T5", date: "2024-10-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T6", date: "2024-10-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T7", date: "2024-10-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T8", date: "2024-10-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T9", date: "2024-11-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T10", date: "2024-11-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T11", date: "2024-11-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T12", date: "2024-11-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T13", date: "2024-12-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T14", date: "2024-12-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T15", date: "2024-12-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T16", date: "2024-12-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T17", date: "2025-01-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T18", date: "2025-01-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T19", date: "2025-01-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T20", date: "2025-01-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T21", date: "2025-02-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T22", date: "2025-02-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+            ];
+          } else {
+            // 12 months
+            mockTransactions = [
+              { txnId: "T1", date: "2024-03-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T2", date: "2024-03-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T3", date: "2024-03-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T4", date: "2024-03-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T5", date: "2024-04-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T6", date: "2024-04-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T7", date: "2024-04-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T8", date: "2024-04-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T9", date: "2024-05-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T10", date: "2024-05-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T11", date: "2024-05-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T12", date: "2024-05-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T13", date: "2024-06-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T14", date: "2024-06-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T15", date: "2024-06-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T16", date: "2024-06-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T17", date: "2024-07-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T18", date: "2024-07-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T19", date: "2024-07-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T20", date: "2024-07-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T21", date: "2024-08-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T22", date: "2024-08-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T23", date: "2024-08-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T24", date: "2024-08-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T25", date: "2024-09-05", amount: 3100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T26", date: "2024-09-12", amount: 2950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T27", date: "2024-09-19", amount: 3200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T28", date: "2024-09-26", amount: 3050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T29", date: "2024-10-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T30", date: "2024-10-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T31", date: "2024-10-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T32", date: "2024-10-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T33", date: "2024-11-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T34", date: "2024-11-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T35", date: "2024-11-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T36", date: "2024-11-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+              { txnId: "T37", date: "2024-12-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T38", date: "2024-12-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+              { txnId: "T39", date: "2024-12-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+              { txnId: "T40", date: "2024-12-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+              { txnId: "T41", date: "2025-01-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+              { txnId: "T42", date: "2025-01-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T43", date: "2025-01-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T44", date: "2025-01-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+              { txnId: "T45", date: "2025-02-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+              { txnId: "T46", date: "2025-02-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+            ];
+          }
 
           const response = await fetch('/api/intelligence', {
             method: 'POST',
@@ -374,7 +464,7 @@ export default function FinancialVerificationPage() {
       };
       runIntelligenceEngine();
     }
-  }, [bankLinked]);
+  }, [bankLinked, months]);
 
   if (bankLinked && intelligenceData) {
     return (
@@ -1125,76 +1215,90 @@ export default function FinancialVerificationPage() {
       {step === 'success' && (
         <div className="space-y-6 animate-in zoom-in-95 duration-500">
           <div 
-            className="bg-white border border-[#E2E8F0] rounded-[24px] p-8 text-center shadow-xs"
+            className="bg-white border border-[#E2E8F0] rounded-[24px] p-8 text-center shadow-md relative overflow-hidden"
             style={{
-              boxShadow: "0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04)"
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)"
             }}
           >
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F4FAF7] border-4 border-emerald-50 mb-6">
-              <span className="text-4xl animate-bounce">🎉</span>
-            </div>
+            <style>{`
+              @keyframes dash {
+                to {
+                  stroke-dashoffset: 0;
+                }
+              }
+            `}</style>
             
-            <h2 className="text-2xl font-bold text-[#0F172A] mb-6">Retrieval Summary</h2>
+            <div className="mb-8">
+              <SuccessIcon />
+            </div>
 
             {/* --- NEW DATA SOURCE METADATA SECTION --- */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-left mb-6">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Data Source Metadata</p>
-              <div className="space-y-2.5">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500">AA Provider</span>
-                  <span className="font-semibold text-slate-800">Finvu Sandbox</span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500">Financial Information Provider(s)</span>
-                  <span className="font-semibold text-slate-800">
-                    {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(a => a.bankName.split(' ')[0]).join(', ')}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500">Data Status</span>
-                  <span className="font-semibold text-emerald-600 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Retrieved Successfully
-                  </span>
+            <div className="space-y-4">
+              <div className="bg-[#F4FAF7] border border-emerald-100/50 rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xs">
+                <p className="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-3">Data Source Metadata</p>
+                <div className="space-y-2.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">AA Provider</span>
+                    <span className="font-semibold text-slate-800">Finvu Sandbox</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Financial Information Provider(s)</span>
+                    <span className="font-semibold text-slate-800">
+                      {discoveredAccounts.filter(a => selectedAccountIds.includes(a.id)).map(a => a.bankName.split(' ')[0]).join(', ')}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Data Status</span>
+                    <span className="font-semibold text-[#1A6B47] flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Retrieved Successfully
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="bg-slate-50 p-5 rounded-xl text-left space-y-4 border border-gray-100">
-              <div className="flex justify-between items-center border-b border-slate-200 pb-3">
-                <span className="text-sm font-semibold text-slate-600">Accounts Connected</span>
-                <span className="text-lg font-black text-slate-800">{selectedAccountIds.length}</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-slate-200 pb-3">
-                <span className="text-sm font-semibold text-slate-600">Selected Period</span>
-                <span className="text-lg font-black text-slate-800">Last {months} Months</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-slate-600">Transactions Retrieved</span>
-                <span className="text-lg font-black text-[#059669]">{ingestData?.totalTransactions || 0}</span>
+              <div className="bg-slate-50 p-5 rounded-2xl text-left space-y-4 border border-gray-100 transition-all duration-300 hover:shadow-xs">
+                <div className="flex justify-between items-center border-b border-slate-200/60 pb-3.5">
+                  <span className="text-sm font-semibold text-slate-600">Accounts Connected</span>
+                  <span className="text-lg font-black text-slate-800">{selectedAccountIds.length}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-slate-200/60 pb-3.5">
+                  <span className="text-sm font-semibold text-slate-600">Selected Period</span>
+                  <span className="text-lg font-black text-slate-800">Last {months} Months</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-semibold text-slate-600">Transactions Ingested</span>
+                  <span className="text-xl font-black text-[#1A6B47]">{ingestData?.totalTransactions || 0}</span>
+                </div>
               </div>
             </div>
 
             <button
-              onClick={() => router.push('/dashboard/intelligence')}
+              onClick={() => {
+                setBankLinked(true);
+                if (typeof window !== "undefined") {
+                  localStorage.setItem("PRAMAAN_bank_linked", "true");
+                }
+                router.push('/dashboard');
+              }}
               className="w-full flex items-center justify-center text-white font-semibold cursor-pointer"
               style={{
                 height: 56,
                 borderRadius: 14,
-                background: "#0F172A",
+                background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                 fontSize: 15,
                 fontWeight: 600,
-                boxShadow: "0 2px 6px rgba(15, 23, 42, 0.15)",
+                boxShadow: "0 4px 14px rgba(16, 185, 129, 0.2)",
                 border: "none",
                 transition: "all 0.2s ease-in-out",
-                marginTop: 24
+                marginTop: 28
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#000000";
                 e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(5, 150, 105, 0.25)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#0F172A";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 14px rgba(16, 185, 129, 0.2)";
               }}
             >
               Proceed To Transaction Intelligence
@@ -1207,8 +1311,8 @@ export default function FinancialVerificationPage() {
       {showOtpToast && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-10 fade-in duration-300 w-[90%] max-w-sm">
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 flex items-start gap-4">
-            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-              <span className="text-xl">💬</span>
+            <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-blue-100/50">
+              <MessageSquare className="w-5 h-5" />
             </div>
             <div>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Messages • Now</p>

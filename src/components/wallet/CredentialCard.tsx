@@ -16,10 +16,12 @@ interface CredentialCardProps {
   onShare?: () => void;
 }
 
+import { UserCheck, Coins, Award } from "lucide-react";
+
 const typeConfig = {
-  identity: { icon: "🪪", gradient: "from-emerald-500 to-teal-600", label: "Identity" },
-  financial: { icon: "💳", gradient: "from-blue-500 to-indigo-600", label: "Financial" },
-  reputation: { icon: "⭐", gradient: "from-amber-500 to-orange-600", label: "Reputation" },
+  identity: { icon: UserCheck, gradient: "from-emerald-500 to-teal-600", label: "Identity" },
+  financial: { icon: Coins, gradient: "from-blue-500 to-indigo-600", label: "Financial" },
+  reputation: { icon: Award, gradient: "from-amber-500 to-orange-600", label: "Reputation" },
 };
 
 export function CredentialCard({
@@ -33,6 +35,7 @@ export function CredentialCard({
   onShare,
 }: CredentialCardProps) {
   const config = typeConfig[type];
+  const IconComponent = config.icon;
 
   return (
     <div
@@ -48,7 +51,9 @@ export function CredentialCard({
           config.gradient
         )}
       >
-        <span className="text-2xl">{config.icon}</span>
+        <div className="p-1.5 bg-white/15 rounded-lg backdrop-blur-xs flex items-center justify-center shrink-0 border border-white/10">
+          <IconComponent className="w-5 h-5" />
+        </div>
         <div>
           <h3 className="font-semibold">{config.label} Credential</h3>
           <p className="text-xs opacity-80">Issued by {issuer}</p>

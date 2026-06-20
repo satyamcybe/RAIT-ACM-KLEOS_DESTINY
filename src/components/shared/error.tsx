@@ -14,6 +14,8 @@ interface ErrorDisplayProps {
   onRetry?: () => void;
 }
 
+import { AlertTriangle } from "lucide-react";
+
 export function ErrorDisplay({
   className,
   title = "Something went wrong",
@@ -27,8 +29,8 @@ export function ErrorDisplay({
         className
       )}
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-        <span className="text-2xl">⚠️</span>
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+        <AlertTriangle className="w-6 h-6" />
       </div>
       <div>
         <h3 className="text-lg font-semibold text-red-900">{title}</h3>
