@@ -39,7 +39,7 @@ export default function DigiLockerMock() {
 
   const [step, setStep] = useState<Step>("identifier");
   const [idType, setIdType] = useState<"mobile" | "aadhaar">("aadhaar");
-  const [identifier, setIdentifier] = useState("987654321098");
+  const [identifier, setIdentifier] = useState("");
   const [pin, setPin] = useState(["", "", "", "", "", ""]);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpFetching, setOtpFetching] = useState(false);
@@ -55,47 +55,6 @@ export default function DigiLockerMock() {
     d.setDate(d.getDate() + 30);
     return d.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
   });
-
-  // Auto-submit Step 1: Identifier
-  useEffect(() => {
-    if (step === "identifier" && identifier === "987654321098") {
-      const timer = setTimeout(() => {
-        handleIdentifierSubmit({ preventDefault: () => {} } as any);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [step, identifier]);
-
-  // Auto-submit Step 2: PIN
-  useEffect(() => {
-    if (step === "pin") {
-      const timer = setTimeout(() => {
-        setPin(["1", "2", "3", "4", "5", "6"]);
-        handlePinSubmit(undefined, ["1", "2", "3", "4", "5", "6"]);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [step]);
-
-  // Auto-submit Step 3: OTP
-  useEffect(() => {
-    if (step === "otp" && otpReady && generatedOtp) {
-      const timer = setTimeout(() => {
-        handleOtpSubmit(undefined, generatedOtp);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [step, otpReady, generatedOtp]);
-
-  // Auto-submit Step 4: Consent
-  useEffect(() => {
-    if (step === "consent") {
-      const timer = setTimeout(() => {
-        handleAllow();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [step]);
 
   const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
