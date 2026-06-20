@@ -352,7 +352,7 @@ export default function DigiLockerMock() {
               {otpReady && (
                 <div className="text-[11px] text-green-700 bg-green-50 border border-green-200 rounded px-3 py-2 flex items-center gap-2">
                   <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 shrink-0"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                  OTP auto-filled. Press <kbd className="bg-white border border-gray-300 px-1 rounded text-gray-600">Enter</kbd> to continue.
+                  OTP auto-filled — press <strong>Verify &amp; Continue</strong> to proceed.
                 </div>
               )}
 
@@ -500,7 +500,7 @@ export default function DigiLockerMock() {
       {/* Toast */}
       {toastMsg && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-xs rounded-lg px-4 py-3 shadow-xl flex items-start gap-2.5 max-w-sm w-full mx-4">
-          <span className="text-base">📱</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4 shrink-0 mt-0.5 text-gray-400"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
           <div>
             <div className="font-bold text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">DigiLocker · SMS</div>
             <div>{toastMsg}</div>
