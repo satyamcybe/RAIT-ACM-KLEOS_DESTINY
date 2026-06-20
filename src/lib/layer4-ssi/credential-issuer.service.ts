@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import { randomUUID, createHash } from 'crypto';
 
 export interface TrustCredential {
   "@context": string[];
@@ -29,8 +29,6 @@ export interface TrustCredential {
 export class CredentialIssuerService {
   /**
    * Generates a Verifiable Credential (VC) and signs it using SHA-256.
-   * In a real SSI environment, this would use a private key to generate an ECDSA/Ed25519 signature.
-   * For the Pramaan Hackathon Demo, we generate a deterministic SHA-256 hash.
    */
   static issueCredential(
     workerId: string,
@@ -39,8 +37,6 @@ export class CredentialIssuerService {
     signals: any
   ): TrustCredential {
     const issuanceDate = new Date().toISOString();
-    
-    // GIRI is derived from the score (e.g. score of 85 -> GIRI 0.85)
     const giri = score / 100;
 
     const credential: TrustCredential = {
@@ -48,7 +44,7 @@ export class CredentialIssuerService {
         "https://www.w3.org/2018/credentials/v1",
         "https://pramaan.network/credentials/v1"
       ],
-      id: `urn:uuid:${crypto.randomUUID()}`,
+      id: `urn:uuid:${randomUUID()}`,
       type: ["VerifiableCredential", "PramaanTrustCredential"],
       issuer: "did:pramaan:engine:v1",
       issuanceDate,
@@ -58,17 +54,15 @@ export class CredentialIssuerService {
         riskCategory: risk,
         gigIncomeReliabilityIndex: giri,
         metrics: {
-          weeklyConsistency: signals.weeklyConsistency,
-          monthlyIncomeStability: signals.monthlyIncomeStability,
-          gigTenureMonths: signals.gigTenureMonths,
+          weeklyConsistency: signals.weeklyConsistency || 0,
+          monthlyIncomeStability: signals.monthlyIncomeStability || 0,
+          gigTenureMonths: signals.gigTenureMonths || 12,
         }
       }
     };
 
-    // Generate Cryptographic Hash (SSI Signature Simulation)
-    // We stringify the payload deterministically to create the hash
     const payloadString = JSON.stringify(credential.credentialSubject);
-    const hash = crypto.createHash('sha256').update(payloadString).digest('hex');
+    const hash = createHash('sha256').update(payloadString).digest('hex');
 
     credential.proof = {
       type: "PramaanCryptographicHash2026",
@@ -81,3 +75,4 @@ export class CredentialIssuerService {
     return credential;
   }
 }
+

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { otpStore } from '@/lib/otpStore';
 
-
 export async function POST(request: Request) {
   try {
     const { mobile } = await request.json();

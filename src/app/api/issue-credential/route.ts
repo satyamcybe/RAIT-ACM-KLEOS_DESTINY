@@ -51,6 +51,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error('Credential Issuance Error:', error);
-    return NextResponse.json({ error: 'Failed to issue credential' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to issue credential', details: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
