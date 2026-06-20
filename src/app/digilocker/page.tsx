@@ -187,24 +187,29 @@ export default function DigiLockerMock() {
             <p className="text-[10px] text-gray-400 text-center">Document Wallet to Empower Citizens</p>
           </div>
         ) : (
-          // Consent header — DigiLocker + Shield + PRAMAAN
+          // Consent header — DigiLocker + Shield + PRAMAAN logo
           <div className="bg-white px-6 py-4 border-b border-gray-100">
             <div className="flex items-center justify-between">
               <DigiLockerLogo className="h-9 w-auto" />
-              <div className="flex flex-col items-center">
-                {/* Shield verified icon */}
-                <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8">
-                  <path d="M12 2L4 6v6c0 5.52 3.41 10.69 8 12 4.59-1.31 8-6.48 8-12V6l-8-4z" fill="#22c55e"/>
-                  <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              {/* PRAMAAN logo */}
-              <div className="flex items-center gap-1.5">
-                <div className="w-7 h-7 rounded bg-[#1A6B47] flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" fill="white" className="w-4 h-4"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                </div>
-                <span className="font-bold text-sm text-[#1A6B47] tracking-wider">PRAMAAN</span>
-              </div>
+              {/* Shield verified icon */}
+              <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8">
+                <path d="M12 2L4 6v6c0 5.52 3.41 10.69 8 12 4.59-1.31 8-6.48 8-12V6l-8-4z" fill="#22c55e"/>
+                <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {/* PRAMAAN actual logo */}
+              <img
+                src="/logo-text.png"
+                alt="PRAMAAN"
+                className="h-8 w-auto object-contain"
+                style={{ mixBlendMode: "multiply" }}
+              />
+            </div>
+            {/* Mock disclaimer */}
+            <div className="mt-3 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              <div className="w-4 h-4 rounded-full bg-amber-400 text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">i</div>
+              <p className="text-[10px] text-amber-700 leading-relaxed">
+                <strong>Demo Mode:</strong> This is a simulated DigiLocker authorization screen for the PRAMAAN prototype. No real data is shared.
+              </p>
             </div>
           </div>
         )}
