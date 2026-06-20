@@ -117,7 +117,7 @@ export default function HeroSection() {
 
           {/* 3D Delivery Worker Character in the center */}
           <div 
-            className="relative z-10 w-[460px] md:w-[520px] transition-transform duration-300 ease-out"
+            className="relative z-10 w-[506px] md:w-[572px] transition-transform duration-300 ease-out"
             style={{
               transform: `translate(${mouseOffset.x * 0.5}px, ${mouseOffset.y * 0.5}px)`,
             }}
