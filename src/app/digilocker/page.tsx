@@ -38,8 +38,8 @@ export default function DigiLockerMock() {
   const router = useRouter();
 
   const [step, setStep] = useState<Step>("identifier");
-  const [idType, setIdType] = useState<"mobile" | "aadhaar">("mobile");
-  const [identifier, setIdentifier] = useState("");
+  const [idType, setIdType] = useState<"mobile" | "aadhaar">("aadhaar");
+  const [identifier, setIdentifier] = useState("987654321098");
   const [pin, setPin] = useState(["", "", "", "", "", ""]);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpFetching, setOtpFetching] = useState(false);
@@ -55,6 +55,47 @@ export default function DigiLockerMock() {
     d.setDate(d.getDate() + 30);
     return d.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
   });
+
+  // Auto-submit Step 1: Identifier
+  useEffect(() => {
+    if (step === "identifier" && identifier === "987654321098") {
+      const timer = setTimeout(() => {
+        handleIdentifierSubmit({ preventDefault: () => {} } as any);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step, identifier]);
+
+  // Auto-submit Step 2: PIN
+  useEffect(() => {
+    if (step === "pin") {
+      const timer = setTimeout(() => {
+        setPin(["1", "2", "3", "4", "5", "6"]);
+        handlePinSubmit(undefined, ["1", "2", "3", "4", "5", "6"]);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
+
+  // Auto-submit Step 3: OTP
+  useEffect(() => {
+    if (step === "otp" && otpReady && generatedOtp) {
+      const timer = setTimeout(() => {
+        handleOtpSubmit(undefined, generatedOtp);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step, otpReady, generatedOtp]);
+
+  // Auto-submit Step 4: Consent
+  useEffect(() => {
+    if (step === "consent") {
+      const timer = setTimeout(() => {
+        handleAllow();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -102,8 +143,8 @@ export default function DigiLockerMock() {
   };
 
   // ── Step 1: Identifier Submit ──
-  const handleIdentifierSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleIdentifierSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     const minLen = idType === "aadhaar" ? 12 : 10;
     if (identifier.replace(/\s/g, "").length < minLen) {
       setError(`Enter a valid ${idType === "aadhaar" ? "12-digit Aadhaar" : "10-digit mobile"} number.`);
@@ -114,16 +155,17 @@ export default function DigiLockerMock() {
   };
 
   // ── Step 2: PIN Submit ──
-  const handlePinSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pin.join("").length < 6) { setError("Enter your 6-digit Security PIN."); return; }
+  const handlePinSubmit = (e?: React.FormEvent, customPin?: string[]) => {
+    if (e) e.preventDefault();
+    const pinToVerify = customPin || pin;
+    if (pinToVerify.join("").length < 6) { setError("Enter your 6-digit Security PIN."); return; }
     // Auto-fetch OTP
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedOtp(code);
     setStep("otp");
     setOtpFetching(true);
     setOtpReady(false);
-    // Simulate OTP being fetched/sent ~2.2s
+    // Simulate OTP being fetched/sent ~300ms
     setTimeout(() => {
       setOtpFetching(false);
       setOtpReady(true);
@@ -132,13 +174,13 @@ export default function DigiLockerMock() {
       showToast(`DigiLocker OTP: ${code} has been sent to your registered mobile.`);
       // Focus last box so user just hits Enter
       setTimeout(() => otpRefs.current[5]?.focus(), 100);
-    }, 2200);
+    }, 300);
   };
 
   // ── Step 3: OTP Submit ──
-  const handleOtpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const entered = otp.join("");
+  const handleOtpSubmit = (e?: React.FormEvent, customOtp?: string) => {
+    if (e) e.preventDefault();
+    const entered = customOtp || otp.join("");
     if (entered.length < 6) { setError("Waiting for OTP…"); return; }
     if (entered !== generatedOtp) { setError(`Wrong OTP. (Hint: ${generatedOtp})`); return; }
     setStep("consent");
@@ -151,7 +193,7 @@ export default function DigiLockerMock() {
       setIdentityVerified(true);
       if (typeof window !== "undefined") localStorage.setItem("PRAMAAN_identity_verified", "true");
       window.location.href = "/api/digilocker/callback?code=mock_oauth_code_xyz789";
-    }, 1500);
+    }, 300);
   };
 
   const toggleDoc = (id: number) => {
@@ -352,7 +394,7 @@ export default function DigiLockerMock() {
               {otpReady && (
                 <div className="text-[11px] text-green-700 bg-green-50 border border-green-200 rounded px-3 py-2 flex items-center gap-2">
                   <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 shrink-0"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                  OTP auto-filled. Press <kbd className="bg-white border border-gray-300 px-1 rounded text-gray-600">Enter</kbd> to continue.
+                  OTP auto-filled — press <strong>Verify &amp; Continue</strong> to proceed.
                 </div>
               )}
 
@@ -500,7 +542,7 @@ export default function DigiLockerMock() {
       {/* Toast */}
       {toastMsg && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-xs rounded-lg px-4 py-3 shadow-xl flex items-start gap-2.5 max-w-sm w-full mx-4">
-          <span className="text-base">📱</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4 shrink-0 mt-0.5 text-gray-400"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
           <div>
             <div className="font-bold text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">DigiLocker · SMS</div>
             <div>{toastMsg}</div>

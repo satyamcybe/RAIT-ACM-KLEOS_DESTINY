@@ -151,7 +151,7 @@ export default function FinancialVerificationPage() {
   const [step, setStep] = useState<Step>('intro');
   
   // State for user choices
-  const [mobile, setMobile] = useState("");
+  const [mobile, setMobile] = useState("9876543210");
   const [otp, setOtp] = useState("");
   const [selectedFips, setSelectedFips] = useState<string[]>([]);
   const [discoveredAccounts, setDiscoveredAccounts] = useState<any[]>([]);
@@ -205,18 +205,45 @@ export default function FinancialVerificationPage() {
         setReceivedOtp(data.otp);
         setShowOtpToast(true);
         
-        // Auto-read SMS simulation
+        // Auto-read SMS simulation and instant verify
         setTimeout(() => {
           setOtp(data.otp);
           setShowOtpToast(false);
-          // Optional: Auto submit could go here, but let's just auto-fill for visual effect
-        }, 2500);
+          
+          // Auto submit to verify immediately
+          setIsLoading(true);
+          fetch('/api/otp/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mobile, otp: data.otp })
+          }).then(res => res.json()).then(verifyData => {
+            if (verifyData.success) {
+              setStep('select_banks');
+            } else {
+              setError(verifyData.error || "Invalid OTP");
+            }
+            setIsLoading(false);
+          }).catch(() => {
+            setError("Network error. Please try again.");
+            setIsLoading(false);
+          });
+        }, 300);
       }
     } catch (err) {
       setError("Network error. Please try again.");
       setIsLoading(false);
     }
   };
+
+  // Auto-submit mobile step
+  useEffect(() => {
+    if (step === 'mobile_verify' && mobile === "9876543210") {
+      const timer = setTimeout(() => {
+        handleMobileSubmit();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [step, mobile]);
 
   const handleOtpSubmit = async () => {
     if (otp.length < 6) {
