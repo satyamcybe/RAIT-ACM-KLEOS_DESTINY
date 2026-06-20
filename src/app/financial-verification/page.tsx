@@ -646,26 +646,25 @@ export default function FinancialVerificationPage() {
           {/* Left Column: Info & Action */}
           <div className="space-y-6 text-left">
             <div className="relative z-10">
-              {/* Illustration container */}
+              {/* Illustration container - premium glow and animation */}
               <div
-                className="mb-4 flex items-center justify-center rounded-2xl"
+                className="mb-6 flex items-center justify-center rounded-2xl border border-emerald-200/60 shadow-[0_4px_20px_rgba(16,185,129,0.12)] relative overflow-hidden group-hover:scale-105 transition-transform duration-350"
                 style={{
                   width: 72,
                   height: 72,
                   background: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)",
-                  boxShadow: "0 2px 10px rgba(16, 185, 129, 0.08)",
                 }}
               >
+                <div className="absolute inset-0 bg-emerald-400/5 animate-pulse pointer-events-none"></div>
                 <FinancialIllustration />
               </div>
 
-              {/* Title */}
+              {/* Title - Gradient text */}
               <h1
-                className="font-bold text-gray-900"
+                className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-[#114B31]"
                 style={{
-                  fontSize: "clamp(28px, 4vw, 36px)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.02em",
+                  fontSize: "clamp(30px, 4vw, 40px)",
+                  letterSpacing: "-0.03em",
                   lineHeight: 1.1,
                 }}
               >
@@ -673,15 +672,17 @@ export default function FinancialVerificationPage() {
               </h1>
 
               {/* Subtitle */}
-              <p className="mt-3 text-slate-500 text-sm leading-relaxed">
+              <p className="mt-3 text-slate-500 text-sm leading-relaxed font-medium">
                 Link your bank account via Account Aggregator to build your portable reputation credential.
               </p>
             </div>
 
-            {/* Consent Details Banner */}
-            <div className="bg-emerald-50/30 rounded-xl p-4 flex gap-3 items-start border border-emerald-100/50 relative z-10">
-              <ShieldCheck className="w-5 h-5 text-[#059669] shrink-0 mt-0.5" />
-              <p className="text-xs text-slate-600 leading-relaxed">
+            {/* Consent Details Banner - Glassmorphism Card */}
+            <div className="bg-emerald-50/50 backdrop-blur-xs rounded-2xl p-4 flex gap-3.5 items-start border border-emerald-100/80 shadow-xs relative z-10 hover:bg-emerald-50/70 transition-all duration-300">
+              <div className="bg-emerald-100/80 p-1.5 rounded-lg shrink-0">
+                <ShieldCheck className="w-5 h-5 text-[#059669]" />
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
                 This request is consent-based. We only read data to generate your credential. Your credentials can be revoked anytime from your dashboard.
               </p>
             </div>
@@ -689,24 +690,24 @@ export default function FinancialVerificationPage() {
             {/* Connect Bank Button */}
             <button
               onClick={() => setStep('mobile_verify')}
-              className="group relative z-10 w-full flex items-center justify-center gap-3 text-white font-semibold cursor-pointer"
+              className="group relative z-10 w-full flex items-center justify-center gap-3 text-white font-semibold cursor-pointer active:scale-[0.98]"
               style={{
                 height: 56,
                 borderRadius: 16,
                 background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                 fontSize: 16,
                 fontWeight: 600,
-                boxShadow: "0 2px 8px rgba(16, 185, 129, 0.25)",
+                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.25)",
                 border: "none",
                 transition: "all 0.2s ease-in-out",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-1px)";
-                e.currentTarget.style.boxShadow = "0 6px 15px rgba(5, 150, 105, 0.2)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(5, 150, 105, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 2px 8px rgba(16, 185, 129, 0.25)";
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(16, 185, 129, 0.25)";
               }}
             >
               <Landmark size={20} className="stroke-[2] opacity-90" />
@@ -717,20 +718,23 @@ export default function FinancialVerificationPage() {
 
           {/* Right Column: Access List Card */}
           <div
-            className="relative z-10 bg-white border border-[#E2E8F0] rounded-3xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
+            className="relative z-10 bg-white border border-[#E2E8F0] rounded-[28px] p-8 shadow-[0_10px_35px_rgba(16,185,129,0.04)] hover:shadow-[0_12px_40px_rgba(16,185,129,0.06)] transition-all duration-300"
           >
-            <h3 className="text-base font-semibold text-gray-900 mb-3 text-left">
-              What we&apos;ll access
-            </h3>
-            <div className="space-y-3">
+            <div className="flex items-center gap-2 mb-5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h3 className="text-base font-bold text-gray-900 text-left tracking-tight">
+                Secure Data Access Request
+              </h3>
+            </div>
+            <div className="space-y-4">
               {accessItems.map((item, idx) => (
                 <div key={item.label} className="group">
                   <div
-                    className="flex items-start gap-4 py-3 px-2 rounded-xl transition-colors duration-250 hover:bg-slate-50/50"
+                    className="flex items-start gap-4 py-3.5 px-3 rounded-2xl hover:bg-[#F8FAFC] border border-transparent hover:border-slate-100 transition-all duration-200 hover:-translate-y-0.5"
                   >
                     {/* Icon container */}
                     <div
-                      className={`flex items-center justify-center shrink-0 ${item.bgColor} border ${item.borderColor}`}
+                      className={`flex items-center justify-center shrink-0 ${item.bgColor} border ${item.borderColor} shadow-xs group-hover:scale-105 transition-transform duration-200`}
                       style={{
                         width: 44,
                         height: 44,
@@ -741,24 +745,10 @@ export default function FinancialVerificationPage() {
                     </div>
                     {/* Text */}
                     <div className="pt-0.5 text-left">
-                      <p
-                        style={{
-                          fontWeight: 600,
-                          fontSize: 14,
-                          color: "#0F172A",
-                          marginBottom: 2,
-                        }}
-                      >
+                      <p className="font-bold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors">
                         {item.label}
                       </p>
-                      <p
-                        style={{
-                          fontWeight: 400,
-                          fontSize: 12,
-                          color: "#64748B",
-                          lineHeight: 1.4,
-                        }}
-                      >
+                      <p className="font-semibold text-xs text-slate-400 mt-1 leading-normal">
                         {item.desc}
                       </p>
                     </div>
