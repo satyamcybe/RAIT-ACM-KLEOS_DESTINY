@@ -1,12 +1,73 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useMockData } from "@/lib/context/MockDataContext";
 import { generateIntelligence, rawMockTransactions } from "@/lib/score-engine";
-import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2, User } from "lucide-react";
+import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2, Fingerprint, Award, CheckCircle2, User } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, identityVerified, bankLinked } = useMockData();
-  const intelligence = generateIntelligence(rawMockTransactions);
+  const intelligence = generateIntelligence(rawMockTransactions); // Keeping this for the transactions table only
+
+  const [layer3Signals, setLayer3Signals] = useState<any>(null);
+  const [credential, setCredential] = useState<any>(null);
+  const [isIssuing, setIsIssuing] = useState(false);
+
+  useEffect(() => {
+    // For demo purposes, we fetch the 12-month mock transaction intelligence
+    // so we have authentic Layer 3 signals to feed to Layer 4
+    const fetchIntelligence = async () => {
+      try {
+        const mockTransactions = [
+          { txnId: "T1", date: "2024-03-05", amount: 2100, type: "CREDIT", narration: "ZOMATO PRIVATE LIMITED" },
+          { txnId: "T2", date: "2024-03-12", amount: 1950, type: "CREDIT", narration: "ZOMATO PVT LTD" },
+          { txnId: "T3", date: "2024-03-19", amount: 2200, type: "CREDIT", narration: "ZMT FOOD" },
+          { txnId: "T4", date: "2024-03-26", amount: 2050, type: "CREDIT", narration: "ZOMATO MEDIA" },
+          { txnId: "T5", date: "2024-04-05", amount: 2500, type: "CREDIT", narration: "BUNDL TECHNOLOGIES" },
+          { txnId: "T6", date: "2024-04-12", amount: 2400, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+          { txnId: "T7", date: "2024-04-19", amount: 2600, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+          { txnId: "T8", date: "2024-04-26", amount: 2700, type: "CREDIT", narration: "SWIGGY PAYOUT" },
+          { txnId: "T9", date: "2024-05-05", amount: 1500, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+          { txnId: "T10", date: "2024-05-12", amount: 1600, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+          { txnId: "T11", date: "2024-05-19", amount: 1400, type: "CREDIT", narration: "RAPIDO PAYOUT" },
+          { txnId: "T12", date: "2024-05-26", amount: 1800, type: "CREDIT", narration: "RAPIDO PAYOUT" }
+        ];
+
+        const response = await fetch('/api/intelligence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ workerId: "mock-worker-123", transactions: mockTransactions })
+        });
+        const result = await response.json();
+        if (result.success) {
+          setLayer3Signals(result.data.behaviouralSignals);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    if (bankLinked) fetchIntelligence();
+  }, [bankLinked]);
+
+  const issueCredential = async () => {
+    if (!layer3Signals) return;
+    setIsIssuing(true);
+    try {
+      const response = await fetch('/api/issue-credential', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workerId: "mock-worker-123", signals: layer3Signals })
+      });
+      const result = await response.json();
+      if (result.success) {
+        setTimeout(() => setCredential(result.data), 1500); // Small delay for UX effect
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setTimeout(() => setIsIssuing(false), 1500);
+    }
+  };
 
   if (!identityVerified || !bankLinked) {
     return (
@@ -30,11 +91,49 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Pramaan Dashboard</h1>
           <p className="text-gray-500 mt-1">Your Gig Worker Trust & Financial Profile</p>
         </div>
-        <div className="flex items-center gap-2 bg-[#E8F3ED] px-4 py-2 rounded-full border border-[#1A6B47]/20">
-          <ShieldCheck className="w-4 h-4 text-[#1A6B47]" />
-          <span className="text-sm font-bold text-[#1A6B47]">Profile Verified</span>
+        <div className="flex flex-col gap-2 items-end">
+          <div className="flex items-center gap-2 bg-[#E8F3ED] px-4 py-2 rounded-full border border-[#1A6B47]/20">
+            <ShieldCheck className="w-4 h-4 text-[#1A6B47]" />
+            <span className="text-sm font-bold text-[#1A6B47]">Profile Verified</span>
+          </div>
+          {!credential && (
+            <button 
+              onClick={issueCredential}
+              disabled={isIssuing || !layer3Signals}
+              className="flex items-center gap-2 bg-[#0F172A] hover:bg-slate-800 text-white px-4 py-2 rounded-full text-sm font-bold transition-all shadow-sm disabled:opacity-70"
+            >
+              <Fingerprint className={`w-4 h-4 ${isIssuing ? 'animate-pulse text-emerald-400' : ''}`} />
+              {isIssuing ? "Generating Cryptographic SSI..." : "Issue Trust Credential"}
+            </button>
+          )}
         </div>
       </div>
+
+      {/* SSI CREDENTIAL ISSUED BANNER */}
+      {credential && (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-in slide-in-from-top-4 duration-500">
+          <div className="flex items-start gap-4">
+            <div className="bg-emerald-100 p-3 rounded-xl">
+              <Award className="w-8 h-8 text-emerald-700" />
+            </div>
+            <div>
+              <h3 className="font-bold text-emerald-900 flex items-center gap-2">
+                Verifiable Credential Issued <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </h3>
+              <p className="text-xs text-emerald-700 font-medium mt-1">
+                Issuer: {credential.credential.issuer} <br/>
+                DID: {credential.credential.credentialSubject.id}
+              </p>
+            </div>
+          </div>
+          <div className="bg-white/60 p-3 rounded-lg border border-emerald-100 max-w-xs overflow-hidden">
+            <p className="text-[10px] font-bold text-emerald-800 uppercase mb-1">Cryptographic Hash (SHA-256)</p>
+            <p className="text-xs font-mono text-emerald-600 truncate" title={credential.credential.proof.proofValue}>
+              {credential.credential.proof.proofValue}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
         
@@ -68,15 +167,15 @@ export default function DashboardPage() {
               <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Pramaan Trust Score</h3>
               <div className="flex items-end gap-3 mt-2">
                 <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">
-                  {intelligence.pramaanScore}
+                  {credential ? credential.score : (layer3Signals ? "84" : "--")}
                 </span>
-                <span className="text-xl font-bold text-slate-500 mb-1">/ 900</span>
+                <span className="text-xl font-bold text-slate-500 mb-1">/ 100</span>
               </div>
             </div>
             <div className="bg-slate-800/50 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-700">
               <p className="text-xs text-slate-400 uppercase font-bold tracking-wider text-center">Credit Risk</p>
-              <p className={`text-lg font-black text-center ${intelligence.riskCategory === 'LOW' ? 'text-emerald-400' : intelligence.riskCategory === 'MEDIUM' ? 'text-yellow-400' : 'text-red-400'}`}>
-                {intelligence.riskCategory}
+              <p className={`text-lg font-black text-center ${(credential ? credential.risk : intelligence.riskCategory) === 'LOW' ? 'text-emerald-400' : 'text-yellow-400'}`}>
+                {credential ? credential.risk : intelligence.riskCategory}
               </p>
             </div>
           </div>
@@ -89,14 +188,14 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/50">
-              <p className="text-xs text-slate-400 font-semibold mb-1">Expense Ratio</p>
+              <p className="text-xs text-slate-400 font-semibold mb-1">GIRI Index</p>
               <p className="text-lg font-bold text-white flex items-center gap-1">
-                <TrendingDown className="w-4 h-4 text-rose-400" /> {intelligence.expenseRatio}%
+                <TrendingUp className="w-4 h-4 text-teal-400" /> {credential ? credential.credential.credentialSubject.gigIncomeReliabilityIndex.toFixed(2) : "0.84"}
               </p>
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/50">
               <p className="text-xs text-slate-400 font-semibold mb-1">Income Regularity</p>
-              <p className="text-lg font-bold text-emerald-400">{intelligence.salaryRegularity}</p>
+              <p className="text-lg font-bold text-emerald-400">{layer3Signals ? `${layer3Signals.weeklyConsistency}%` : intelligence.salaryRegularity}</p>
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/50">
               <p className="text-xs text-slate-400 font-semibold mb-1">Top Payer</p>
