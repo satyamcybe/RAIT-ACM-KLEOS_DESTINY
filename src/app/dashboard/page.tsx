@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { useMockData } from "@/lib/context/MockDataContext";
 import { generateIntelligence, rawMockTransactions } from "@/lib/score-engine";
 import { ScoreCalculatorService } from "@/lib/layer4-ssi/score-calculator.service";
-import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2, Fingerprint, Award, CheckCircle2, User } from "lucide-react";
+import { Layer3Simulation } from "@/components/dashboard/layer3-simulation";
+import { ExportCredentialsModal } from "@/components/dashboard/export-credentials-modal";
+import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2, Fingerprint, Award, CheckCircle2, User, Download } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, identityVerified, bankLinked } = useMockData();
@@ -18,6 +20,15 @@ export default function DashboardPage() {
   const calculatedRisk = calculatedScore !== null ? ScoreCalculatorService.determineRiskCategory(calculatedScore) : null;
   const calculatedGiri = calculatedScore !== null ? calculatedScore / 100 : null;
 
+  const [showSimulation, setShowSimulation] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+
+  useEffect(() => {
+    // Only run simulation once per session when bank is linked
+    if (bankLinked && !sessionStorage.getItem("simulationDone")) {
+      setShowSimulation(true);
+    }
+  }, [bankLinked]);
 
   useEffect(() => {
     // For demo purposes, we fetch the 12-month mock transaction intelligence
@@ -52,8 +63,8 @@ export default function DashboardPage() {
         console.error(err);
       }
     };
-    if (bankLinked) fetchIntelligence();
-  }, [bankLinked]);
+    if (bankLinked && !showSimulation) fetchIntelligence();
+  }, [bankLinked, showSimulation]);
 
   const issueCredential = async () => {
     if (!layer3Signals) return;
@@ -88,6 +99,17 @@ export default function DashboardPage() {
     );
   }
 
+  if (showSimulation) {
+    return (
+      <Layer3Simulation 
+        onComplete={() => {
+          sessionStorage.setItem("simulationDone", "true");
+          setShowSimulation(false);
+        }} 
+      />
+    );
+  }
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-10 animate-in fade-in duration-700">
       
@@ -102,7 +124,7 @@ export default function DashboardPage() {
             <ShieldCheck className="w-4 h-4 text-[#1A6B47]" />
             <span className="text-sm font-bold text-[#1A6B47]">Profile Verified</span>
           </div>
-          {!credential && (
+          {!credential ? (
             <button 
               onClick={issueCredential}
               disabled={isIssuing || !layer3Signals}
@@ -110,6 +132,14 @@ export default function DashboardPage() {
             >
               <Fingerprint className={`w-4 h-4 ${isIssuing ? 'animate-pulse text-emerald-400' : ''}`} />
               {isIssuing ? "Generating Cryptographic SSI..." : "Issue Trust Credential"}
+            </button>
+          ) : (
+            <button 
+              onClick={() => setShowExportModal(true)}
+              className="flex items-center gap-2 bg-[#1A6B47] hover:bg-[#0D3D28] text-white px-4 py-2 rounded-full text-sm font-bold transition-all shadow-md animate-in slide-in-from-right-4"
+            >
+              <Download className="w-4 h-4" />
+              Download & Export
             </button>
           )}
         </div>
@@ -232,6 +262,11 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      <ExportCredentialsModal 
+        isOpen={showExportModal} 
+        onClose={() => setShowExportModal(false)} 
+        credential={credential}
+      />
 
     </div>
   );
