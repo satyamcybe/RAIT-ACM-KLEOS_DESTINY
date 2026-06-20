@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useMockData } from "@/lib/context/MockDataContext";
 import { generateIntelligence, rawMockTransactions } from "@/lib/score-engine";
+import { ScoreCalculatorService } from "@/lib/layer4-ssi/score-calculator.service";
 import { ShieldCheck, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, Briefcase, Calendar, Fuel, Utensils, Zap, Coffee, Building2, Fingerprint, Award, CheckCircle2, User } from "lucide-react";
 
 export default function DashboardPage() {
@@ -12,6 +13,11 @@ export default function DashboardPage() {
   const [layer3Signals, setLayer3Signals] = useState<any>(null);
   const [credential, setCredential] = useState<any>(null);
   const [isIssuing, setIsIssuing] = useState(false);
+
+  const calculatedScore = layer3Signals ? ScoreCalculatorService.calculatePramaanScore(layer3Signals) : null;
+  const calculatedRisk = calculatedScore !== null ? ScoreCalculatorService.determineRiskCategory(calculatedScore) : null;
+  const calculatedGiri = calculatedScore !== null ? calculatedScore / 100 : null;
+
 
   useEffect(() => {
     // For demo purposes, we fetch the 12-month mock transaction intelligence
@@ -167,15 +173,15 @@ export default function DashboardPage() {
               <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Pramaan Trust Score</h3>
               <div className="flex items-end gap-3 mt-2">
                 <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">
-                  {credential ? credential.score : (layer3Signals ? "84" : "--")}
+                  {credential ? credential.score : (calculatedScore !== null ? calculatedScore : "--")}
                 </span>
                 <span className="text-xl font-bold text-slate-500 mb-1">/ 100</span>
               </div>
             </div>
             <div className="bg-slate-800/50 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-700">
               <p className="text-xs text-slate-400 uppercase font-bold tracking-wider text-center">Credit Risk</p>
-              <p className={`text-lg font-black text-center ${(credential ? credential.risk : intelligence.riskCategory) === 'LOW' ? 'text-emerald-400' : 'text-yellow-400'}`}>
-                {credential ? credential.risk : intelligence.riskCategory}
+              <p className={`text-lg font-black text-center ${(credential ? credential.risk : calculatedRisk) === 'LOW' ? 'text-emerald-400' : 'text-yellow-400'}`}>
+                {credential ? credential.risk : (calculatedRisk || intelligence.riskCategory)}
               </p>
             </div>
           </div>
@@ -190,7 +196,7 @@ export default function DashboardPage() {
             <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/50">
               <p className="text-xs text-slate-400 font-semibold mb-1">GIRI Index</p>
               <p className="text-lg font-bold text-white flex items-center gap-1">
-                <TrendingUp className="w-4 h-4 text-teal-400" /> {credential ? credential.credential.credentialSubject.gigIncomeReliabilityIndex.toFixed(2) : "0.84"}
+                <TrendingUp className="w-4 h-4 text-teal-400" /> {credential ? credential.credential.credentialSubject.gigIncomeReliabilityIndex.toFixed(2) : (calculatedGiri !== null ? calculatedGiri.toFixed(2) : "0.84")}
               </p>
             </div>
             <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/50">
