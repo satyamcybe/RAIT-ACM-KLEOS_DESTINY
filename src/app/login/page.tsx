@@ -243,11 +243,6 @@ export default function LoginPage() {
       </div>
       
       <div className="mt-8 text-center relative z-10 flex flex-col items-center gap-2">
-        <img 
-          src="/logo-text.png" 
-          alt="PRAMAAN Logo" 
-          className="h-12 w-auto object-contain mix-blend-multiply logo-brand-green"
-        />
         <p className="text-xs text-gray-400 font-medium">
           Powered by <span className="text-gray-500">Pramaan Trust Infrastructure</span>
         </p>
