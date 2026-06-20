@@ -7,6 +7,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { User } from "lucide-react";
 
 interface NavbarProps {
   className?: string;
@@ -35,8 +36,8 @@ export function Navbar({ className }: NavbarProps) {
         {/* User Menu */}
         <div className="flex items-center gap-3">
           {/* TODO: Replace with Clerk UserButton */}
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-sm font-medium text-emerald-700">
-            D
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100/80 text-emerald-700 border border-emerald-200/50 shadow-xs">
+            <User className="w-4.5 h-4.5" />
           </div>
         </div>
       </div>

@@ -6,24 +6,10 @@ export async function POST() {
   try {
     const userId = await getAuthUserId();
     
-    // Find mock worker and reset their status in db
-    const worker = await prisma.worker.findUnique({ where: { clerkUserId: userId } });
-    if (worker) {
-      await prisma.worker.update({
-        where: { id: worker.id },
-        data: {
-          aadhaarVerified: false,
-          eshramVerified: false,
-          profileComplete: false,
-          verificationStatus: "pending",
-        }
-      });
-      
-      // Delete financial profile if it exists
-      await prisma.financialProfile.deleteMany({
-        where: { workerId: worker.id }
-      });
-    }
+    // Delete mock worker from db (cascade deletes all related verification profiles, financial profiles, etc.)
+    await prisma.worker.deleteMany({
+      where: { clerkUserId: userId }
+    });
 
     return NextResponse.json({ success: true, message: "Demo reset successful" });
   } catch (error: any) {
