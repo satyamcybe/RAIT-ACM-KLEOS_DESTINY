@@ -35,10 +35,12 @@ export function Navbar({ className }: NavbarProps) {
 
         {/* User Menu */}
         <div className="flex items-center gap-3">
-          {/* TODO: Replace with Clerk UserButton */}
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100/80 text-emerald-700 border border-emerald-200/50 shadow-xs">
+          <Link 
+            href="/settings" 
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100/80 text-emerald-700 border border-emerald-200/50 shadow-xs hover:bg-emerald-200 transition-colors cursor-pointer"
+          >
             <User className="w-4.5 h-4.5" />
-          </div>
+          </Link>
         </div>
       </div>
     </header>
