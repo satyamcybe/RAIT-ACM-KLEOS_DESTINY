@@ -1,51 +1,60 @@
 import { NormalizedTransaction, PlatformDetectedTransaction } from './types';
+import { VectorEngine } from './vector-engine';
 
-const PLATFORM_DICTIONARY: Record<string, string[]> = {
-  ZOMATO: ['zomato', 'zmt food', 'zomato private limited', 'zomato media'],
-  SWIGGY: ['swiggy', 'bundl technologies', 'swiggy payout'],
-  RAPIDO: ['rapido', 'roppen transportation', 'rapido payout'],
-  UBER: ['uber', 'uber india', 'uber systems'],
-  OLA: ['ola', 'ani technologies', 'ola cabs'],
-  BLINKIT: ['blinkit', 'grofers', 'blink commerce'],
-  ZEPTO: ['zepto', 'kiranakart'],
-  PORTER: ['porter', 'smartshift'],
-  AMAZON_FLEX: ['amazon flex', 'amazon transportation'],
+const PLATFORM_SIGNATURES: Record<string, string> = {
+  ZOMATO: 'zomato private limited food payout',
+  SWIGGY: 'swiggy bundl technologies payout',
+  RAPIDO: 'rapido roppen transportation payout',
+  UBER: 'uber india systems driver',
+  OLA: 'ola ani technologies cabs',
+  BLINKIT: 'blinkit grofers commerce',
+  ZEPTO: 'zepto kiranakart delivery',
+  PORTER: 'porter smartshift',
+  AMAZON_FLEX: 'amazon flex transportation',
 };
+
+const SIMILARITY_THRESHOLD = 0.45; // Tuned for N-gram matching on short strings
 
 export class PlatformDetectionService {
   /**
    * Identifies gig platforms in the transaction narration using
-   * dictionary matching and simple substring inclusion.
+   * Mathematical Vector Embeddings (TF-IDF N-grams & Cosine Similarity)
+   * This naturally handles typos, variable account names, and dynamic aliases.
    */
   static detect(transactions: NormalizedTransaction[]): PlatformDetectedTransaction[] {
     return transactions.map(txn => {
       const text = txn.normalizedNarration;
-      let detectedPlatform = 'UNKNOWN';
-      let confidence = 0;
+      let bestPlatform = 'UNKNOWN';
+      let highestSimilarity = 0;
 
-      for (const [platform, aliases] of Object.entries(PLATFORM_DICTIONARY)) {
-        for (const alias of aliases) {
-          if (text.includes(alias)) {
-            detectedPlatform = platform;
-            
-            // Higher confidence for longer/more specific matches
-            if (text === alias) {
-              confidence = 100;
-            } else if (text.startsWith(alias) || text.endsWith(alias)) {
-              confidence = 90;
-            } else {
-              confidence = 80;
-            }
-            break; // Stop at first alias match for this platform
+      for (const [platform, signature] of Object.entries(PLATFORM_SIGNATURES)) {
+        // Calculate Cosine Similarity between the incoming narration vector and the platform signature vector
+        const similarity = VectorEngine.cosineSimilarity(text, signature);
+        
+        if (similarity > highestSimilarity) {
+          highestSimilarity = similarity;
+          if (similarity >= SIMILARITY_THRESHOLD) {
+            bestPlatform = platform;
           }
         }
-        if (detectedPlatform !== 'UNKNOWN') break;
+      }
+
+      // Exact substring fallback for very short perfect matches (e.g., just "zomato")
+      if (bestPlatform === 'UNKNOWN') {
+        for (const [platform, signature] of Object.entries(PLATFORM_SIGNATURES)) {
+          const mainKeyword = platform.toLowerCase();
+          if (text.includes(mainKeyword)) {
+            bestPlatform = platform;
+            highestSimilarity = 0.8; // High confidence for exact keyword
+            break;
+          }
+        }
       }
 
       return {
         ...txn,
-        platform: detectedPlatform,
-        platformConfidence: confidence
+        platform: bestPlatform,
+        platformConfidence: Math.round(highestSimilarity * 100) // Convert to percentage
       };
     });
   }

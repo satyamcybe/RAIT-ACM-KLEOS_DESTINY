@@ -66,7 +66,7 @@ export function ExportCredentialsModal({ isOpen, onClose, credential }: ExportMo
     <div className="fixed inset-0 z-50 bg-[#020617]/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-300">
       
       {/* Hidden templates for PDF generation */}
-      <div className="overflow-hidden w-0 h-0 opacity-0 absolute pointer-events-none">
+      <div className="absolute top-0 left-0 pointer-events-none">
         <GovernmentPdfTemplate credential={credential} />
         <TrustCardTemplate credential={credential} />
       </div>
