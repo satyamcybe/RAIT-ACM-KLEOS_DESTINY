@@ -12,7 +12,7 @@ export default function WalletLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col pt-16">
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
