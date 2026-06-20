@@ -633,14 +633,14 @@ export default function FinancialVerificationPage() {
       {/* Dynamic Header */}
       {step === 'intro' ? (
         <div className="relative z-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-          {/* Illustration container */}
+          {/* Illustration container - reduced size from 128 to 80 */}
           <div
-            className="mx-auto mb-6 flex items-center justify-center rounded-3xl"
+            className="mx-auto mb-3 flex items-center justify-center rounded-2xl"
             style={{
-              width: 128,
-              height: 128,
+              width: 80,
+              height: 80,
               background: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)",
-              boxShadow: "0 2px 12px rgba(16, 185, 129, 0.1)",
+              boxShadow: "0 2px 10px rgba(16, 185, 129, 0.08)",
             }}
           >
             <FinancialIllustration />
@@ -648,11 +648,10 @@ export default function FinancialVerificationPage() {
 
           {/* Title */}
           <h1
-            className="font-bold"
+            className="font-bold text-gray-900"
             style={{
-              fontSize: "clamp(32px, 5vw, 48px)",
+              fontSize: "clamp(24px, 4vw, 32px)",
               fontWeight: 700,
-              color: "#0F172A",
               letterSpacing: "-0.02em",
               lineHeight: 1.1,
             }}
@@ -660,14 +659,13 @@ export default function FinancialVerificationPage() {
             Financial Verification
           </h1>
 
-          {/* Subtitle */}
+          {/* Subtitle - reduced margin and font size */}
           <p
-            className="mx-auto mt-4"
+            className="mx-auto mt-2 text-slate-500"
             style={{
-              maxWidth: 600,
-              color: "#64748B",
-              lineHeight: 1.6,
-              fontSize: "clamp(14px, 2.5vw, 16px)",
+              maxWidth: 500,
+              lineHeight: 1.5,
+              fontSize: "14px",
             }}
           >
             Link your bank account via Account Aggregator to build your portable reputation credential.
@@ -714,24 +712,24 @@ export default function FinancialVerificationPage() {
       {/* ----------------- SCREEN 1: INTRO ----------------- */}
       {step === 'intro' && (
         <div className="space-y-0 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
-          {/* Access Information Card */}
+          {/* Access Information Card - reduced padding and top margin */}
           <div
             className="relative z-10"
             style={{
               background: "#FFFFFF",
               border: "1px solid #E2E8F0",
-              borderRadius: 24,
-              padding: "32px",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-              marginTop: 40,
+              borderRadius: 20,
+              padding: "20px",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.03)",
+              marginTop: 20,
             }}
           >
             <h3
               style={{
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: 600,
                 color: "#0F172A",
-                marginBottom: 24,
+                marginBottom: 12,
               }}
             >
               What we&apos;ll access
@@ -740,27 +738,27 @@ export default function FinancialVerificationPage() {
               {accessItems.map((item, idx) => (
                 <div key={item.label} className="group">
                   <div
-                    className="flex items-start gap-6 py-6 px-4 rounded-xl transition-colors duration-250 hover:bg-slate-50/50"
+                    className="flex items-start gap-4 py-3 px-2 rounded-xl transition-colors duration-250 hover:bg-slate-50/50"
                   >
-                    {/* Icon container */}
+                    {/* Icon container - reduced from 56 to 44 */}
                     <div
                       className={`flex items-center justify-center shrink-0 ${item.bgColor} border ${item.borderColor}`}
                       style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 16,
+                        width: 44,
+                        height: 44,
+                        borderRadius: 12,
                       }}
                     >
-                      <item.Icon className={`${item.textColor} stroke-[1.75]`} size={24} />
+                      <item.Icon className={`${item.textColor} stroke-[1.75]`} size={20} />
                     </div>
                     {/* Text */}
-                    <div className="pt-1.5">
+                    <div className="pt-0.5">
                       <p
                         style={{
                           fontWeight: 600,
-                          fontSize: 16,
+                          fontSize: 14,
                           color: "#0F172A",
-                          marginBottom: 4,
+                          marginBottom: 2,
                         }}
                       >
                         {item.label}
@@ -768,9 +766,9 @@ export default function FinancialVerificationPage() {
                       <p
                         style={{
                           fontWeight: 400,
-                          fontSize: 14,
+                          fontSize: 12,
                           color: "#64748B",
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
                         }}
                       >
                         {item.desc}
@@ -780,7 +778,7 @@ export default function FinancialVerificationPage() {
                   {/* Separator (not after last item) */}
                   {idx < accessItems.length - 1 && (
                     <div
-                      className="mx-4"
+                      className="mx-2"
                       style={{
                         height: 1,
                         background: "linear-gradient(90deg, transparent, #E2E8F0 20%, #E2E8F0 80%, transparent)",
@@ -792,41 +790,41 @@ export default function FinancialVerificationPage() {
             </div>
           </div>
 
-          {/* Consent Details Banner */}
-          <div className="bg-emerald-50/30 rounded-2xl p-4 flex gap-3 items-start border border-emerald-100/50 mt-6 relative z-10">
-            <ShieldCheck className="w-5 h-5 text-[#059669] shrink-0 mt-0.5" />
-            <p className="text-xs text-slate-600 leading-relaxed">
+          {/* Consent Details Banner - reduced margins */}
+          <div className="bg-emerald-50/30 rounded-xl p-3.5 flex gap-2.5 items-start border border-emerald-100/50 mt-4 relative z-10">
+            <ShieldCheck className="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
+            <p className="text-[11px] text-slate-600 leading-relaxed">
               This request is consent-based. We only read data to generate your credential. Your credentials can be revoked anytime from your dashboard.
             </p>
           </div>
 
-          {/* Connect Bank Button */}
+          {/* Connect Bank Button - reduced height and top margin */}
           <button
             onClick={() => setStep('mobile_verify')}
-            className="group relative z-10 w-full flex items-center justify-center gap-3 text-white font-semibold cursor-pointer"
+            className="group relative z-10 w-full flex items-center justify-center gap-2.5 text-white font-semibold cursor-pointer"
             style={{
-              height: 64,
-              borderRadius: 18,
+              height: 52,
+              borderRadius: 14,
               background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: 600,
-              boxShadow: "0 2px 8px rgba(16, 185, 129, 0.25)",
-              marginTop: 32,
+              boxShadow: "0 2px 8px rgba(16, 185, 129, 0.2)",
+              marginTop: 18,
               border: "none",
               transition: "all 0.2s ease-in-out",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-1px)";
-              e.currentTarget.style.boxShadow = "0 6px 20px rgba(5, 150, 105, 0.25)";
+              e.currentTarget.style.boxShadow = "0 6px 15px rgba(5, 150, 105, 0.2)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 2px 8px rgba(16, 185, 129, 0.25)";
+              e.currentTarget.style.boxShadow = "0 2px 8px rgba(16, 185, 129, 0.2)";
             }}
           >
-            <Landmark size={20} className="stroke-[2] opacity-90" />
+            <Landmark size={18} className="stroke-[2] opacity-90" />
             <span>Connect via Account Aggregator</span>
-            <ChevronRight size={20} className="stroke-[2] transition-transform duration-200 group-hover:translate-x-1 opacity-90" />
+            <ChevronRight size={18} className="stroke-[2] transition-transform duration-200 group-hover:translate-x-0.5 opacity-90" />
           </button>
         </div>
       )}
