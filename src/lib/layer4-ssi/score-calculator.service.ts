@@ -1,11 +1,11 @@
-import { BehaviourPatternMetrics } from '../intelligence/types';
+import { BehaviouralSignals } from '../intelligence/types';
 
 export class ScoreCalculatorService {
   /**
    * Calculates the final Pramaan Trust Score out of 100
    * based on Layer 3 Behavioural Signals.
    */
-  static calculatePramaanScore(signals: BehaviourPatternMetrics): number {
+  static calculatePramaanScore(signals: BehaviouralSignals): number {
     let score = 0;
 
     // 1. Weekly Consistency (Weight: 30%)

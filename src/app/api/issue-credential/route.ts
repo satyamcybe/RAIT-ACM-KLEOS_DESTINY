@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/database/prisma';
 import { ScoreCalculatorService } from '@/lib/layer4-ssi/score-calculator.service';
 import { CredentialIssuerService } from '@/lib/layer4-ssi/credential-issuer.service';
 
