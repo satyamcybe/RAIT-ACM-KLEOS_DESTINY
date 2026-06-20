@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { Download, FileText, Share2, CreditCard, X, ChevronRight, CheckCircle2 } from "lucide-react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { TrustCardTemplate, GovernmentPdfTemplate } from "./export-templates";
 
 interface ExportModalProps {
   isOpen: boolean;
@@ -15,18 +18,59 @@ export function ExportCredentialsModal({ isOpen, onClose, credential }: ExportMo
 
   if (!isOpen) return null;
 
-  const handleExport = (type: string) => {
+  const handleExport = async (type: string) => {
     setDownloading(type);
-    // Simulate API call or PDF generation delay
-    setTimeout(() => {
-      setDownloading(null);
+    
+    try {
+      if (type === 'pdf') {
+        const element = document.getElementById('gov-pdf-template');
+        if (element) {
+          const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+          const imgData = canvas.toDataURL('image/jpeg', 1.0);
+          const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'px',
+            format: [800, 1130]
+          });
+          pdf.addImage(imgData, 'JPEG', 0, 0, 800, 1130);
+          pdf.save('Pramaan_Trust_Credential.pdf');
+        }
+      } else if (type === 'card') {
+        const element = document.getElementById('trust-card-template');
+        if (element) {
+          const canvas = await html2canvas(element, { scale: 3, useCORS: true });
+          const imgData = canvas.toDataURL('image/jpeg', 1.0);
+          const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'px',
+            format: [800, 500]
+          });
+          pdf.addImage(imgData, 'JPEG', 0, 0, 800, 500);
+          pdf.save('Pramaan_Trust_Card.pdf');
+        }
+      } else if (type === 'link') {
+        // Simulate copying link to clipboard
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      
       setSuccess(type);
       setTimeout(() => setSuccess(null), 3000);
-    }, 1500);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDownloading(null);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-[#020617]/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-300">
+      
+      {/* Hidden templates for PDF generation */}
+      <div className="overflow-hidden w-0 h-0 opacity-0 absolute pointer-events-none">
+        <GovernmentPdfTemplate credential={credential} />
+        <TrustCardTemplate credential={credential} />
+      </div>
+
       <div className="max-w-md w-full bg-white rounded-3xl overflow-hidden shadow-2xl relative">
         <div className="p-6 pb-0 flex justify-between items-center">
           <div>
