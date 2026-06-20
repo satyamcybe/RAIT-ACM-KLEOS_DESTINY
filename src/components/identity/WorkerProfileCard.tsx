@@ -21,7 +21,7 @@ export default function WorkerProfileCard({
   verifications
 }: WorkerProfileCardProps) {
   return (
-    <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-3xl p-6 text-white w-full shadow-lg opacity-0 animate-fade-in-up">
+    <div className="bg-gradient-to-br from-[#1A6B47] to-[#114B31] rounded-3xl p-6 text-white w-full shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
