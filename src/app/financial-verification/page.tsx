@@ -151,7 +151,7 @@ export default function FinancialVerificationPage() {
   const [step, setStep] = useState<Step>('intro');
   
   // State for user choices
-  const [mobile, setMobile] = useState("9876543210");
+  const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
   const [selectedFips, setSelectedFips] = useState<string[]>([]);
   const [discoveredAccounts, setDiscoveredAccounts] = useState<any[]>([]);
@@ -205,45 +205,16 @@ export default function FinancialVerificationPage() {
         setReceivedOtp(data.otp);
         setShowOtpToast(true);
         
-        // Auto-read SMS simulation and instant verify
+        // Auto-read SMS simulation (fills the boxes after a brief delay but DOES NOT submit)
         setTimeout(() => {
           setOtp(data.otp);
-          setShowOtpToast(false);
-          
-          // Auto submit to verify immediately
-          setIsLoading(true);
-          fetch('/api/otp/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile, otp: data.otp })
-          }).then(res => res.json()).then(verifyData => {
-            if (verifyData.success) {
-              setStep('select_banks');
-            } else {
-              setError(verifyData.error || "Invalid OTP");
-            }
-            setIsLoading(false);
-          }).catch(() => {
-            setError("Network error. Please try again.");
-            setIsLoading(false);
-          });
-        }, 300);
+        }, 1200);
       }
     } catch (err) {
       setError("Network error. Please try again.");
       setIsLoading(false);
     }
   };
-
-  // Auto-submit mobile step
-  useEffect(() => {
-    if (step === 'mobile_verify' && mobile === "9876543210") {
-      const timer = setTimeout(() => {
-        handleMobileSubmit();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [step, mobile]);
 
   const handleOtpSubmit = async () => {
     if (otp.length < 6) {
@@ -619,7 +590,7 @@ export default function FinancialVerificationPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-xl mx-auto pb-10">
+    <div className={`space-y-6 ${step === 'intro' ? 'max-w-4xl' : 'max-w-xl'} mx-auto pb-10`}>
       {/* Subtle background radial accents */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
@@ -630,48 +601,8 @@ export default function FinancialVerificationPage() {
         }}
       />
 
-      {/* Dynamic Header */}
-      {step === 'intro' ? (
-        <div className="relative z-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-          {/* Illustration container - reduced size from 128 to 80 */}
-          <div
-            className="mx-auto mb-3 flex items-center justify-center rounded-2xl"
-            style={{
-              width: 80,
-              height: 80,
-              background: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)",
-              boxShadow: "0 2px 10px rgba(16, 185, 129, 0.08)",
-            }}
-          >
-            <FinancialIllustration />
-          </div>
-
-          {/* Title */}
-          <h1
-            className="font-bold text-gray-900"
-            style={{
-              fontSize: "clamp(24px, 4vw, 32px)",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1,
-            }}
-          >
-            Financial Verification
-          </h1>
-
-          {/* Subtitle - reduced margin and font size */}
-          <p
-            className="mx-auto mt-2 text-slate-500"
-            style={{
-              maxWidth: 500,
-              lineHeight: 1.5,
-              fontSize: "14px",
-            }}
-          >
-            Link your bank account via Account Aggregator to build your portable reputation credential.
-          </p>
-        </div>
-      ) : (
+      {/* Dynamic Header (Only shown on non-intro steps since intro has its own side-by-side layout) */}
+      {step !== 'intro' && (
         <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E8F3ED]/60 border border-emerald-100/50 shadow-xs">
             {step === 'consent' && <ShieldCheck className="w-8 h-8 text-[#059669]" />}
@@ -711,36 +642,93 @@ export default function FinancialVerificationPage() {
 
       {/* ----------------- SCREEN 1: INTRO ----------------- */}
       {step === 'intro' && (
-        <div className="space-y-0 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
-          {/* Access Information Card - reduced padding and top margin */}
-          <div
-            className="relative z-10"
-            style={{
-              background: "#FFFFFF",
-              border: "1px solid #E2E8F0",
-              borderRadius: 20,
-              padding: "20px",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.03)",
-              marginTop: 20,
-            }}
-          >
-            <h3
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-8 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
+          {/* Left Column: Info & Action */}
+          <div className="space-y-6 text-left">
+            <div className="relative z-10">
+              {/* Illustration container */}
+              <div
+                className="mb-4 flex items-center justify-center rounded-2xl"
+                style={{
+                  width: 72,
+                  height: 72,
+                  background: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)",
+                  boxShadow: "0 2px 10px rgba(16, 185, 129, 0.08)",
+                }}
+              >
+                <FinancialIllustration />
+              </div>
+
+              {/* Title */}
+              <h1
+                className="font-bold text-gray-900"
+                style={{
+                  fontSize: "clamp(28px, 4vw, 36px)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
+                }}
+              >
+                Financial Verification
+              </h1>
+
+              {/* Subtitle */}
+              <p className="mt-3 text-slate-500 text-sm leading-relaxed">
+                Link your bank account via Account Aggregator to build your portable reputation credential.
+              </p>
+            </div>
+
+            {/* Consent Details Banner */}
+            <div className="bg-emerald-50/30 rounded-xl p-4 flex gap-3 items-start border border-emerald-100/50 relative z-10">
+              <ShieldCheck className="w-5 h-5 text-[#059669] shrink-0 mt-0.5" />
+              <p className="text-xs text-slate-600 leading-relaxed">
+                This request is consent-based. We only read data to generate your credential. Your credentials can be revoked anytime from your dashboard.
+              </p>
+            </div>
+
+            {/* Connect Bank Button */}
+            <button
+              onClick={() => setStep('mobile_verify')}
+              className="group relative z-10 w-full flex items-center justify-center gap-3 text-white font-semibold cursor-pointer"
               style={{
-                fontSize: 18,
+                height: 56,
+                borderRadius: 16,
+                background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+                fontSize: 16,
                 fontWeight: 600,
-                color: "#0F172A",
-                marginBottom: 12,
+                boxShadow: "0 2px 8px rgba(16, 185, 129, 0.25)",
+                border: "none",
+                transition: "all 0.2s ease-in-out",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 6px 15px rgba(5, 150, 105, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(16, 185, 129, 0.25)";
               }}
             >
+              <Landmark size={20} className="stroke-[2] opacity-90" />
+              <span>Connect via Account Aggregator</span>
+              <ChevronRight size={20} className="stroke-[2] transition-transform duration-200 group-hover:translate-x-0.5 opacity-90" />
+            </button>
+          </div>
+
+          {/* Right Column: Access List Card */}
+          <div
+            className="relative z-10 bg-white border border-[#E2E8F0] rounded-3xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
+          >
+            <h3 className="text-base font-semibold text-gray-900 mb-3 text-left">
               What we&apos;ll access
             </h3>
-            <div className="space-y-0">
+            <div className="space-y-3">
               {accessItems.map((item, idx) => (
                 <div key={item.label} className="group">
                   <div
                     className="flex items-start gap-4 py-3 px-2 rounded-xl transition-colors duration-250 hover:bg-slate-50/50"
                   >
-                    {/* Icon container - reduced from 56 to 44 */}
+                    {/* Icon container */}
                     <div
                       className={`flex items-center justify-center shrink-0 ${item.bgColor} border ${item.borderColor}`}
                       style={{
@@ -752,7 +740,7 @@ export default function FinancialVerificationPage() {
                       <item.Icon className={`${item.textColor} stroke-[1.75]`} size={20} />
                     </div>
                     {/* Text */}
-                    <div className="pt-0.5">
+                    <div className="pt-0.5 text-left">
                       <p
                         style={{
                           fontWeight: 600,
@@ -789,43 +777,6 @@ export default function FinancialVerificationPage() {
               ))}
             </div>
           </div>
-
-          {/* Consent Details Banner - reduced margins */}
-          <div className="bg-emerald-50/30 rounded-xl p-3.5 flex gap-2.5 items-start border border-emerald-100/50 mt-4 relative z-10">
-            <ShieldCheck className="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
-            <p className="text-[11px] text-slate-600 leading-relaxed">
-              This request is consent-based. We only read data to generate your credential. Your credentials can be revoked anytime from your dashboard.
-            </p>
-          </div>
-
-          {/* Connect Bank Button - reduced height and top margin */}
-          <button
-            onClick={() => setStep('mobile_verify')}
-            className="group relative z-10 w-full flex items-center justify-center gap-2.5 text-white font-semibold cursor-pointer"
-            style={{
-              height: 52,
-              borderRadius: 14,
-              background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
-              fontSize: 15,
-              fontWeight: 600,
-              boxShadow: "0 2px 8px rgba(16, 185, 129, 0.2)",
-              marginTop: 18,
-              border: "none",
-              transition: "all 0.2s ease-in-out",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-1px)";
-              e.currentTarget.style.boxShadow = "0 6px 15px rgba(5, 150, 105, 0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 2px 8px rgba(16, 185, 129, 0.2)";
-            }}
-          >
-            <Landmark size={18} className="stroke-[2] opacity-90" />
-            <span>Connect via Account Aggregator</span>
-            <ChevronRight size={18} className="stroke-[2] transition-transform duration-200 group-hover:translate-x-0.5 opacity-90" />
-          </button>
         </div>
       )}
 
