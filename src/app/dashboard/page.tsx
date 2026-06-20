@@ -117,26 +117,43 @@ export default function DashboardPage() {
 
       {/* SSI CREDENTIAL ISSUED BANNER */}
       {credential && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-in slide-in-from-top-4 duration-500">
-          <div className="flex items-start gap-4">
-            <div className="bg-emerald-100 p-3 rounded-xl">
-              <Award className="w-8 h-8 text-emerald-700" />
+        <div className="bg-emerald-950 border border-emerald-800 rounded-3xl p-8 shadow-2xl flex flex-col items-center gap-6 animate-in zoom-in-95 duration-500 relative overflow-hidden mt-6 text-center">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl"></div>
+          
+          <div className="z-10 flex flex-col items-center">
+            <div className="bg-emerald-900/80 p-5 rounded-2xl mb-4 border border-emerald-700">
+              <Award className="w-16 h-16 text-emerald-400" />
             </div>
-            <div>
-              <h3 className="font-bold text-emerald-900 flex items-center gap-2">
-                Verifiable Credential Issued <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              </h3>
-              <p className="text-xs text-emerald-700 font-medium mt-1">
-                Issuer: {credential.credential.issuer} <br/>
-                DID: {credential.credential.credentialSubject.id}
+            <h3 className="text-2xl font-black text-white flex items-center gap-2">
+              Pramaan Trust Credential Issued <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+            </h3>
+            <p className="text-emerald-300 font-medium mt-2 max-w-lg">
+              Your financial behaviour has been cryptographically signed and secured on the Pramaan Network.
+            </p>
+          </div>
+
+          <div className="z-10 bg-black/40 p-6 rounded-2xl border border-emerald-800/50 w-full max-w-2xl text-left space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1">Issuer DID</p>
+                <p className="text-sm font-mono text-emerald-100">{credential.credential.issuer}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1">Subject DID</p>
+                <p className="text-sm font-mono text-emerald-100">{credential.credential.credentialSubject.id}</p>
+              </div>
+            </div>
+            
+            <div className="pt-4 border-t border-emerald-800/50">
+              <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1 flex justify-between">
+                <span>Cryptographic Hash (SHA-256)</span>
+                <span className="text-emerald-400 font-medium">Valid</span>
+              </p>
+              <p className="text-xs font-mono text-emerald-200 bg-black/60 p-3 rounded-lg border border-emerald-900/50 break-all">
+                {credential.credential.proof.proofValue}
               </p>
             </div>
-          </div>
-          <div className="bg-white/60 p-3 rounded-lg border border-emerald-100 max-w-xs overflow-hidden">
-            <p className="text-[10px] font-bold text-emerald-800 uppercase mb-1">Cryptographic Hash (SHA-256)</p>
-            <p className="text-xs font-mono text-emerald-600 truncate" title={credential.credential.proof.proofValue}>
-              {credential.credential.proof.proofValue}
-            </p>
           </div>
         </div>
       )}
@@ -215,65 +232,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* TRANSACTIONS SECTION */}
-      <div className="bg-white border border-gray-100 rounded-2xl shadow-xs overflow-hidden mt-6">
-        <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-          <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-gray-400" /> Discovered Transactions
-          </h3>
-          <span className="text-xs font-semibold bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">Via Finvu AA</span>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-gray-50 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-100">
-                <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4">Description</th>
-                <th className="px-6 py-4">Category</th>
-                <th className="px-6 py-4 text-right">Amount</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {intelligence.transactions.map((txn) => {
-                const isCredit = txn.type === 'CREDIT';
-                return (
-                  <tr key={txn.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-gray-500">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-gray-400" />
-                        {new Date(txn.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm font-bold text-gray-900">{txn.description}</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider ${
-                        txn.category === 'INCOME' ? 'bg-emerald-100 text-emerald-700' :
-                        txn.category === 'FUEL' ? 'bg-orange-100 text-orange-700' :
-                        txn.category === 'FOOD' ? 'bg-rose-100 text-rose-700' :
-                        'bg-slate-100 text-slate-700'
-                      }`}>
-                        {txn.category === 'INCOME' && <TrendingUp className="w-3 h-3" />}
-                        {txn.category === 'FUEL' && <Fuel className="w-3 h-3" />}
-                        {txn.category === 'FOOD' && <Utensils className="w-3 h-3" />}
-                        {txn.category === 'UTILITY' && <Zap className="w-3 h-3" />}
-                        {txn.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className={`flex items-center justify-end gap-1 font-bold ${isCredit ? 'text-emerald-600' : 'text-gray-900'}`}>
-                        {isCredit ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4 text-gray-400" />}
-                        ₹{txn.amount.toLocaleString('en-IN')}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+
     </div>
   );
 }
